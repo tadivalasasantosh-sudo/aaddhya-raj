@@ -16,11 +16,37 @@ export const Login = () => {
     setError('');
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      // Check with our backend
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          name: user.displayName
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Access denied');
+      }
+
+      // Store user details in localStorage
+      localStorage.setItem('portalUser', JSON.stringify(data));
+      
       navigate('/admin');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Failed to sign in with Google. Please try again.');
+      if (err.code === 'auth/popup-blocked') {
+        setError('Popup blocked by browser. Please allow popups for this site to sign in.');
+      } else {
+        setError(err.message || 'Failed to sign in with Google. Please try again.');
+      }
+      auth.signOut(); // Sign out from firebase if backend auth fails
     } finally {
       setLoading(false);
     }

@@ -4,15 +4,22 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Hero } from './sections/Hero';
 import { Services } from './sections/Services';
-import { Portfolio } from './sections/Portfolio';
 import { About } from './sections/About';
+import { WhyChooseUs } from './sections/WhyChooseUs';
+import { Process } from './sections/Process';
+import { TechStack } from './sections/TechStack';
+import { Testimonials } from './sections/Testimonials';
 import { Contact } from './sections/Contact';
+import { Careers } from './sections/Careers';
 import { Login } from './admin/Login';
 import { AdminLayout } from './admin/AdminLayout';
 import { Dashboard } from './admin/Dashboard';
-import { ProjectsManager } from './admin/ProjectsManager';
-import { MessagesManager } from './admin/MessagesManager';
+import { JobsManager } from './admin/JobsManager';
+import { CandidatesManager } from './admin/CandidatesManager';
+import { UsersManager } from './admin/UsersManager';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { AIAssistant } from './components/AIAssistant';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { db } from './firebase';
 import { doc, getDocFromServer } from 'firebase/firestore';
 
@@ -22,11 +29,17 @@ const HomePage = () => (
     <main>
       <Hero />
       <Services />
-      <Portfolio />
       <About />
+      <WhyChooseUs />
+      <Process />
+      <TechStack />
+      <Testimonials />
+      <Careers />
       <Contact />
     </main>
     <Footer />
+    <AIAssistant />
+    <WhatsAppButton />
   </div>
 );
 
@@ -54,8 +67,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
-            <Route path="projects" element={<ProjectsManager />} />
-            <Route path="messages" element={<MessagesManager />} />
+            <Route path="jobs" element={<JobsManager />} />
+            <Route path="candidates" element={<CandidatesManager />} />
+            <Route path="users" element={<UsersManager />} />
           </Route>
         </Routes>
       </Router>

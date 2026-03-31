@@ -1,44 +1,56 @@
 import React from 'react';
 import { SectionHeader } from '../components/SectionHeader';
-import { Cloud, Code, Shield, Cpu, Globe, Smartphone } from 'lucide-react';
+import { Cloud, MonitorSmartphone, BrainCircuit, AppWindow, Smartphone, GitMerge, Wifi, Users } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const services = [
   {
-    title: 'Cloud Infrastructure',
-    description: 'Scalable, secure, and high-performance cloud solutions tailored to your business needs.',
+    title: 'Cloud Services',
+    description: 'End-to-end cloud solutions to help businesses migrate, manage, and scale on cloud platforms like AWS, Azure, and Google Cloud.',
     icon: Cloud,
     color: 'from-blue-500 to-cyan-500',
   },
   {
-    title: 'Custom Software',
-    description: 'Bespoke software development using the latest technologies and agile methodologies.',
-    icon: Code,
+    title: 'Modern Workplace',
+    description: 'Empowering employees with smart digital tools, collaboration platforms, and secure remote working environments.',
+    icon: MonitorSmartphone,
     color: 'from-purple-500 to-pink-500',
   },
   {
-    title: 'Cyber Security',
-    description: 'Comprehensive security audits and implementation to protect your digital assets.',
-    icon: Shield,
-    color: 'from-red-500 to-orange-500',
-  },
-  {
-    title: 'AI & Machine Learning',
-    description: 'Intelligent automation and data-driven insights to transform your operations.',
-    icon: Cpu,
+    title: 'Cloud Analytics & AI',
+    description: 'Leverage data with advanced analytics and AI to gain real-time insights, improve decision-making, and predict future trends.',
+    icon: BrainCircuit,
     color: 'from-green-500 to-emerald-500',
   },
   {
-    title: 'Web Development',
-    description: 'Modern, responsive, and high-converting websites and web applications.',
-    icon: Globe,
+    title: 'Business Applications',
+    description: 'Build and integrate enterprise-grade applications to streamline operations and enhance overall business performance.',
+    icon: AppWindow,
     color: 'from-indigo-500 to-blue-500',
   },
   {
-    title: 'Mobile Solutions',
-    description: 'Native and cross-platform mobile apps for iOS and Android devices.',
+    title: 'Mobility Solutions',
+    description: 'Develop mobile-friendly solutions to improve accessibility, user experience, and business connectivity on the go.',
     icon: Smartphone,
     color: 'from-yellow-500 to-orange-500',
+  },
+  {
+    title: 'DevOps Services',
+    description: 'Accelerate development with CI/CD pipelines, automation, and cloud-based DevOps practices for faster delivery.',
+    icon: GitMerge,
+    color: 'from-red-500 to-orange-500',
+  },
+  {
+    title: 'Internet of Things (IoT)',
+    description: 'Design scalable IoT solutions to connect devices, collect data, and improve operational efficiency.',
+    icon: Wifi,
+    color: 'from-teal-500 to-emerald-500',
+  },
+  {
+    title: 'Talent Services',
+    description: 'Provide skilled professionals, staffing solutions, and resource-as-a-service to support business growth.',
+    icon: Users,
+    color: 'from-pink-500 to-rose-500',
   },
 ];
 

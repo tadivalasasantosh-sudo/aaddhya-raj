@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SectionHeader } from '../components/SectionHeader';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, getDocFromServer } from 'firebase/firestore';
-import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { handleFirestoreError, OperationType } from '../lib/firebase-errors';
 
@@ -63,19 +63,20 @@ export const Contact = () => {
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Email', value: 'contact@aadhyaraj.tech', color: 'text-blue-400' },
-                { icon: Phone, label: 'Phone', value: '+1 (555) 123-4567', color: 'text-purple-400' },
-                { icon: MapPin, label: 'Office', value: '123 Tech Avenue, Silicon Valley, CA 94025', color: 'text-cyan-400' },
+                { icon: Mail, label: 'Email', value: 'tag@aadhyarajtech.com', color: 'text-blue-400', href: 'mailto:tag@aadhyarajtech.com' },
+                { icon: Phone, label: 'Phone', value: '+91 9127912345', color: 'text-purple-400', href: 'tel:+919127912345' },
+                { icon: MessageCircle, label: 'WhatsApp', value: '+91 9127912345', color: 'text-green-400', href: 'https://wa.me/919127912345' },
+                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-cyan-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-6 group">
+                <a key={i} href={item.href} target={item.icon === MapPin ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-start gap-6 group cursor-pointer">
                   <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
                     <item.icon size={24} />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-gray-500 uppercase tracking-widest mb-1">{item.label}</div>
-                    <div className="text-lg font-semibold text-white">{item.value}</div>
+                    <div className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors">{item.value}</div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
 
@@ -173,6 +174,20 @@ export const Contact = () => {
                   </>
                 )}
               </button>
+
+              <div className="relative flex items-center py-2">
+                <div className="flex-grow border-t border-white/10"></div>
+                <span className="flex-shrink-0 mx-4 text-gray-400 text-sm">or</span>
+                <div className="flex-grow border-t border-white/10"></div>
+              </div>
+
+              <a 
+                href={`mailto:tag@aadhyarajtech.com?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
+                className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-lg transition-all flex items-center justify-center gap-3 border border-white/10"
+              >
+                <Mail size={20} />
+                Send Directly via Email
+              </a>
 
               <AnimatePresence>
                 {status === 'success' && (

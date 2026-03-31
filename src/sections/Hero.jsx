@@ -29,16 +29,13 @@ export const Hero = () => {
             </h1>
             
             <p className="text-xl text-gray-400 leading-relaxed max-w-xl">
-              AadhyaRaj Technologies delivers cutting-edge software engineering, cloud infrastructure, and AI-driven solutions to scale your business into the future.
+              Aadhyaraj Technologies delivers scalable, secure, and high-performance digital solutions to help businesses grow and transform digitally.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <a href="#contact" className="btn-primary group">
                 Start Your Project
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
-              </a>
-              <a href="#portfolio" className="btn-secondary">
-                View Portfolio
               </a>
             </div>
 

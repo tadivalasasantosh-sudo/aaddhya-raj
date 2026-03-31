@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 export const AdminLayout = () => {
   const [user, setUser] = useState(null);
+  const [portalUser, setPortalUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
@@ -29,9 +30,18 @@ export const AdminLayout = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       if (!u) {
+        localStorage.removeItem('portalUser');
         navigate('/login');
       } else {
-        setUser(u);
+        const storedUser = localStorage.getItem('portalUser');
+        if (storedUser) {
+          setPortalUser(JSON.parse(storedUser));
+          setUser(u);
+        } else {
+          // If no portal user found but firebase auth exists, logout
+          signOut(auth);
+          navigate('/login');
+        }
       }
       setLoading(false);
     });
@@ -41,17 +51,24 @@ export const AdminLayout = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      localStorage.removeItem('portalUser');
       navigate('/login');
     } catch (err) {
       console.error('Logout error:', err);
     }
   };
 
+  const isAdmin = portalUser?.role === 'admin';
+
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
-    { name: 'Projects', icon: Briefcase, path: '/admin/projects' },
-    { name: 'Messages', icon: MessageSquare, path: '/admin/messages' },
+    { name: 'Jobs', icon: Briefcase, path: '/admin/jobs' },
+    { name: 'Candidates', icon: MessageSquare, path: '/admin/candidates' },
   ];
+
+  if (isAdmin) {
+    menuItems.push({ name: 'HR Users', icon: User, path: '/admin/users' });
+  }
 
   if (loading) {
     return (
@@ -162,8 +179,8 @@ export const AdminLayout = () => {
             <div className="h-8 w-px bg-white/10" />
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block">
-                <div className="text-sm font-bold text-white">{user?.displayName || 'Admin'}</div>
-                <div className="text-[10px] text-gray-500 uppercase tracking-widest">Super Admin</div>
+                <div className="text-sm font-bold text-white">{user?.displayName || portalUser?.name || 'User'}</div>
+                <div className="text-[10px] text-gray-500 uppercase tracking-widest">{isAdmin ? 'Super Admin' : 'HR Portal'}</div>
               </div>
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 p-0.5">
                 <div className="w-full h-full rounded-[9px] bg-black flex items-center justify-center overflow-hidden">

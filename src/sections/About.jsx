@@ -47,16 +47,19 @@ export const About = () => {
             className="space-y-8"
           >
             <SectionHeader
-              title="About AadhyaRaj Technologies"
+              title="About Aadhyaraj Technologies"
               subtitle="We are more than just an IT company. We are your strategic partner in digital transformation."
               centered={false}
               className="mb-0"
             />
             <p className="text-gray-400 text-lg leading-relaxed">
-              Founded with a vision to bridge the gap between complex technology and business needs, AadhyaRaj Technologies has grown into a leading provider of innovative IT solutions. We specialize in building scalable systems that solve real-world problems.
+              Aadhyaraj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems that help businesses grow and transform digitally.
             </p>
             <p className="text-gray-400 text-lg leading-relaxed">
-              Our approach combines technical expertise with a deep understanding of business strategy, ensuring that every solution we deliver provides maximum value to our clients.
+              Our expertise spans across backend technologies like Java and Spring Boot, frontend frameworks like React.js, and advanced solutions in Generative AI, machine learning, and cloud computing. We are committed to delivering reliable and efficient software solutions tailored to real-world business needs.
+            </p>
+            <p className="text-gray-400 text-lg leading-relaxed">
+              We believe in innovation, quality, and continuous improvement. Our team works collaboratively to design and develop systems that are not only technically strong but also user-friendly and future-ready.
             </p>
             <div className="flex gap-4 pt-4">
               <div className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10">
