@@ -29,7 +29,7 @@ export const Hero = () => {
             </h1>
             
             <p className="text-xl text-gray-400 leading-relaxed max-w-xl">
-              Aadhyaraj Technologies delivers scalable, secure, and high-performance digital solutions to help businesses grow and transform digitally.
+              Aditya Technology delivers scalable, secure, and high-performance digital solutions to help businesses grow and transform digitally.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">

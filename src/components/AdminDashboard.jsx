@@ -1,0 +1,796 @@
+import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
+import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2 } from 'lucide-react';
+import { auth, db } from '../firebase';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { useNavigate, Link } from 'react-router-dom';
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addDoc, setDoc } from 'firebase/firestore';
+import { Plus, X as CloseIcon } from 'lucide-react';
+
+export const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [userRole, setUserRole] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [settings, setSettings] = useState({
+    aboutText: '',
+    contactEmail: 'tag@adityatech.com',
+    whatsappNumber: '+91 9127912345'
+  });
+  const [about, setAbout] = useState({
+    title: 'About Aditya Technology',
+    description: 'Aditya Technology is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
+    mission: '',
+    vision: ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [showJobModal, setShowJobModal] = useState(false);
+  const [jobFormData, setJobFormData] = useState({
+    title: '',
+    location: '',
+    experience: '',
+    description: '',
+    skills: ''
+  });
+
+  useEffect(() => {
+    let unsubscribeMessages;
+    let unsubscribeJobs;
+    let unsubscribeUsers;
+    let unsubscribeSettings;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Fetch user role
+        let role = 'user';
+        if (user.email === 'tadivalasasantosh@gmail.com') {
+          role = 'admin';
+        } else {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            role = userDoc.data().role;
+          }
+        }
+        setUserRole(role);
+
+        if (!['admin', 'hr'].includes(role)) {
+          navigate('/');
+          return;
+        }
+
+        // HR only sees jobs
+        if (role === 'hr') {
+          setActiveTab('jobs');
+        }
+
+        // Fetch jobs (both roles need this)
+        const qJobs = query(collection(db, 'jobs'), orderBy('createdAt', 'desc'));
+        unsubscribeJobs = onSnapshot(qJobs, (snapshot) => {
+          setJobs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }, (error) => console.error("Jobs Error:", error));
+
+        // Admin only data
+        if (role === 'admin') {
+          const qMessages = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+          unsubscribeMessages = onSnapshot(qMessages, (snapshot) => {
+            setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+          }, (error) => console.error("Messages Error:", error));
+
+          const qUsers = query(collection(db, 'users'), orderBy('createdAt', 'desc'));
+          unsubscribeUsers = onSnapshot(qUsers, (snapshot) => {
+            setUsers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+          }, (error) => console.error("Users Error:", error));
+
+          unsubscribeSettings = onSnapshot(doc(db, 'settings', 'global'), (snapshot) => {
+            if (snapshot.exists()) {
+              setSettings(snapshot.data());
+            }
+          }, (error) => console.error("Settings Error:", error));
+
+          const unsubscribeAbout = onSnapshot(doc(db, 'about', 'content'), (snapshot) => {
+            if (snapshot.exists()) {
+              setAbout(snapshot.data());
+            }
+          }, (error) => console.error("About Error:", error));
+        }
+        
+        setLoading(false);
+      } else {
+        navigate('/login');
+      }
+    });
+
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeMessages) unsubscribeMessages();
+      if (unsubscribeJobs) unsubscribeJobs();
+      if (unsubscribeUsers) unsubscribeUsers();
+      if (unsubscribeSettings) unsubscribeSettings();
+    };
+  }, [navigate]);
+
+  // Remove the activeTab based useEffect since we fetch everything now
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
+  const updateMessageStatus = async (id, newStatus) => {
+    try {
+      await updateDoc(doc(db, 'messages', id), { status: newStatus });
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const deleteMessage = async (id) => {
+    if (window.confirm("Are you sure you want to delete this message?")) {
+      try {
+        await deleteDoc(doc(db, 'messages', id));
+      } catch (error) {
+        console.error("Error deleting message:", error);
+      }
+    }
+  };
+
+  const handleAddJob = async (e) => {
+    e.preventDefault();
+    try {
+      const skillsArray = jobFormData.skills.split(',').map(s => s.trim()).filter(s => s !== '');
+      await addDoc(collection(db, 'jobs'), {
+        ...jobFormData,
+        skills: skillsArray,
+        createdAt: new Date().toISOString()
+      });
+      setShowJobModal(false);
+      setJobFormData({ title: '', location: '', experience: '', description: '', skills: '' });
+    } catch (error) {
+      console.error("Error adding job:", error);
+    }
+  };
+
+  const deleteJob = async (id) => {
+    if (window.confirm("Are you sure you want to delete this job opening?")) {
+      try {
+        await deleteDoc(doc(db, 'jobs', id));
+      } catch (error) {
+        console.error("Error deleting job:", error);
+      }
+    }
+  };
+
+  const updateUserRole = async (userId, newRole) => {
+    try {
+      await updateDoc(doc(db, 'users', userId), { role: newRole });
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      alert("Failed to update user role. Check permissions.");
+    }
+  };
+
+  const handleUpdateSettings = async (e) => {
+    e.preventDefault();
+    try {
+      await setDoc(doc(db, 'settings', 'global'), settings);
+      alert("Settings updated successfully!");
+    } catch (error) {
+      console.error("Error updating settings:", error);
+    }
+  };
+
+  const handleUpdateAbout = async (e) => {
+    e.preventDefault();
+    try {
+      await setDoc(doc(db, 'about', 'content'), about);
+      alert("About content updated successfully!");
+    } catch (error) {
+      console.error("Error updating about content:", error);
+    }
+  };
+
+  const stats = [
+    { label: 'Total Users', value: users.length.toString(), icon: Users, color: 'text-blue-400' },
+    { label: 'Job Openings', value: jobs.length.toString(), icon: Briefcase, color: 'text-purple-400' },
+    { label: 'Contact Inquiries', value: messages.length.toString(), icon: MessageSquare, color: 'text-green-400' },
+  ];
+
+  const renderDashboard = () => (
+    <>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {stats.map((stat, index) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-xl bg-white/5 ${stat.color}`}>
+                <stat.icon size={24} />
+              </div>
+              <span className="text-xs font-medium text-green-400 bg-green-400/10 px-2 py-1 rounded-full">
+                +12%
+              </span>
+            </div>
+            <div className="text-3xl font-bold mb-1">{stat.value}</div>
+            <div className="text-sm text-gray-400">{stat.label}</div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+        <h2 className="text-xl font-bold mb-6">Recent Contact Inquiries</h2>
+        <div className="space-y-4">
+          {messages.slice(0, 3).map((msg) => (
+            <div key={msg.id} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center font-bold">
+                  {msg.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="font-medium">{msg.name}</div>
+                  <div className="text-xs text-gray-400">{msg.subject}</div>
+                </div>
+              </div>
+              <button 
+                onClick={() => setActiveTab('messages')}
+                className="text-sm text-blue-400 hover:underline"
+              >
+                View Details
+              </button>
+            </div>
+          ))}
+          {messages.length === 0 && (
+            <div className="text-center py-6 text-gray-500 italic">
+              No recent inquiries.
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+
+  const renderMessages = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Messages</h2>
+        <div className="text-sm text-gray-400">{messages.length} total messages</div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : messages.length === 0 ? (
+        <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
+          <MessageSquare size={48} className="mx-auto mb-4 text-gray-600" />
+          <p className="text-gray-400">No messages found.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {messages.map((msg) => (
+            <motion.div
+              key={msg.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className={`p-6 rounded-2xl border transition-all ${
+                msg.status === 'new' 
+                  ? 'bg-blue-500/5 border-blue-500/20' 
+                  : 'bg-white/5 border-white/10'
+              }`}
+            >
+              <div className="flex flex-col md:flex-row justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-lg">{msg.name}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full uppercase font-bold ${
+                      msg.status === 'new' ? 'bg-blue-500 text-white' :
+                      msg.status === 'read' ? 'bg-gray-600 text-gray-200' :
+                      'bg-green-600 text-white'
+                    }`}>
+                      {msg.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <Mail size={14} />
+                    {msg.email}
+                  </div>
+                  <div className="text-sm font-medium text-blue-400">Subject: {msg.subject}</div>
+                  <p className="text-gray-300 mt-4 whitespace-pre-wrap">{msg.message}</p>
+                  <div className="text-xs text-gray-500 mt-4">
+                    {new Date(msg.createdAt).toLocaleString()}
+                  </div>
+                </div>
+
+                <div className="flex md:flex-col gap-2 justify-end">
+                  {msg.status !== 'read' && msg.status !== 'replied' && (
+                    <button
+                      onClick={() => updateMessageStatus(msg.id, 'read')}
+                      className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all flex items-center gap-2 text-sm"
+                      title="Mark as Read"
+                    >
+                      <Check size={16} />
+                      <span className="md:hidden">Mark Read</span>
+                    </button>
+                  )}
+                  {msg.status !== 'replied' && (
+                    <button
+                      onClick={() => updateMessageStatus(msg.id, 'replied')}
+                      className="p-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-400 transition-all flex items-center gap-2 text-sm"
+                      title="Mark as Replied"
+                    >
+                      <Mail size={16} />
+                      <span className="md:hidden">Mark Replied</span>
+                    </button>
+                  )}
+                  <button
+                    onClick={() => deleteMessage(msg.id)}
+                    className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all flex items-center gap-2 text-sm"
+                    title="Delete Message"
+                  >
+                    <Trash2 size={16} />
+                    <span className="md:hidden">Delete</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderJobs = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Job Openings</h2>
+        <button 
+          onClick={() => setShowJobModal(true)}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all"
+        >
+          <Plus size={20} />
+          Add New Job
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : jobs.length === 0 ? (
+        <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
+          <Briefcase size={48} className="mx-auto mb-4 text-gray-600" />
+          <p className="text-gray-400">No job openings found.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {jobs.map((job) => (
+            <motion.div
+              key={job.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="p-6 rounded-2xl bg-white/5 border border-white/10"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">{job.title}</h3>
+                  <div className="flex gap-4 text-sm text-gray-400 mb-4">
+                    <span>{job.location}</span>
+                    <span>{job.experience}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {job.skills.map((skill, i) => (
+                      <span key={i} className="px-2 py-1 rounded bg-white/10 text-xs text-gray-300">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-gray-400 text-sm line-clamp-2">{job.description}</p>
+                </div>
+                <button 
+                  onClick={() => deleteJob(job.id)}
+                  className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Add Job Modal */}
+      {showJobModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gray-900 border border-white/10 rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold">Add New Job Opening</h3>
+              <button onClick={() => setShowJobModal(false)} className="text-gray-400 hover:text-white">
+                <CloseIcon size={24} />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddJob} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm text-gray-400">Job Title</label>
+                  <input 
+                    required
+                    type="text"
+                    value={jobFormData.title}
+                    onChange={(e) => setJobFormData({...jobFormData, title: e.target.value})}
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                    placeholder="Frontend Developer"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm text-gray-400">Location</label>
+                  <input 
+                    required
+                    type="text"
+                    value={jobFormData.location}
+                    onChange={(e) => setJobFormData({...jobFormData, location: e.target.value})}
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                    placeholder="Hyderabad / Remote"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-gray-400">Experience</label>
+                <input 
+                  required
+                  type="text"
+                  value={jobFormData.experience}
+                  onChange={(e) => setJobFormData({...jobFormData, experience: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                  placeholder="2-4 Years"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-gray-400">Skills (comma separated)</label>
+                <input 
+                  required
+                  type="text"
+                  value={jobFormData.skills}
+                  onChange={(e) => setJobFormData({...jobFormData, skills: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                  placeholder="React, Tailwind, Firebase"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm text-gray-400">Description</label>
+                <textarea 
+                  required
+                  rows={4}
+                  value={jobFormData.description}
+                  onChange={(e) => setJobFormData({...jobFormData, description: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+                  placeholder="Job responsibilities and requirements..."
+                />
+              </div>
+
+              <button 
+                type="submit"
+                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all mt-4"
+              >
+                Create Job Opening
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderUsers = () => (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Users</h2>
+        <div className="text-sm text-gray-400">{users.length} total users</div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : users.length === 0 ? (
+        <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
+          <Users size={48} className="mx-auto mb-4 text-gray-600" />
+          <p className="text-gray-400">No users found.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          {users.map((user) => (
+            <motion.div
+              key={user.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-lg">
+                  {user.email.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="font-bold text-white">{user.email}</div>
+                  <div className="text-xs text-gray-400">ID: {user.uid}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Joined: {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <select
+                  value={user.role || 'user'}
+                  onChange={(e) => updateUserRole(user.id, e.target.value)}
+                  className="bg-white/5 border border-white/10 text-xs rounded-lg px-2 py-1 outline-none focus:border-blue-500"
+                >
+                  <option value="user" className="bg-gray-900">User</option>
+                  <option value="hr" className="bg-gray-900">HR Portal</option>
+                  <option value="admin" className="bg-gray-900">Admin</option>
+                </select>
+                <span className={`text-xs px-2 py-1 rounded-full uppercase font-bold ${
+                  user.role === 'admin' ? 'bg-purple-500 text-white' : 
+                  user.role === 'hr' ? 'bg-green-500 text-white' :
+                  'bg-blue-500/20 text-blue-400'
+                }`}>
+                  {user.role}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderSettings = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Global Settings</h2>
+      
+      <form onSubmit={handleUpdateSettings} className="max-w-2xl space-y-6 bg-white/5 border border-white/10 rounded-2xl p-8">
+        <div className="space-y-2">
+          <label className="text-sm text-gray-400">About Us Text</label>
+          <textarea 
+            rows={6}
+            value={settings.aboutText}
+            onChange={(e) => setSettings({...settings, aboutText: e.target.value})}
+            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+            placeholder="Enter the main text for the About section..."
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Contact Email</label>
+            <input 
+              type="email"
+              value={settings.contactEmail}
+              onChange={(e) => setSettings({...settings, contactEmail: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">WhatsApp Number</label>
+            <input 
+              type="text"
+              value={settings.whatsappNumber}
+              onChange={(e) => setSettings({...settings, whatsappNumber: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+            />
+          </div>
+        </div>
+
+        <button 
+          type="submit"
+          className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
+        >
+          Save Changes
+        </button>
+      </form>
+    </div>
+  );
+
+  const renderAboutEditor = () => (
+    <div className="space-y-8">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">About Page Editor</h2>
+        <button 
+          onClick={handleUpdateAbout}
+          className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all flex items-center gap-2"
+        >
+          <Check size={18} />
+          Save All Changes
+        </button>
+      </div>
+
+      <div className="max-w-2xl mx-auto space-y-6 bg-white/5 border border-white/10 rounded-2xl p-8">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Edit2 size={18} className="text-blue-400" />
+          Content Details
+        </h3>
+        
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Page Title</label>
+            <input 
+              type="text"
+              value={about.title}
+              onChange={(e) => setAbout({...about, title: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Main Description</label>
+            <textarea 
+              rows={4}
+              value={about.description}
+              onChange={(e) => setAbout({...about, description: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Mission Statement</label>
+            <textarea 
+              rows={3}
+              value={about.mission}
+              onChange={(e) => setAbout({...about, mission: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Vision Statement</label>
+            <textarea 
+              rows={3}
+              value={about.vision}
+              onChange={(e) => setAbout({...about, vision: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-black text-white flex">
+      {/* Sidebar */}
+      <aside className="w-64 border-r border-white/10 p-6 hidden md:flex flex-col gap-8">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center font-bold">
+            {userRole === 'hr' ? 'HR' : 'AT'}
+          </div>
+          <span className="font-bold text-xl">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+        </div>
+
+        <nav className="flex-1 space-y-2">
+          {userRole === 'admin' && (
+            <button 
+              onClick={() => setActiveTab('dashboard')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'dashboard' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <LayoutDashboard size={20} />
+              Dashboard
+            </button>
+          )}
+          {userRole === 'admin' && (
+            <button 
+              onClick={() => setActiveTab('users')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'users' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <Users size={20} />
+              Users
+            </button>
+          )}
+          <button 
+            onClick={() => setActiveTab('jobs')}
+            className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+              activeTab === 'jobs' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+            }`}
+          >
+            <Briefcase size={20} />
+            Careers Portal
+          </button>
+          {userRole === 'admin' && (
+            <button 
+              onClick={() => setActiveTab('messages')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'messages' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <MessageSquare size={20} />
+              Messages
+            </button>
+          )}
+          {userRole === 'admin' && (
+            <button 
+              onClick={() => setActiveTab('settings')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'settings' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <Settings size={20} />
+              Settings
+            </button>
+          )}
+          {userRole === 'admin' && (
+            <button 
+              onClick={() => setActiveTab('about')}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'about' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <ImageIcon size={20} />
+              About Page
+            </button>
+          )}
+        </nav>
+
+        <button 
+          onClick={handleLogout}
+          className="flex items-center gap-3 p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all mt-auto"
+        >
+          <LogOut size={20} />
+          Logout
+        </button>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-8 overflow-y-auto">
+        <header className="flex justify-between items-center mb-12">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">
+              {activeTab === 'dashboard' ? 'Welcome back, Admin' : 
+               activeTab === 'jobs' ? 'Careers Portal' :
+               activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+            </h1>
+            <p className="text-gray-400">
+              {activeTab === 'dashboard' ? "Here's what's happening with your business today." : 
+               activeTab === 'jobs' ? 'Manage your job openings and career details here.' :
+               `Manage your ${activeTab} here.`}
+            </p>
+          </div>
+          <Link to="/" className="px-6 py-2 rounded-full border border-white/10 hover:bg-white/5 transition-all text-sm font-medium">
+            View Website
+          </Link>
+        </header>
+
+        {activeTab === 'dashboard' && renderDashboard()}
+        {activeTab === 'messages' && renderMessages()}
+        {activeTab === 'jobs' && renderJobs()}
+        {activeTab === 'users' && renderUsers()}
+        {activeTab === 'settings' && renderSettings()}
+        {activeTab === 'about' && renderAboutEditor()}
+        {activeTab !== 'dashboard' && activeTab !== 'messages' && activeTab !== 'jobs' && activeTab !== 'users' && activeTab !== 'settings' && activeTab !== 'about' && (
+          <div className="text-center py-24 text-gray-500 italic">
+            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} management coming soon...
+          </div>
+        )}
+      </main>
+    </div>
+  );
+};

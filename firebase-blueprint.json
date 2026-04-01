@@ -32,11 +32,12 @@
       "properties": {
         "name": { "type": "string", "description": "Sender name" },
         "email": { "type": "string", "format": "email", "description": "Sender email" },
+        "subject": { "type": "string", "description": "Message subject" },
         "message": { "type": "string", "description": "Message content" },
         "createdAt": { "type": "string", "format": "date-time", "description": "Submission timestamp" },
         "status": { "type": "string", "enum": ["new", "read", "replied"], "description": "Message status" }
       },
-      "required": ["name", "email", "message", "createdAt", "status"]
+      "required": ["name", "email", "subject", "message", "createdAt", "status"]
     },
     "UserProfile": {
       "title": "UserProfile",
@@ -48,6 +49,52 @@
         "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" }
       },
       "required": ["uid", "email", "role"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global site settings like about image",
+      "type": "object",
+      "properties": {
+        "aboutImageUrl": { "type": "string", "description": "URL to the about section image" }
+      },
+      "required": ["aboutImageUrl"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Job opening details",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Job title" },
+        "location": { "type": "string", "description": "Job location" },
+        "experience": { "type": "string", "description": "Required experience" },
+        "description": { "type": "string", "description": "Job description" },
+        "skills": { "type": "array", "items": { "type": "string" }, "description": "Required skills" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["title", "location", "experience", "description", "skills", "createdAt"]
+    },
+    "AboutContent": {
+      "title": "AboutContent",
+      "description": "Content for the About page",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "About page title" },
+        "description": { "type": "string", "description": "Main description text" },
+        "mission": { "type": "string", "description": "Mission statement" },
+        "vision": { "type": "string", "description": "Vision statement" },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string", "description": "Image URL or base64" },
+              "alt": { "type": "string", "description": "Alt text" }
+            }
+          },
+          "description": "Gallery images"
+        }
+      },
+      "required": ["title", "description", "mission", "vision", "images"]
     }
   },
   "firestore": {
@@ -66,6 +113,18 @@
     "/users/{userId}": {
       "schema": "UserProfile",
       "description": "Collection of user profiles"
+    },
+    "/settings/{settingId}": {
+      "schema": "SiteSettings",
+      "description": "Collection of site settings"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job openings"
+    },
+    "/about/{aboutId}": {
+      "schema": "AboutContent",
+      "description": "Content for the About page"
     }
   }
 }

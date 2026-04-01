@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SectionHeader } from '../components/SectionHeader';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocFromServer } from 'firebase/firestore';
 import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { handleFirestoreError, OperationType } from '../lib/firebase-errors';
+import { db } from '../firebase';
+import { doc, onSnapshot, collection, addDoc } from 'firebase/firestore';
 
 export const Contact = () => {
+  const [settings, setSettings] = useState({
+    contactEmail: 'tag@aadhyarajtech.com',
+    whatsappNumber: '+91 9127912345'
+  });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,22 +18,30 @@ export const Contact = () => {
   });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, 'settings', 'global'), (snapshot) => {
+      if (snapshot.exists()) {
+        setSettings(snapshot.data());
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
     try {
       await addDoc(collection(db, 'messages'), {
         ...formData,
-        createdAt: serverTimestamp(),
-        read: false,
+        createdAt: new Date().toISOString(),
+        status: 'new'
       });
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'messages');
+      console.error("Error sending message:", error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -63,9 +74,9 @@ export const Contact = () => {
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Email', value: 'tag@aadhyarajtech.com', color: 'text-blue-400', href: 'mailto:tag@aadhyarajtech.com' },
-                { icon: Phone, label: 'Phone', value: '+91 9127912345', color: 'text-purple-400', href: 'tel:+919127912345' },
-                { icon: MessageCircle, label: 'WhatsApp', value: '+91 9127912345', color: 'text-green-400', href: 'https://wa.me/919127912345' },
+                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-blue-400', href: `mailto:${settings.contactEmail}` },
+                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-purple-400', href: `tel:${settings.whatsappNumber}` },
+                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-green-400', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
                 { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-cyan-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
               ].map((item, i) => (
                 <a key={i} href={item.href} target={item.icon === MapPin ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-start gap-6 group cursor-pointer">
@@ -182,7 +193,7 @@ export const Contact = () => {
               </div>
 
               <a 
-                href={`mailto:tag@aadhyarajtech.com?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
+                href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
                 className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-lg transition-all flex items-center justify-center gap-3 border border-white/10"
               >
                 <Mail size={20} />

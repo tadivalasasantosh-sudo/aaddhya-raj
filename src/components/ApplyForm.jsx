@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function ApplyForm({ preSelectedRole = "" }) {
   const [form, setForm] = useState({ role: preSelectedRole });
@@ -7,16 +8,11 @@ export default function ApplyForm({ preSelectedRole = "" }) {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await fetch('/api/jobs/public');
-        const data = await res.json();
-        setJobs(data);
-      } catch (err) {
-        console.error('Error fetching jobs for form:', err);
-      }
-    };
-    fetchJobs();
+    const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setJobs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -30,19 +26,13 @@ export default function ApplyForm({ preSelectedRole = "" }) {
   };
 
   const submit = async () => {
-    const data = new FormData();
-
-    Object.keys(form).forEach((key) => {
-      data.append(key, form[key]);
-    });
-
-    if (file) {
-      data.append("resume", file);
-    }
-
+    // Simulate submission
+    console.log("Submitting application:", { ...form, resume: file ? file.name : null });
+    
     try {
-      await axios.post("/api/apply", data);
-      alert("Application submitted!");
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      alert("Application submitted! (Demo Mode)");
       setForm({ role: preSelectedRole });
       setFile(null);
     } catch (error) {
@@ -66,7 +56,7 @@ export default function ApplyForm({ preSelectedRole = "" }) {
       <select className="p-3 rounded-lg bg-gray-900 text-white border border-white/10 focus:outline-none focus:border-blue-500" name="role" value={form.role || ''} onChange={handleChange}>
         <option value="">Select Role</option>
         {jobs.map((job) => (
-          <option key={job._id} value={job.title}>{job.title}</option>
+          <option key={job.id} value={job.title}>{job.title}</option>
         ))}
         <option value="Other">Other / General Application</option>
       </select>

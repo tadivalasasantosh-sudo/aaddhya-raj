@@ -1,13 +1,14 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 export const WhatsAppButton = () => {
-  // Replace with your actual WhatsApp number including country code
-  const phoneNumber = "919127912345"; 
+  const { settings } = useSettings();
+  const whatsappNumber = settings.whatsappNumber ? settings.whatsappNumber.replace(/\D/g, '') : "919127912345";
   
   return (
     <a
-      href={`https://wa.me/${phoneNumber}`}
+      href={`https://wa.me/${whatsappNumber}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 left-6 p-4 rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 hover:shadow-green-500/25 transition-all z-40 flex items-center justify-center group"
