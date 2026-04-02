@@ -1,114 +1,144 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, MapPin, Clock, ChevronRight, X, Send, CheckCircle } from 'lucide-react';
-
-const jobs = [
-  {
-    id: 'java-fullstack',
-    title: 'Senior Java Full Stack Developer (React)',
-    experience: '8–10 years',
-    location: 'Pune (Hybrid)',
-    type: 'Full-time',
-    description: 'Build and maintain enterprise-level applications using modern Java and React stacks.',
-    responsibilities: [
-      'Build and maintain enterprise-level applications',
-      'Create backend using Java + Spring Boot',
-      'Develop frontend using React.js',
-      'Work in an Agile team environment',
-      'Fix bugs and support live systems',
-      'Modernize legacy systems'
-    ],
-    skills: {
-      backend: ['Java (8/11/17)', 'Spring Boot', 'Spring MVC', 'Spring Security', 'REST APIs', 'Microservices', 'Hibernate / JPA', 'OAuth2', 'JWT'],
-      frontend: ['React.js', 'JavaScript / TypeScript', 'Redux / Context API', 'HTML5', 'CSS3'],
-      database: ['Oracle', 'SQL Server', 'NoSQL (optional)'],
-      tools: ['Git', 'Jenkins', 'Docker', 'AWS / Azure', 'JUnit', 'Mockito', 'Jest']
-    }
-  },
-  {
-    id: 'gen-ai',
-    title: 'Generative AI Engineer',
-    experience: '7+ years',
-    location: 'Gurgaon (Hybrid)',
-    type: 'Full-time',
-    description: 'Build cutting-edge AI applications using LLMs, RAG, and Agentic AI systems.',
-    responsibilities: [
-      'Build AI applications using LLMs',
-      'Work on RAG, NLP, and ML models',
-      'Create Agentic AI systems',
-      'Use Python for AI development',
-      'Deploy projects using CI/CD',
-      'Work with OCR and image processing'
-    ],
-    skills: {
-      core: ['Generative AI', 'LLMs', 'Python (Expert)', 'Machine Learning', 'Agentic AI', 'MCP'],
-      vision: ['OCR', 'Image Processing'],
-      devops: ['Docker', 'Kubernetes', 'Jenkins']
-    }
-  },
-  {
-    id: 'ibm-sterling',
-    title: 'IBM Sterling B2B Integrator Developer',
-    experience: '5+ years',
-    location: 'Hyderabad (Hybrid)',
-    type: 'Full-time',
-    description: 'Manage complex B2B integrations and business processes for global clients.',
-    responsibilities: [
-      'Build and manage B2B integrations',
-      'Create business processes',
-      'Handle file transfers between companies',
-      'Monitor systems and fix issues',
-      'Support production systems'
-    ],
-    skills: {
-      core: ['IBM Sterling B2Bi', 'Business Process Development', 'Map Development', 'Sterling File Gateway'],
-      ops: ['File Monitoring', 'Troubleshooting', 'Production Support']
-    }
-  },
-  {
-    id: 'opentext-sap',
-    title: 'OpenText Archive Migration Specialist (SAP)',
-    experience: '5+ years',
-    location: 'Hyderabad (Hybrid)',
-    type: 'Full-time',
-    description: 'Lead data migration projects from legacy systems to cloud-based SAP environments.',
-    responsibilities: [
-      'Move data from legacy systems to cloud',
-      'Work with SAP + OpenText integrations',
-      'Test and validate migrated data',
-      'Ensure data integrity and security',
-      'Coordinate with cross-functional teams'
-    ],
-    skills: {
-      core: ['OpenText Archive (Cloud & On-Prem)', 'SAP Integration', 'Data Migration'],
-      process: ['Testing & Validation', 'Team Coordination', 'Project Management']
-    }
-  },
-  {
-    id: 'react-lead',
-    title: 'Senior React.js Developer / Frontend Lead',
-    experience: '5+ years',
-    location: 'Pune (Hybrid)',
-    type: 'Full-time',
-    description: 'Lead frontend architecture and guide teams in building scalable, high-performance UIs.',
-    responsibilities: [
-      'Lead frontend development initiatives',
-      'Design scalable UI architecture',
-      'Mentor and guide team members',
-      'Collaborate with product and design teams',
-      'Optimize UI performance and quality'
-    ],
-    skills: {
-      core: ['React.js (Expert)', 'JavaScript / TypeScript', 'HTML5', 'CSS3'],
-      advanced: ['API Integration', 'UI Performance Optimization', 'Code Quality Practices', 'Architecture Design']
-    }
-  }
-];
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useSettings } from '../context/SettingsContext';
 
 export const Careers = () => {
+  const { settings } = useSettings();
+  const [jobs, setJobs] = useState([
+    // ... (initial jobs state remains the same for instant loading)
+    {
+      id: 'java-fullstack',
+      title: 'Senior Java Full Stack Developer (React)',
+      experience: '8–10 years',
+      location: 'Pune (Hybrid)',
+      description: 'Build and maintain enterprise-level applications using modern Java and React stacks.',
+      responsibilities: [
+        'Build and maintain enterprise-level applications',
+        'Create backend using Java + Spring Boot',
+        'Develop frontend using React.js',
+        'Work in an Agile team environment',
+        'Fix bugs and support live systems',
+        'Modernize legacy systems'
+      ],
+      skills: {
+        'Backend': ['Java (8/11/17)', 'Spring Boot', 'Spring MVC', 'Spring Security', 'REST APIs', 'Microservices', 'Hibernate / JPA', 'OAuth2', 'JWT'],
+        'Frontend': ['React.js', 'JavaScript / TypeScript', 'Redux / Context API', 'HTML5', 'CSS3'],
+        'Database': ['Oracle', 'SQL Server', 'SQL Queries'],
+        'Tools': ['Git', 'Jenkins', 'Docker', 'AWS / Azure', 'JUnit', 'Mockito', 'Jest']
+      }
+    },
+    {
+      id: 'gen-ai',
+      title: 'Generative AI Engineer',
+      experience: '7+ years',
+      location: 'Gurgaon (Hybrid)',
+      description: 'Build cutting-edge AI applications using LLMs, RAG, and Agentic AI systems.',
+      responsibilities: [
+        'Build AI applications using LLMs',
+        'Work on RAG, NLP, and ML models',
+        'Create Agentic AI systems',
+        'Use Python for AI development',
+        'Deploy projects using CI/CD',
+        'Work with OCR and image processing'
+      ],
+      skills: {
+        'Core AI': ['Generative AI', 'LLMs', 'Python (Expert)', 'Machine Learning', 'Agentic AI', 'MCP'],
+        'Specialties': ['OCR', 'Image Processing'],
+        'DevOps': ['Docker', 'Kubernetes', 'Jenkins']
+      }
+    },
+    {
+      id: 'ibm-sterling',
+      title: 'IBM Sterling B2B Integrator Developer',
+      experience: '5+ years',
+      location: 'Hyderabad (Hybrid)',
+      description: 'Manage complex B2B integrations and business processes for global clients.',
+      responsibilities: [
+        'Build and manage B2B integrations',
+        'Create business processes',
+        'Handle file transfers between companies',
+        'Monitor systems and fix issues',
+        'Support production systems'
+      ],
+      skills: {
+        'Core Sterling': ['IBM Sterling B2Bi', 'Business Process Development', 'Map Development', 'Sterling File Gateway'],
+        'Operations': ['File Monitoring', 'Troubleshooting', 'Production Support']
+      }
+    },
+    {
+      id: 'opentext-sap',
+      title: 'OpenText Archive Migration Specialist (SAP)',
+      experience: '5+ years',
+      location: 'Hyderabad (Hybrid)',
+      description: 'Lead data migration projects from legacy systems to cloud-based SAP environments.',
+      responsibilities: [
+        'Move data from old system -> cloud',
+        'Work with SAP + OpenText',
+        'Test and validate migrated data',
+        'Ensure data is safe and working after migration',
+        'Coordinate with multiple teams'
+      ],
+      skills: {
+        'Core': ['OpenText Archive (Cloud & On-Prem)', 'SAP Integration', 'Data Migration'],
+        'Process': ['Testing & Validation', 'Team Coordination', 'Project Management']
+      }
+    },
+    {
+      id: 'react-lead',
+      title: 'Senior React.js Developer / Frontend Lead',
+      experience: '5+ years',
+      location: 'Pune (Hybrid)',
+      description: 'Lead frontend architecture and guide teams in building scalable, high-performance UIs.',
+      responsibilities: [
+        'Lead frontend development',
+        'Design scalable UI architecture',
+        'Guide team members',
+        'Work with product & design teams',
+        'Ensure performance and quality'
+      ],
+      skills: {
+        'Core Frontend': ['React.js (Expert)', 'JavaScript / TypeScript', 'HTML5', 'CSS3'],
+        'Backend Integration': ['API Integration'],
+        'Optimization': ['UI Performance Optimization', 'Code Quality Practices'],
+        'Architecture': ['Architecture Design']
+      }
+    }
+  ]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [isApplying, setIsApplying] = useState(false);
   const [formStatus, setFormStatus] = useState('idle'); // idle, sending, success
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, 'jobs'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        const jobsData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setJobs(jobsData);
+      }
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching jobs:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const benefits = [
+    { title: 'Hybrid Work', desc: 'Flexible work-from-home and office balance.', icon: '🏠' },
+    { title: 'Growth Path', desc: 'Clear career progression and mentorship.', icon: '📈' },
+    { title: 'Latest Tech', desc: 'Work with Generative AI, Cloud, and modern stacks.', icon: '⚡' },
+    { title: 'Health First', desc: 'Comprehensive health and wellness benefits.', icon: '💙' },
+    { title: 'Global Impact', desc: 'Build solutions for international enterprise clients.', icon: '🌍' },
+    { title: 'Innovation', desc: 'Dedicated time for R&D and learning.', icon: '💡' },
+  ];
 
   const handleApply = (e) => {
     e.preventDefault();
@@ -140,52 +170,88 @@ export const Careers = () => {
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold text-slate-50">Join Our Expert Team</h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            We're looking for passionate innovators to help us build the next generation of digital solutions.
+            {settings.careerDetails}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
-          {jobs.map((job, index) => (
+        {/* Benefits Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-20">
+          {benefits.map((benefit, i) => (
             <motion.div
-              key={job.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              key={i}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="glass-card p-6 md:p-8 group cursor-pointer"
-              onClick={() => setSelectedJob(job)}
+              transition={{ delay: i * 0.1 }}
+              className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center hover:bg-emerald-500/5 hover:border-emerald-500/20 transition-all group"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-3">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
-                      {job.experience}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">
-                      {job.type}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-50 group-hover:text-emerald-400 transition-colors">
-                    {job.title}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} className="text-emerald-500" />
-                      {job.location}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock size={16} className="text-emerald-500" />
-                      Posted recently
-                    </div>
-                  </div>
-                </div>
-                <button className="btn-secondary whitespace-nowrap group-hover:bg-emerald-500 group-hover:text-slate-950 group-hover:border-emerald-500">
-                  View Details
-                  <ChevronRight className="ml-2" size={18} />
-                </button>
-              </div>
+              <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{benefit.icon}</div>
+              <h4 className="text-sm font-bold text-slate-100 mb-1">{benefit.title}</h4>
+              <p className="text-[10px] text-slate-500 leading-tight">{benefit.desc}</p>
             </motion.div>
           ))}
+        </div>
+
+        <div className="space-y-8">
+          <h3 className="text-2xl font-bold text-slate-50 flex items-center gap-3">
+            <div className="w-8 h-px bg-emerald-500" />
+            Current Openings
+          </h3>
+          
+          {loading && jobs.length === 0 ? (
+            <div className="flex justify-center py-12">
+              <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : jobs.length === 0 ? (
+            <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
+              <Briefcase size={48} className="mx-auto mb-4 text-gray-600" />
+              <p className="text-gray-400">No current job openings. Please check back later!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6">
+              {jobs.map((job, index) => (
+                <motion.div
+                  key={job.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="glass-card p-6 md:p-8 group cursor-pointer"
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-3">
+                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                          {job.experience}
+                        </span>
+                        <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">
+                          {job.location}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-50 group-hover:text-emerald-400 transition-colors">
+                        {job.title}
+                      </h3>
+                      <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} className="text-emerald-500" />
+                          {job.location}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock size={16} className="text-emerald-500" />
+                          Posted recently
+                        </div>
+                      </div>
+                    </div>
+                    <button className="btn-secondary whitespace-nowrap group-hover:bg-emerald-500 group-hover:text-slate-950 group-hover:border-emerald-500">
+                      View Details
+                      <ChevronRight className="ml-2" size={18} />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -234,12 +300,20 @@ export const Careers = () => {
                       Key Responsibilities
                     </h4>
                     <ul className="space-y-3">
-                      {selectedJob.responsibilities.map((resp, i) => (
-                        <li key={i} className="flex items-start gap-3 text-slate-400 text-sm md:text-base">
-                          <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500/50 shrink-0" />
-                          {resp}
-                        </li>
-                      ))}
+                      {selectedJob.responsibilities ? (
+                        Array.isArray(selectedJob.responsibilities) ? (
+                          selectedJob.responsibilities.map((resp, i) => (
+                            <li key={i} className="flex items-start gap-3 text-slate-400 text-sm md:text-base">
+                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500/50 shrink-0" />
+                              {resp}
+                            </li>
+                          ))
+                        ) : (
+                          <li className="text-slate-400 text-sm md:text-base">{selectedJob.responsibilities}</li>
+                        )
+                      ) : (
+                        <li className="text-slate-400 text-sm md:text-base italic">No specific responsibilities listed.</li>
+                      )}
                     </ul>
                   </div>
 
@@ -249,18 +323,34 @@ export const Careers = () => {
                       Technical Skills
                     </h4>
                     <div className="space-y-4">
-                      {Object.entries(selectedJob.skills).map(([category, list]) => (
-                        <div key={category}>
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-500 mb-2">{category}</p>
+                      {selectedJob.skills ? (
+                        Array.isArray(selectedJob.skills) ? (
                           <div className="flex flex-wrap gap-2">
-                            {list.map((skill, i) => (
+                            {selectedJob.skills.map((skill, i) => (
                               <span key={i} className="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] md:text-xs border border-slate-700">
                                 {skill}
                               </span>
                             ))}
                           </div>
-                        </div>
-                      ))}
+                        ) : typeof selectedJob.skills === 'object' ? (
+                          Object.entries(selectedJob.skills).map(([category, list]) => (
+                            <div key={category}>
+                              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-500 mb-2">{category}</p>
+                              <div className="flex flex-wrap gap-2">
+                                {Array.isArray(list) ? list.map((skill, i) => (
+                                  <span key={i} className="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] md:text-xs border border-slate-700">
+                                    {skill}
+                                  </span>
+                                )) : <span className="text-slate-300 text-xs">{list}</span>}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-slate-300 text-xs">{selectedJob.skills}</span>
+                        )
+                      ) : (
+                        <p className="text-slate-400 text-sm italic">No specific skills listed.</p>
+                      )}
                     </div>
                   </div>
                 </div>

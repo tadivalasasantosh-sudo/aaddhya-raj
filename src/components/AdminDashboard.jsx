@@ -188,6 +188,117 @@ export const AdminDashboard = () => {
     }
   };
 
+  const seedInitialJobs = async () => {
+    if (window.confirm("This will add 5 sample job openings to your database. Continue?")) {
+      try {
+        const initialJobs = [
+          {
+            title: 'Senior Java Full Stack Developer (React)',
+            experience: '8–10 years',
+            location: 'Pune (Hybrid)',
+            description: 'Build and maintain enterprise-level applications using modern Java and React stacks.',
+            responsibilities: [
+              'Build and maintain enterprise-level applications',
+              'Create backend using Java + Spring Boot',
+              'Develop frontend using React.js',
+              'Work in an Agile team environment',
+              'Fix bugs and support live systems',
+              'Modernize legacy systems'
+            ],
+            skills: {
+              'Backend': ['Java (8/11/17)', 'Spring Boot', 'Spring MVC', 'Spring Security', 'REST APIs', 'Microservices', 'Hibernate / JPA', 'OAuth2', 'JWT'],
+              'Frontend': ['React.js', 'JavaScript / TypeScript', 'Redux / Context API', 'HTML5', 'CSS3'],
+              'Database': ['Oracle', 'SQL Server', 'SQL Queries'],
+              'Tools': ['Git', 'Jenkins', 'Docker', 'AWS / Azure', 'JUnit', 'Mockito', 'Jest']
+            }
+          },
+          {
+            title: 'Generative AI Engineer',
+            experience: '7+ years',
+            location: 'Gurgaon (Hybrid)',
+            description: 'Build cutting-edge AI applications using LLMs, RAG, and Agentic AI systems.',
+            responsibilities: [
+              'Build AI applications using LLMs',
+              'Work on RAG, NLP, and ML models',
+              'Create Agentic AI systems',
+              'Use Python for AI development',
+              'Deploy projects using CI/CD',
+              'Work with OCR and image processing'
+            ],
+            skills: {
+              'Core AI': ['Generative AI', 'LLMs', 'Python (Expert)', 'Machine Learning', 'Agentic AI', 'MCP'],
+              'Specialties': ['OCR', 'Image Processing'],
+              'DevOps': ['Docker', 'Kubernetes', 'Jenkins']
+            }
+          },
+          {
+            title: 'IBM Sterling B2B Integrator Developer',
+            experience: '5+ years',
+            location: 'Hyderabad (Hybrid)',
+            description: 'Manage complex B2B integrations and business processes for global clients.',
+            responsibilities: [
+              'Build and manage B2B integrations',
+              'Create business processes',
+              'Handle file transfers between companies',
+              'Monitor systems and fix issues',
+              'Support production systems'
+            ],
+            skills: {
+              'Core Sterling': ['IBM Sterling B2Bi', 'Business Process Development', 'Map Development', 'Sterling File Gateway'],
+              'Operations': ['File Monitoring', 'Troubleshooting', 'Production Support']
+            }
+          },
+          {
+            title: 'OpenText Archive Migration Specialist (SAP)',
+            experience: '5+ years',
+            location: 'Hyderabad (Hybrid)',
+            description: 'Lead data migration projects from legacy systems to cloud-based SAP environments.',
+            responsibilities: [
+              'Move data from legacy systems to cloud',
+              'Work with SAP + OpenText integrations',
+              'Test and validate migrated data',
+              'Ensure data integrity and security',
+              'Coordinate with cross-functional teams'
+            ],
+            skills: {
+              'Core': ['OpenText Archive (Cloud & On-Prem)', 'SAP Integration', 'Data Migration'],
+              'Process': ['Testing & Validation', 'Team Coordination', 'Project Management']
+            }
+          },
+          {
+            title: 'Senior React.js Developer / Frontend Lead',
+            experience: '5+ years',
+            location: 'Pune (Hybrid)',
+            description: 'Lead frontend architecture and guide teams in building scalable, high-performance UIs.',
+            responsibilities: [
+              'Lead frontend development initiatives',
+              'Design scalable UI architecture',
+              'Mentor and guide team members',
+              'Collaborate with product and design teams',
+              'Optimize UI performance and quality'
+            ],
+            skills: {
+              'Core Frontend': ['React.js (Expert)', 'JavaScript / TypeScript', 'HTML5', 'CSS3'],
+              'Backend Integration': ['API Integration'],
+              'Optimization': ['UI Performance Optimization', 'Code Quality Practices'],
+              'Architecture': ['Architecture Design']
+            }
+          }
+        ];
+
+        for (const job of initialJobs) {
+          await addDoc(collection(db, 'jobs'), {
+            ...job,
+            createdAt: new Date().toISOString()
+          });
+        }
+        alert("Initial jobs seeded successfully!");
+      } catch (error) {
+        handleFirestoreError(error, OperationType.CREATE, 'jobs');
+      }
+    }
+  };
+
   const handleUpdateAbout = async (e) => {
     e.preventDefault();
     try {
@@ -637,12 +748,22 @@ export const AdminDashboard = () => {
           />
         </div>
 
-        <button 
-          type="submit"
-          className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
-        >
-          Save Changes
-        </button>
+        <div className="flex flex-wrap gap-4 pt-4">
+          <button 
+            type="submit"
+            className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
+          >
+            Save Changes
+          </button>
+          <button 
+            type="button"
+            onClick={seedInitialJobs}
+            className="px-8 py-3 rounded-xl bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 border border-emerald-500/20 font-bold transition-all flex items-center gap-2"
+          >
+            <Plus size={18} />
+            Seed Sample Jobs
+          </button>
+        </div>
       </form>
     </div>
   );
