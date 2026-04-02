@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2 } from 'lucide-react';
+import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2, Image as ImageIcon, Menu as MenuIcon } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addDoc, setDoc } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addDoc, setDoc, getDoc } from 'firebase/firestore';
 import { Plus, X as CloseIcon } from 'lucide-react';
+import { OperationType, handleFirestoreError } from '../firebase';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -16,17 +17,20 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@adityatech.com',
-    whatsappNumber: '+91 9127912345'
+    contactEmail: 'tag@aadhyarajtech.com',
+    whatsappNumber: '+91 9127912345',
+    companyHours: 'Monday to Friday: 9:00 AM - 6:00 PM, Saturday & Sunday: Closed',
+    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
   });
   const [about, setAbout] = useState({
-    title: 'About Aditya Technology',
-    description: 'Aditya Technology is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
+    title: 'About AadhyaRaj Technologies',
+    description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
     mission: '',
     vision: ''
   });
   const [loading, setLoading] = useState(true);
   const [showJobModal, setShowJobModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [jobFormData, setJobFormData] = useState({
     title: '',
     location: '',
@@ -126,7 +130,7 @@ export const AdminDashboard = () => {
     try {
       await updateDoc(doc(db, 'messages', id), { status: newStatus });
     } catch (error) {
-      console.error("Error updating status:", error);
+      handleFirestoreError(error, OperationType.UPDATE, `messages/${id}`);
     }
   };
 
@@ -135,7 +139,7 @@ export const AdminDashboard = () => {
       try {
         await deleteDoc(doc(db, 'messages', id));
       } catch (error) {
-        console.error("Error deleting message:", error);
+        handleFirestoreError(error, OperationType.DELETE, `messages/${id}`);
       }
     }
   };
@@ -152,7 +156,7 @@ export const AdminDashboard = () => {
       setShowJobModal(false);
       setJobFormData({ title: '', location: '', experience: '', description: '', skills: '' });
     } catch (error) {
-      console.error("Error adding job:", error);
+      handleFirestoreError(error, OperationType.CREATE, 'jobs');
     }
   };
 
@@ -161,7 +165,7 @@ export const AdminDashboard = () => {
       try {
         await deleteDoc(doc(db, 'jobs', id));
       } catch (error) {
-        console.error("Error deleting job:", error);
+        handleFirestoreError(error, OperationType.DELETE, `jobs/${id}`);
       }
     }
   };
@@ -170,8 +174,7 @@ export const AdminDashboard = () => {
     try {
       await updateDoc(doc(db, 'users', userId), { role: newRole });
     } catch (error) {
-      console.error("Error updating user role:", error);
-      alert("Failed to update user role. Check permissions.");
+      handleFirestoreError(error, OperationType.UPDATE, `users/${userId}`);
     }
   };
 
@@ -181,7 +184,7 @@ export const AdminDashboard = () => {
       await setDoc(doc(db, 'settings', 'global'), settings);
       alert("Settings updated successfully!");
     } catch (error) {
-      console.error("Error updating settings:", error);
+      handleFirestoreError(error, OperationType.WRITE, 'settings/global');
     }
   };
 
@@ -191,14 +194,14 @@ export const AdminDashboard = () => {
       await setDoc(doc(db, 'about', 'content'), about);
       alert("About content updated successfully!");
     } catch (error) {
-      console.error("Error updating about content:", error);
+      handleFirestoreError(error, OperationType.WRITE, 'about/content');
     }
   };
 
   const stats = [
-    { label: 'Total Users', value: users.length.toString(), icon: Users, color: 'text-blue-400' },
-    { label: 'Job Openings', value: jobs.length.toString(), icon: Briefcase, color: 'text-purple-400' },
-    { label: 'Contact Inquiries', value: messages.length.toString(), icon: MessageSquare, color: 'text-green-400' },
+    { label: 'Total Users', value: users.length.toString(), icon: Users, color: 'text-green-400' },
+    { label: 'Job Openings', value: jobs.length.toString(), icon: Briefcase, color: 'text-emerald-400' },
+    { label: 'Contact Inquiries', value: messages.length.toString(), icon: MessageSquare, color: 'text-teal-400' },
   ];
 
   const renderDashboard = () => (
@@ -234,7 +237,7 @@ export const AdminDashboard = () => {
           {messages.slice(0, 3).map((msg) => (
             <div key={msg.id} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center font-bold">
                   {msg.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -269,7 +272,7 @@ export const AdminDashboard = () => {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : messages.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -351,21 +354,45 @@ export const AdminDashboard = () => {
   );
 
   const renderJobs = () => (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Job Openings</h2>
+        <h2 className="text-2xl font-bold">Careers Portal</h2>
         <button 
           onClick={() => setShowJobModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-black font-medium transition-all"
         >
           <Plus size={20} />
           Add New Job
         </button>
       </div>
 
-      {loading ? (
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+        <h3 className="text-lg font-semibold mb-4">Career Optimization & Details</h3>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400">Career Introduction / Details</label>
+            <textarea 
+              rows={4}
+              value={settings.careerDetails}
+              onChange={(e) => setSettings({...settings, careerDetails: e.target.value})}
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none resize-none"
+              placeholder="Enter career details and culture information..."
+            />
+          </div>
+          <button 
+            onClick={handleUpdateSettings}
+            className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-black font-bold transition-all"
+          >
+            Update Career Details
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        <h3 className="text-lg font-semibold">Active Job Openings</h3>
+        {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : jobs.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -408,6 +435,7 @@ export const AdminDashboard = () => {
           ))}
         </div>
       )}
+      </div>
 
       {/* Add Job Modal */}
       {showJobModal && (
@@ -508,7 +536,7 @@ export const AdminDashboard = () => {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : users.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -598,6 +626,17 @@ export const AdminDashboard = () => {
           </div>
         </div>
 
+        <div className="space-y-2">
+          <label className="text-sm text-gray-400">Company Hours</label>
+          <input 
+            type="text"
+            value={settings.companyHours}
+            onChange={(e) => setSettings({...settings, companyHours: e.target.value})}
+            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+            placeholder="e.g. Monday to Friday: 9:00 AM - 6:00 PM, Saturday & Sunday: Closed"
+          />
+        </div>
+
         <button 
           type="submit"
           className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
@@ -673,20 +712,47 @@ export const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-white/10 p-6 hidden md:flex flex-col gap-8">
+    <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
+      {/* Mobile Header */}
+      <header className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-black sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center font-bold">
-            {userRole === 'hr' ? 'HR' : 'AT'}
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center font-bold">
+            {userRole === 'hr' ? 'HR' : 'AR'}
           </div>
-          <span className="font-bold text-xl">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+          <span className="font-bold text-lg">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+        </div>
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 text-gray-400 hover:text-white"
+        >
+          {isMobileMenuOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
+        </button>
+      </header>
+
+      {/* Sidebar (Desktop & Mobile) */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10 p-6 flex flex-col gap-8 transition-transform duration-300 md:relative md:translate-x-0
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="flex items-center justify-between md:justify-start gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center font-bold">
+              {userRole === 'hr' ? 'HR' : 'AR'}
+            </div>
+            <span className="font-bold text-xl">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="md:hidden p-2 text-gray-400 hover:text-white"
+          >
+            <CloseIcon size={24} />
+          </button>
         </div>
 
         <nav className="flex-1 space-y-2">
           {userRole === 'admin' && (
             <button 
-              onClick={() => setActiveTab('dashboard')}
+              onClick={() => { setActiveTab('dashboard'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'dashboard' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
               }`}
@@ -697,7 +763,7 @@ export const AdminDashboard = () => {
           )}
           {userRole === 'admin' && (
             <button 
-              onClick={() => setActiveTab('users')}
+              onClick={() => { setActiveTab('users'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'users' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
               }`}
@@ -707,7 +773,7 @@ export const AdminDashboard = () => {
             </button>
           )}
           <button 
-            onClick={() => setActiveTab('jobs')}
+            onClick={() => { setActiveTab('jobs'); setIsMobileMenuOpen(false); }}
             className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
               activeTab === 'jobs' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
             }`}
@@ -717,7 +783,7 @@ export const AdminDashboard = () => {
           </button>
           {userRole === 'admin' && (
             <button 
-              onClick={() => setActiveTab('messages')}
+              onClick={() => { setActiveTab('messages'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'messages' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
               }`}
@@ -728,7 +794,7 @@ export const AdminDashboard = () => {
           )}
           {userRole === 'admin' && (
             <button 
-              onClick={() => setActiveTab('settings')}
+              onClick={() => { setActiveTab('settings'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'settings' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
               }`}
@@ -739,7 +805,7 @@ export const AdminDashboard = () => {
           )}
           {userRole === 'admin' && (
             <button 
-              onClick={() => setActiveTab('about')}
+              onClick={() => { setActiveTab('about'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'about' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
               }`}
@@ -759,8 +825,16 @@ export const AdminDashboard = () => {
         </button>
       </aside>
 
+      {/* Overlay for Mobile Sidebar */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-12 overflow-y-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
             <h1 className="text-3xl font-bold mb-2">

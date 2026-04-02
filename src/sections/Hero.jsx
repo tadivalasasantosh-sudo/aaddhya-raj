@@ -5,8 +5,8 @@ import { motion } from 'motion/react';
 export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden hero-gradient">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-600/20 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/20 rounded-full blur-[120px] animate-pulse" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -16,20 +16,20 @@ export const Hero = () => {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-blue-400">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-green-400">
               <Sparkles size={16} />
               <span>Next-Gen IT Solutions</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-slate-50 leading-[1.1]">
               Innovating the <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400">
+              <span className="glow-text">
                 Digital Frontier
               </span>
             </h1>
             
-            <p className="text-xl text-gray-400 leading-relaxed max-w-xl">
-              Aditya Technology delivers scalable, secure, and high-performance digital solutions to help businesses grow and transform digitally.
+            <p className="text-xl text-slate-400 leading-relaxed max-w-xl font-light">
+              AadhyaRaj Technologies delivers scalable, secure, and high-performance digital solutions to help businesses grow and transform digitally.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -37,20 +37,23 @@ export const Hero = () => {
                 Start Your Project
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
               </a>
+              <a href="#about" className="btn-secondary">
+                Learn More
+              </a>
             </div>
 
-            <div className="flex items-center gap-8 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 md:gap-8 pt-8 border-t border-white/10">
               <div>
-                <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-sm text-gray-500">Projects Delivered</div>
+                <div className="text-xl md:text-2xl font-bold text-white">500+</div>
+                <div className="text-[10px] md:text-sm text-gray-500 uppercase tracking-wider">Projects Delivered</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">99%</div>
-                <div className="text-sm text-gray-500">Client Satisfaction</div>
+                <div className="text-xl md:text-2xl font-bold text-white">99%</div>
+                <div className="text-[10px] md:text-sm text-gray-500 uppercase tracking-wider">Client Satisfaction</div>
               </div>
-              <div>
-                <div className="text-2xl font-bold text-white">24/7</div>
-                <div className="text-sm text-gray-500">Expert Support</div>
+              <div className="col-span-2 sm:col-span-1">
+                <div className="text-xl md:text-2xl font-bold text-white">24/7</div>
+                <div className="text-[10px] md:text-sm text-gray-500 uppercase tracking-wider">Expert Support</div>
               </div>
             </div>
           </motion.div>
@@ -68,9 +71,9 @@ export const Hero = () => {
                 className="rounded-xl shadow-2xl"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute -bottom-6 -left-6 glass-card p-6 border-blue-500/30">
+              <div className="absolute -bottom-6 -left-6 glass-card p-6 border-green-500/30">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                  <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
                     <ChevronRight size={24} />
                   </div>
                   <div>

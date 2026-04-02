@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { LogIn, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { OperationType, handleFirestoreError } from '../firebase';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,12 +19,16 @@ export const Login = () => {
     // Check if user is the bootstrap admin
     if (user.email === 'tadivalasasantosh@gmail.com') {
       // Ensure super admin exists in users collection too
-      await setDoc(doc(db, 'users', user.uid), {
-        email: user.email,
-        uid: user.uid,
-        role: 'admin',
-        createdAt: new Date().toISOString()
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          uid: user.uid,
+          role: 'admin',
+          createdAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (firestoreErr) {
+        handleFirestoreError(firestoreErr, OperationType.WRITE, `users/${user.uid}`);
+      }
       
       setSuccess('Logged in as Super Admin! Redirecting...');
       setTimeout(() => navigate('/admin'), 1000);
@@ -31,7 +36,13 @@ export const Login = () => {
     }
 
     // Check role in Firestore
-    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    let userDoc;
+    try {
+      userDoc = await getDoc(doc(db, 'users', user.uid));
+    } catch (firestoreErr) {
+      handleFirestoreError(firestoreErr, OperationType.GET, `users/${user.uid}`);
+    }
+
     if (!userDoc.exists() || !['admin', 'hr'].includes(userDoc.data().role)) {
       await auth.signOut();
       setError('Access denied. You do not have permission to access the portal.');
@@ -78,13 +89,13 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative pt-20 md:pt-4">
       <Link 
         to="/" 
-        className="absolute top-8 left-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+        className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors z-10"
       >
         <ArrowLeft size={20} />
-        <span>Back to Home</span>
+        <span className="text-sm md:text-base">Back to Home</span>
       </Link>
 
       <motion.div
@@ -118,7 +129,7 @@ export const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none"
               required
               placeholder="admin@aadhyarajtech.com"
             />
@@ -129,14 +140,14 @@ export const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-lg bg-green-600 text-black font-bold hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? 'Signing In...' : <><LogIn size={18} /> Sign In</>}
           </button>

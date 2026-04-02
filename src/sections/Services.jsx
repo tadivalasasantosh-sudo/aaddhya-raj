@@ -56,7 +56,7 @@ const services = [
 
 export const Services = () => {
   return (
-    <section id="services" className="py-24 bg-black relative overflow-hidden">
+    <section id="services" className="py-24 bg-slate-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Our Services"
@@ -71,17 +71,15 @@ export const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card group p-8 hover:border-white/20 transition-all"
+              className="glass-card group p-8"
             >
-              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} p-0.5 mb-6 group-hover:scale-110 transition-transform`}>
-                <div className="w-full h-full rounded-[14px] bg-black flex items-center justify-center text-white">
-                  <service.icon size={28} />
-                </div>
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300">
+                <service.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
+              <h3 className="text-xl font-bold text-slate-50 mb-4 group-hover:text-emerald-400 transition-colors">
                 {service.title}
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed font-light">
                 {service.description}
               </p>
             </motion.div>

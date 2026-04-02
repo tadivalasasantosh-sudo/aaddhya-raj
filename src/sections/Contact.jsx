@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SectionHeader } from '../components/SectionHeader';
 import { Send, CheckCircle, AlertCircle, Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { db } from '../firebase';
+import { db, handleFirestoreError, OperationType } from '../firebase';
 import { doc, onSnapshot, collection, addDoc } from 'firebase/firestore';
 
 export const Contact = () => {
@@ -23,6 +23,8 @@ export const Contact = () => {
       if (snapshot.exists()) {
         setSettings(snapshot.data());
       }
+    }, (err) => {
+      handleFirestoreError(err, OperationType.GET, 'settings/global');
     });
     return () => unsubscribe();
   }, []);
@@ -40,7 +42,7 @@ export const Contact = () => {
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
-      console.error("Error sending message:", error);
+      handleFirestoreError(error, OperationType.CREATE, 'messages');
       setStatus('error');
     }
   };
@@ -50,7 +52,7 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-black relative overflow-hidden">
+    <section id="contact" className="py-24 bg-slate-950 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Get in Touch"
@@ -66,46 +68,37 @@ export const Contact = () => {
             className="space-y-12"
           >
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-white">Contact Information</h3>
-              <p className="text-gray-400 max-w-md">
+              <h3 className="text-3xl font-bold text-slate-50">Contact Information</h3>
+              <p className="text-slate-400 max-w-md font-light">
                 Have a question or need a custom solution? Our team is ready to help you navigate your digital transformation.
               </p>
             </div>
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-blue-400', href: `mailto:${settings.contactEmail}` },
-                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-purple-400', href: `tel:${settings.whatsappNumber}` },
-                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-green-400', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
-                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-cyan-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
+                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-emerald-400', href: `mailto:${settings.contactEmail}` },
+                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-emerald-400', href: `tel:${settings.whatsappNumber}` },
+                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-emerald-500', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
+                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-emerald-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
               ].map((item, i) => (
                 <a key={i} href={item.href} target={item.icon === MapPin ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-start gap-6 group cursor-pointer">
-                  <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+                  <div className={`w-12 h-12 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-center ${item.color} group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300`}>
                     <item.icon size={24} />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-500 uppercase tracking-widest mb-1">{item.label}</div>
-                    <div className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors">{item.value}</div>
+                    <div className="text-sm font-medium text-slate-500 uppercase tracking-widest mb-1">{item.label}</div>
+                    <div className="text-lg font-semibold text-slate-50 group-hover:text-emerald-400 transition-colors">{item.value}</div>
                   </div>
                 </a>
               ))}
             </div>
 
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10">
-              <h4 className="text-xl font-bold text-white mb-4">Business Hours</h4>
-              <div className="space-y-2 text-gray-400">
-                <div className="flex justify-between">
-                  <span>Monday - Friday</span>
-                  <span className="text-white">9:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Saturday</span>
-                  <span className="text-white">10:00 AM - 2:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Sunday</span>
-                  <span className="text-blue-400">Closed</span>
-                </div>
+            <div className="p-8 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+              <h4 className="text-xl font-bold text-slate-50 mb-4">Company Hours</h4>
+              <div className="space-y-2 text-slate-400 font-light">
+                <p className="text-slate-200 leading-relaxed">
+                  {settings.companyHours || 'Monday to Friday: 9:00 AM - 6:00 PM, Saturday & Sunday: Closed'}
+                </p>
               </div>
             </div>
           </motion.div>
@@ -120,53 +113,53 @@ export const Contact = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-400 ml-1">Your Name</label>
+                  <label className="text-sm font-medium text-slate-400 ml-1">Your Name</label>
                   <input
                     required
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 focus:border-emerald-500 outline-none transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-400 ml-1">Email Address</label>
+                  <label className="text-sm font-medium text-slate-400 ml-1">Email Address</label>
                   <input
                     required
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 focus:border-emerald-500 outline-none transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-400 ml-1">Subject</label>
+                <label className="text-sm font-medium text-slate-400 ml-1">Subject</label>
                 <input
                   required
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 focus:border-emerald-500 outline-none transition-colors"
                   placeholder="How can we help?"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-400 ml-1">Message</label>
+                <label className="text-sm font-medium text-slate-400 ml-1">Message</label>
                 <textarea
                   required
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 focus:border-emerald-500 outline-none transition-colors resize-none"
                   placeholder="Tell us about your project..."
                 />
               </div>
@@ -174,10 +167,10 @@ export const Contact = () => {
               <button
                 disabled={status === 'sending'}
                 type="submit"
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(147,51,234,0.4)] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 rounded-xl bg-emerald-600 text-slate-950 font-bold text-lg hover:bg-emerald-500 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'sending' ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <Send size={20} />
@@ -187,14 +180,14 @@ export const Contact = () => {
               </button>
 
               <div className="relative flex items-center py-2">
-                <div className="flex-grow border-t border-white/10"></div>
-                <span className="flex-shrink-0 mx-4 text-gray-400 text-sm">or</span>
-                <div className="flex-grow border-t border-white/10"></div>
+                <div className="flex-grow border-t border-slate-800"></div>
+                <span className="flex-shrink-0 mx-4 text-slate-500 text-sm">or</span>
+                <div className="flex-grow border-t border-slate-800"></div>
               </div>
 
               <a 
                 href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
-                className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-lg transition-all flex items-center justify-center gap-3 border border-white/10"
+                className="w-full py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold text-lg transition-all flex items-center justify-center gap-3 border border-slate-700"
               >
                 <Mail size={20} />
                 Send Directly via Email
@@ -206,7 +199,7 @@ export const Contact = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400"
+                    className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
                   >
                     <CheckCircle size={20} />
                     <span>Message sent successfully! We'll get back to you soon.</span>

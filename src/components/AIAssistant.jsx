@@ -36,7 +36,7 @@ export const AIAssistant = () => {
       setMessages([
         {
           role: 'assistant',
-          content: "Hello! I am the Aadhyaraj Technologies AI Assistant. I can clarify our whole process very speedily, explain what we do, and guide you through our website. How can I help you today?"
+          content: "Hello! I am the AadhyaRaj Technologies AI Assistant. I can clarify our whole process very speedily, explain what we do, and guide you through our website. How can I help you today?"
         }
       ]);
       
@@ -45,7 +45,7 @@ export const AIAssistant = () => {
         const session = ai.chats.create({
           model: "gemini-3-flash-preview",
           config: {
-            systemInstruction: "You are a helpful, clear, and concise AI assistant for Aadhyaraj Technologies. Your goal is to clarify the whole website and process very speedily. Explain what we do: We are a technology company offering software development, IT consulting, and educational courses. Explain our process: We work closely with clients from requirement gathering to deployment, ensuring speedy and high-quality delivery. Guide users through the website: We have sections for Services, Careers, Courses, and Contact. Always be polite, professional, and provide clear, speedy answers."
+            systemInstruction: "You are a helpful, clear, and concise AI assistant for AadhyaRaj Technologies. Your goal is to clarify the whole website and process very speedily. Explain what we do: We are a technology company offering software development, IT consulting, and educational courses. Explain our process: We work closely with clients from requirement gathering to deployment, ensuring speedy and high-quality delivery. Guide users through the website: We have sections for Services, Careers, Courses, and Contact. Always be polite, professional, and provide clear, speedy answers."
           }
         });
         setChatSession(session);
@@ -87,7 +87,7 @@ export const AIAssistant = () => {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={"fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-blue-500/25 transition-all z-40 " + (isOpen ? 'scale-0' : 'scale-100')}
+        className={"fixed bottom-6 right-6 p-4 rounded-full bg-green-600 text-black shadow-lg hover:bg-green-700 hover:shadow-green-500/25 transition-all z-40 " + (isOpen ? 'scale-0' : 'scale-100')}
       >
         <MessageSquare size={24} />
       </button>
@@ -105,7 +105,7 @@ export const AIAssistant = () => {
             {/* Header */}
             <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
                   <Bot size={18} />
                 </div>
                 <div>
@@ -131,17 +131,17 @@ export const AIAssistant = () => {
                   key={idx} 
                   className={"flex gap-3 " + (msg.role === 'user' ? 'flex-row-reverse' : '')}
                 >
-                  <div className={"w-8 h-8 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400')}>
+                  <div className={"w-8 h-8 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-green-500/20 text-green-400')}>
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
-                  <div className={"px-4 py-2 rounded-2xl max-w-[75%] text-sm " + (msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white/10 text-gray-200 rounded-tl-sm whitespace-pre-wrap')}>
+                  <div className={"px-4 py-2 rounded-2xl max-w-[75%] text-sm " + (msg.role === 'user' ? 'bg-green-600 text-black rounded-tr-sm' : 'bg-white/10 text-gray-200 rounded-tl-sm whitespace-pre-wrap')}>
                     {msg.content}
                   </div>
                 </div>
               ))}
               {isLoading && (
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 shrink-0">
                     <Bot size={16} />
                   </div>
                   <div className="px-4 py-3 rounded-2xl bg-white/10 text-gray-200 rounded-tl-sm flex items-center gap-1">
@@ -162,13 +162,13 @@ export const AIAssistant = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me anything..."
-                  className="w-full bg-black/50 border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="w-full bg-black/50 border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
                   disabled={isLoading}
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-blue-400 hover:text-blue-300 disabled:opacity-50 disabled:hover:text-blue-400 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-green-400 hover:text-green-300 disabled:opacity-50 disabled:hover:text-green-400 transition-colors"
                 >
                   <Send size={18} />
                 </button>

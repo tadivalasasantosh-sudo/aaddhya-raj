@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { UserPlus, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { OperationType, handleFirestoreError } from '../firebase';
 
 export const Signup = () => {
   const [email, setEmail] = useState('');
@@ -30,12 +31,16 @@ export const Signup = () => {
       const user = userCredential.user;
       
       // Create user document in Firestore with 'user' role
-      await setDoc(doc(db, 'users', user.uid), {
-        email: user.email,
-        uid: user.uid,
-        role: 'user',
-        createdAt: new Date().toISOString()
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          uid: user.uid,
+          role: 'user',
+          createdAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (firestoreErr) {
+        handleFirestoreError(firestoreErr, OperationType.WRITE, `users/${user.uid}`);
+      }
 
       setSuccess('Account created! Please wait for an administrator to grant you access.');
       setTimeout(() => navigate('/login'), 3000);
@@ -57,15 +62,25 @@ export const Signup = () => {
       const user = result.user;
 
       // Check if user already exists
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      let userDoc;
+      try {
+        userDoc = await getDoc(doc(db, 'users', user.uid));
+      } catch (firestoreErr) {
+        handleFirestoreError(firestoreErr, OperationType.GET, `users/${user.uid}`);
+      }
+
       if (!userDoc.exists()) {
         // Create user document in Firestore with 'user' role
-        await setDoc(doc(db, 'users', user.uid), {
-          email: user.email,
-          uid: user.uid,
-          role: 'user',
-          createdAt: new Date().toISOString()
-        });
+        try {
+          await setDoc(doc(db, 'users', user.uid), {
+            email: user.email,
+            uid: user.uid,
+            role: 'user',
+            createdAt: new Date().toISOString()
+          });
+        } catch (firestoreErr) {
+          handleFirestoreError(firestoreErr, OperationType.WRITE, `users/${user.uid}`);
+        }
         setSuccess('Account created with Google! Please wait for an administrator to grant you access.');
       } else {
         setSuccess('Account already exists. Redirecting to login...');
