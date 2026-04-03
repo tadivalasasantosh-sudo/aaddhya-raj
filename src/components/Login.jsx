@@ -116,7 +116,7 @@ export const Login = () => {
         )}
         
         {success && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
             <CheckCircle size={16} />
             {success}
           </div>
@@ -129,9 +129,9 @@ export const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
               required
-              placeholder="admin@aadhyarajtech.com"
+              placeholder="admin@adityarajtech.com"
             />
           </div>
           <div>
@@ -140,14 +140,14 @@ export const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-green-600 text-black font-bold hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-lg bg-emerald-600 text-slate-950 font-bold hover:bg-emerald-500 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? 'Signing In...' : <><LogIn size={18} /> Sign In</>}
           </button>

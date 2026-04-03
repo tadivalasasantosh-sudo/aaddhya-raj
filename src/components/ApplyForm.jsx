@@ -50,12 +50,12 @@ export default function ApplyForm({ preSelectedRole = "" }) {
         <p className="text-gray-400 text-sm">Please fill out the application form below and attach your resume.</p>
       </div>
 
-      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-green-500" name="name" value={form.name || ''} placeholder="Full Name" onChange={handleChange} />
-      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-green-500" name="email" value={form.email || ''} placeholder="Email" onChange={handleChange} />
-      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-green-500" name="phone" value={form.phone || ''} placeholder="Phone" onChange={handleChange} />
-      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-green-500" name="linkedin" value={form.linkedin || ''} placeholder="LinkedIn" onChange={handleChange} />
+      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-emerald-500" name="name" value={form.name || ''} placeholder="Full Name" onChange={handleChange} />
+      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-emerald-500" name="email" value={form.email || ''} placeholder="Email" onChange={handleChange} />
+      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-emerald-500" name="phone" value={form.phone || ''} placeholder="Phone" onChange={handleChange} />
+      <input className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-emerald-500" name="linkedin" value={form.linkedin || ''} placeholder="LinkedIn" onChange={handleChange} />
 
-      <select className="p-3 rounded-lg bg-gray-900 text-white border border-white/10 focus:outline-none focus:border-green-500" name="role" value={form.role || ''} onChange={handleChange}>
+      <select className="p-3 rounded-lg bg-gray-900 text-white border border-white/10 focus:outline-none focus:border-emerald-500" name="role" value={form.role || ''} onChange={handleChange}>
         <option value="">Select Role</option>
         {jobs.map((job) => (
           <option key={job.id} value={job.title}>{job.title}</option>
@@ -64,7 +64,7 @@ export default function ApplyForm({ preSelectedRole = "" }) {
       </select>
 
       <textarea 
-        className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-green-500 resize-none" 
+        className="p-3 rounded-lg bg-white/10 text-white border border-white/10 focus:outline-none focus:border-emerald-500 resize-none" 
         name="additionalInfo" 
         value={form.additionalInfo || ''} 
         placeholder="Additional Information / Cover Letter" 
@@ -73,12 +73,12 @@ export default function ApplyForm({ preSelectedRole = "" }) {
       />
 
       <input
-        className="text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-500/20 file:text-green-400 hover:file:bg-green-500/30"
+        className="text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-500/20 file:text-emerald-400 hover:file:bg-emerald-500/30"
         type="file"
         onChange={(e) => setFile(e.target.files[0])}
       />
 
-      <button className="mt-4 bg-green-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded-lg transition-colors" onClick={submit}>
+      <button className="mt-4 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 px-4 rounded-lg transition-colors" onClick={submit}>
         Apply
       </button>
 
@@ -89,7 +89,7 @@ export default function ApplyForm({ preSelectedRole = "" }) {
       </div>
 
       <a 
-        href={`mailto:tag@aadhyarajtech.com?subject=Job Application: ${form.role || 'General'}&body=Name: ${form.name || ''}%0D%0AEmail: ${form.email || ''}%0D%0APhone: ${form.phone || ''}%0D%0ALinkedIn: ${form.linkedin || ''}%0D%0A%0D%0APlease attach your resume to this email.`}
+        href={`mailto:tag@adityarajtech.com?subject=Job Application: ${form.role || 'General'}&body=Name: ${form.name || ''}%0D%0AEmail: ${form.email || ''}%0D%0APhone: ${form.phone || ''}%0D%0ALinkedIn: ${form.linkedin || ''}%0D%0A%0D%0APlease attach your resume to this email.`}
         className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center border border-white/10"
       >
         Send Details Directly to Email

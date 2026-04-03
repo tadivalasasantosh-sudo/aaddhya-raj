@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, LogIn, LayoutDashboard, LogOut } from 'lucide-react';
+import { Menu, X, LogIn, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 import { CompanyLogo } from './CompanyLogo';
 import { cn } from '../lib/utils';
 import { auth } from '../firebase';
@@ -13,6 +13,7 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [isCareersOpen, setIsCareersOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -56,17 +57,28 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/#services' },
-    { name: 'About', path: '/#about' },
     { name: 'Process', path: '/#process' },
     { name: 'Tech Stack', path: '/#tech-stack' },
-    { name: 'Careers', path: '/#careers' },
+    { name: 'Success Stories', path: '/#success-stories' },
+    { 
+      name: 'Careers', 
+      path: '/#careers',
+      submenu: [
+        { name: 'Careers', path: '/#careers' },
+        { 
+          name: user ? (userRole === 'hr' ? 'HR Portal' : 'Admin Dashboard') : 'Admin Portal', 
+          path: user ? '/admin' : '/login' 
+        }
+      ]
+    },
+    { name: 'About', path: '/#about' },
     { name: 'Contact', path: '/#contact' },
   ];
 
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-      scrolled ? "bg-slate-950/80 backdrop-blur-md border-slate-800/50 py-3" : "bg-transparent py-5"
+      scrolled ? "bg-white/90 backdrop-blur-md border-gray-100 py-3 shadow-sm" : "bg-transparent py-5"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -76,70 +88,91 @@ export const Navbar = () => {
             </Link>
             <div className="hidden md:flex items-center space-x-8">
               {navLinks.map((link) => (
-                link.path.startsWith('/#') ? (
-                  <a
+                link.submenu ? (
+                  <div 
                     key={link.name}
-                    href={link.path}
-                    className="text-sm font-medium text-slate-400 hover:text-emerald-400 transition-colors"
+                    className="relative group"
+                    onMouseEnter={() => setIsCareersOpen(true)}
+                    onMouseLeave={() => setIsCareersOpen(false)}
                   >
-                    {link.name}
-                  </a>
+                    <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">
+                      {link.name}
+                      <ChevronDown size={14} className={cn("transition-transform duration-200", isCareersOpen && "rotate-180")} />
+                    </button>
+                    <div className={cn(
+                      "absolute top-full left-0 mt-2 w-48 py-2 bg-white border border-gray-100 rounded-xl shadow-xl transition-all duration-200 origin-top",
+                      isCareersOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                    )}>
+                      {link.submenu.map((sub) => (
+                        sub.path.startsWith('/#') ? (
+                          <a
+                            key={sub.name}
+                            href={sub.path}
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                          >
+                            {sub.name}
+                          </a>
+                        ) : (
+                          <Link
+                            key={sub.name}
+                            to={sub.path}
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                          >
+                            {sub.name}
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  </div>
                 ) : (
-                  <Link
-                    key={link.name}
-                    to={link.path}
-                    className="text-sm font-medium text-slate-400 hover:text-emerald-400 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
+                  link.path.startsWith('/#') ? (
+                    <a
+                      key={link.name}
+                      href={link.path}
+                      className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  )
                 )
               ))}
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
-                className="text-sm font-medium text-emerald-500 hover:text-emerald-400 transition-colors"
+                className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
               >
                 AI Assistant
               </button>
-              <a
-                href="/#contact"
-                className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
-              >
-                Start a Project
-              </a>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            {user ? (
-              <div className="flex items-center gap-2">
-                <Link
-                  to="/admin"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/50 border border-slate-800 text-sm font-medium text-slate-100 hover:bg-slate-800 hover:border-emerald-500/30 transition-all"
-                >
-                  <LayoutDashboard size={16} />
-                  <span className="hidden sm:inline">{userRole === 'hr' ? 'HR Portal' : 'Dashboard'}</span>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-sm font-medium text-red-400 hover:bg-red-500/20 transition-all"
-                >
-                  <LogOut size={16} />
-                  <span className="hidden sm:inline">Logout</span>
-                </button>
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="flex items-center gap-2 px-6 py-2 rounded-full bg-emerald-600 text-sm font-semibold text-slate-950 hover:bg-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all"
+            <a 
+              href="#contact"
+              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 hover:shadow-lg transition-all duration-300 active:scale-95"
+            >
+              Get Started
+            </a>
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-sm font-medium text-red-600 hover:bg-red-100 transition-all"
               >
-                <LogIn size={16} />
-                <span>Portal Login</span>
-              </Link>
+                <LogOut size={16} />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
             )}
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-gray-400 hover:text-white focus:outline-none"
+              className="md:hidden p-2 text-gray-600 hover:text-emerald-600 focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -148,29 +181,58 @@ export const Navbar = () => {
       </div>
 
       <div className={cn(
-        "md:hidden absolute top-full left-0 right-0 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800 transition-all duration-300 overflow-hidden",
-        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        "md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 transition-all duration-300 overflow-hidden",
+        isOpen ? "max-h-[500px] opacity-100 shadow-lg" : "max-h-0 opacity-0"
       )}>
         <div className="px-4 pt-2 pb-6 space-y-1">
           {navLinks.map((link) => (
-            link.path.startsWith('/#') ? (
-              <a
-                key={link.name}
-                href={link.path}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-4 text-base font-medium text-slate-300 hover:text-emerald-400 hover:bg-emerald-500/5 rounded-lg transition-all"
-              >
-                {link.name}
-              </a>
+            link.submenu ? (
+              <div key={link.name} className="space-y-1">
+                <div className="px-3 py-4 text-base font-medium text-gray-400 uppercase tracking-widest text-[10px]">
+                  {link.name}
+                </div>
+                {link.submenu.map((sub) => (
+                  sub.path.startsWith('/#') ? (
+                    <a
+                      key={sub.name}
+                      href={sub.path}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                    >
+                      {sub.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={sub.name}
+                      to={sub.path}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                    >
+                      {sub.name}
+                    </Link>
+                  )
+                ))}
+              </div>
             ) : (
-              <Link
-                key={link.name}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-4 text-base font-medium text-slate-300 hover:text-emerald-400 hover:bg-emerald-500/5 rounded-lg transition-all"
-              >
-                {link.name}
-              </Link>
+              link.path.startsWith('/#') ? (
+                <a
+                  key={link.name}
+                  href={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                >
+                  {link.name}
+                </Link>
+              )
             )
           ))}
           <button
@@ -178,17 +240,10 @@ export const Navbar = () => {
               setIsOpen(false);
               window.dispatchEvent(new CustomEvent('open-ai-assistant'));
             }}
-            className="block w-full text-left px-3 py-4 text-base font-medium text-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/5 rounded-lg transition-all"
+            className="block w-full text-left px-3 py-4 text-base font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-all"
           >
             AI Assistant
           </button>
-          <a
-            href="/#contact"
-            onClick={() => setIsOpen(false)}
-            className="block px-3 py-4 text-base font-medium text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/5 rounded-lg transition-all"
-          >
-            Start a Project
-          </a>
         </div>
       </div>
     </nav>

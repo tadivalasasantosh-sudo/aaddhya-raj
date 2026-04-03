@@ -154,8 +154,8 @@ export const Careers = () => {
   };
 
   return (
-    <section id="careers" className="py-24 bg-slate-950 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+    <section id="careers" className="py-24 bg-slate-50 relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-600/20 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center space-y-4 mb-16">
@@ -163,13 +163,13 @@ export const Careers = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-medium"
           >
             <Briefcase size={16} />
-            <span>Careers at AadhyaRaj</span>
+            <span>Careers at Aditya Raj</span>
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-50">Join Our Expert Team</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Join Our Expert Team</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
             {settings.careerDetails}
           </p>
         </div>
@@ -183,29 +183,29 @@ export const Careers = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center hover:bg-emerald-500/5 hover:border-emerald-500/20 transition-all group"
+              className="p-6 rounded-2xl bg-white border border-gray-100 text-center hover:bg-emerald-50 hover:border-emerald-200 transition-all group shadow-sm"
             >
               <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{benefit.icon}</div>
-              <h4 className="text-sm font-bold text-slate-100 mb-1">{benefit.title}</h4>
-              <p className="text-[10px] text-slate-500 leading-tight">{benefit.desc}</p>
+              <h4 className="text-sm font-bold text-gray-900 mb-1">{benefit.title}</h4>
+              <p className="text-[10px] text-gray-500 leading-tight">{benefit.desc}</p>
             </motion.div>
           ))}
         </div>
 
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-slate-50 flex items-center gap-3">
-            <div className="w-8 h-px bg-emerald-500" />
+          <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <div className="w-8 h-px bg-emerald-600" />
             Current Openings
           </h3>
           
           {loading && jobs.length === 0 ? (
             <div className="flex justify-center py-12">
-              <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
-              <Briefcase size={48} className="mx-auto mb-4 text-gray-600" />
-              <p className="text-gray-400">No current job openings. Please check back later!</p>
+            <div className="text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
+              <Briefcase size={48} className="mx-auto mb-4 text-gray-300" />
+              <p className="text-gray-500">No current job openings. Please check back later!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
@@ -216,34 +216,34 @@ export const Careers = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="glass-card p-6 md:p-8 group cursor-pointer"
+                  className="card-shadow p-6 md:p-8 group cursor-pointer"
                   onClick={() => setSelectedJob(job)}
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-4">
                       <div className="flex flex-wrap gap-3">
-                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-100">
                           {job.experience}
                         </span>
-                        <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">
+                        <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium border border-gray-200">
                           {job.location}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-50 group-hover:text-emerald-400 transition-colors">
+                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
                         {job.title}
                       </h3>
-                      <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
+                      <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
                         <div className="flex items-center gap-2">
-                          <MapPin size={16} className="text-emerald-500" />
+                          <MapPin size={16} className="text-emerald-600" />
                           {job.location}
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock size={16} className="text-emerald-500" />
+                          <Clock size={16} className="text-emerald-600" />
                           Posted recently
                         </div>
                       </div>
                     </div>
-                    <button className="btn-secondary whitespace-nowrap group-hover:bg-emerald-500 group-hover:text-slate-950 group-hover:border-emerald-500">
+                    <button className="btn-secondary whitespace-nowrap group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600">
                       View Details
                       <ChevronRight className="ml-2" size={18} />
                     </button>
@@ -264,17 +264,17 @@ export const Careers = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedJob(null)}
-              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-12 shadow-2xl"
+              className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white border border-gray-100 rounded-3xl p-6 md:p-12 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedJob(null)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-slate-400 hover:text-white transition-colors"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-gray-400 hover:text-gray-900 transition-colors"
               >
                 <X size={24} />
               </button>
@@ -282,44 +282,44 @@ export const Careers = () => {
               <div className="space-y-8">
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-3">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                    <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-100">
                       {selectedJob.experience} Exp
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">
+                    <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium border border-gray-200">
                       {selectedJob.location}
                     </span>
                   </div>
-                  <h2 className="text-2xl md:text-4xl font-bold text-slate-50">{selectedJob.title}</h2>
-                  <p className="text-base md:text-lg text-slate-400">{selectedJob.description}</p>
+                  <h2 className="text-2xl md:text-4xl font-bold text-gray-900">{selectedJob.title}</h2>
+                  <p className="text-base md:text-lg text-gray-600">{selectedJob.description}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                   <div className="space-y-6">
-                    <h4 className="text-lg md:text-xl font-bold text-slate-50 flex items-center gap-2">
-                      <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
+                    <h4 className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <div className="w-1.5 h-6 bg-emerald-600 rounded-full" />
                       Key Responsibilities
                     </h4>
                     <ul className="space-y-3">
                       {selectedJob.responsibilities ? (
                         Array.isArray(selectedJob.responsibilities) ? (
                           selectedJob.responsibilities.map((resp, i) => (
-                            <li key={i} className="flex items-start gap-3 text-slate-400 text-sm md:text-base">
-                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500/50 shrink-0" />
+                            <li key={i} className="flex items-start gap-3 text-gray-600 text-sm md:text-base">
+                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-600/50 shrink-0" />
                               {resp}
                             </li>
                           ))
                         ) : (
-                          <li className="text-slate-400 text-sm md:text-base">{selectedJob.responsibilities}</li>
+                          <li className="text-gray-600 text-sm md:text-base">{selectedJob.responsibilities}</li>
                         )
                       ) : (
-                        <li className="text-slate-400 text-sm md:text-base italic">No specific responsibilities listed.</li>
+                        <li className="text-gray-600 text-sm md:text-base italic">No specific responsibilities listed.</li>
                       )}
                     </ul>
                   </div>
 
                   <div className="space-y-6">
-                    <h4 className="text-lg md:text-xl font-bold text-slate-50 flex items-center gap-2">
-                      <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
+                    <h4 className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <div className="w-1.5 h-6 bg-emerald-600 rounded-full" />
                       Technical Skills
                     </h4>
                     <div className="space-y-4">
@@ -327,7 +327,7 @@ export const Careers = () => {
                         Array.isArray(selectedJob.skills) ? (
                           <div className="flex flex-wrap gap-2">
                             {selectedJob.skills.map((skill, i) => (
-                              <span key={i} className="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] md:text-xs border border-slate-700">
+                              <span key={i} className="px-2 py-1 rounded bg-gray-100 text-gray-700 text-[10px] md:text-xs border border-gray-200">
                                 {skill}
                               </span>
                             ))}
@@ -335,27 +335,27 @@ export const Careers = () => {
                         ) : typeof selectedJob.skills === 'object' ? (
                           Object.entries(selectedJob.skills).map(([category, list]) => (
                             <div key={category}>
-                              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-500 mb-2">{category}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-2">{category}</p>
                               <div className="flex flex-wrap gap-2">
                                 {Array.isArray(list) ? list.map((skill, i) => (
-                                  <span key={i} className="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] md:text-xs border border-slate-700">
+                                  <span key={i} className="px-2 py-1 rounded bg-gray-100 text-gray-700 text-[10px] md:text-xs border border-gray-200">
                                     {skill}
                                   </span>
-                                )) : <span className="text-slate-300 text-xs">{list}</span>}
+                                )) : <span className="text-gray-700 text-xs">{list}</span>}
                               </div>
                             </div>
                           ))
                         ) : (
-                          <span className="text-slate-300 text-xs">{selectedJob.skills}</span>
+                          <span className="text-gray-700 text-xs">{selectedJob.skills}</span>
                         )
                       ) : (
-                        <p className="text-slate-400 text-sm italic">No specific skills listed.</p>
+                        <p className="text-gray-600 text-sm italic">No specific skills listed.</p>
                       )}
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-800 flex justify-end">
+                <div className="pt-8 border-t border-gray-100 flex justify-end">
                   <button
                     onClick={() => setIsApplying(true)}
                     className="w-full md:w-auto btn-primary"
@@ -378,81 +378,81 @@ export const Careers = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsApplying(false)}
-              className="absolute inset-0 bg-slate-950/90 backdrop-blur-md"
+              className="absolute inset-0 bg-gray-900/60 backdrop-blur-md"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl"
+              className="relative w-full max-w-lg bg-white border border-gray-100 rounded-3xl p-6 md:p-10 shadow-2xl"
             >
               <button
                 onClick={() => setIsApplying(false)}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-slate-400 hover:text-white transition-colors"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-gray-400 hover:text-gray-900 transition-colors"
               >
                 <X size={24} />
               </button>
 
               {formStatus === 'success' ? (
                 <div className="text-center py-12 space-y-6">
-                  <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto text-emerald-500">
+                  <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600">
                     <CheckCircle size={48} />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-slate-50">Application Sent!</h3>
-                    <p className="text-slate-400">Our HR team will review your profile and get back to you soon.</p>
+                    <h3 className="text-2xl font-bold text-gray-900">Application Sent!</h3>
+                    <p className="text-gray-600">Our HR team will review your profile and get back to you soon.</p>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-8">
                   <div className="space-y-2">
-                    <h3 className="text-xl md:text-2xl font-bold text-slate-50">Apply for {selectedJob?.title}</h3>
-                    <p className="text-sm md:text-base text-slate-400">Please fill in your details below.</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900">Apply for {selectedJob?.title}</h3>
+                    <p className="text-sm md:text-base text-gray-600">Please fill in your details below.</p>
                   </div>
 
                   <form onSubmit={handleApply} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-xs md:text-sm font-medium text-slate-300">Full Name</label>
+                        <label className="text-xs md:text-sm font-medium text-gray-700">Full Name</label>
                         <input
                           required
                           type="text"
-                          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:border-emerald-500 outline-none transition-colors text-sm"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:border-emerald-600 outline-none transition-colors text-sm"
                           placeholder="John Doe"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-xs md:text-sm font-medium text-slate-300">Email Address</label>
+                        <label className="text-xs md:text-sm font-medium text-gray-700">Email Address</label>
                         <input
                           required
                           type="email"
-                          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:border-emerald-500 outline-none transition-colors text-sm"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:border-emerald-600 outline-none transition-colors text-sm"
                           placeholder="john@example.com"
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs md:text-sm font-medium text-slate-300">Experience (Years)</label>
+                      <label className="text-xs md:text-sm font-medium text-gray-700">Experience (Years)</label>
                       <input
                         required
                         type="number"
-                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:border-emerald-500 outline-none transition-colors text-sm"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:border-emerald-600 outline-none transition-colors text-sm"
                         placeholder="e.g. 5"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs md:text-sm font-medium text-slate-300">Resume Link (Drive/Dropbox)</label>
+                      <label className="text-xs md:text-sm font-medium text-gray-700">Resume Link (Drive/Dropbox)</label>
                       <input
                         required
                         type="url"
-                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:border-emerald-500 outline-none transition-colors text-sm"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:border-emerald-600 outline-none transition-colors text-sm"
                         placeholder="https://..."
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs md:text-sm font-medium text-slate-300">Message (Optional)</label>
+                      <label className="text-xs md:text-sm font-medium text-gray-700">Message (Optional)</label>
                       <textarea
-                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:border-emerald-500 outline-none transition-colors min-h-[80px] text-sm"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:border-emerald-600 outline-none transition-colors min-h-[80px] text-sm"
                         placeholder="Tell us why you're a great fit..."
                       />
                     </div>

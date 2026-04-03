@@ -8,6 +8,7 @@ import { About } from './sections/About';
 import { WhyChooseUs } from './sections/WhyChooseUs';
 import { TechStack } from './sections/TechStack';
 import { Testimonials } from './sections/Testimonials';
+import { SuccessStories } from './sections/SuccessStories';
 import { Contact } from './sections/Contact';
 import { Careers } from './sections/Careers';
 import { Login } from './components/Login';
@@ -19,7 +20,7 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { SettingsProvider } from './context/SettingsContext';
 
 const HomePage = () => (
-  <div className="bg-black text-white selection:bg-blue-500/30">
+  <div className="bg-white text-gray-900 selection:bg-emerald-100">
     <Navbar />
     <main>
       <Hero />
@@ -28,6 +29,7 @@ const HomePage = () => (
       <WhyChooseUs />
       <TechStack />
       <Testimonials />
+      <SuccessStories />
       <Careers />
       <Contact />
     </main>

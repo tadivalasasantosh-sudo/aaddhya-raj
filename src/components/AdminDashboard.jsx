@@ -17,14 +17,13 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@aadhyarajtech.com',
+    contactEmail: 'tag@adityarajtech.com',
     whatsappNumber: '+91 9127912345',
-    companyHours: 'Monday to Friday: 9:00 AM - 6:00 PM, Saturday & Sunday: Closed',
-    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
+    careerDetails: 'We are looking for passionate individuals to join our team and build the future of Aditya Raj Technologies together.'
   });
   const [about, setAbout] = useState({
-    title: 'About AadhyaRaj Technologies',
-    description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
+    title: 'About Aditya Raj Technologies',
+    description: 'Aditya Raj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
     mission: '',
     vision: ''
   });
@@ -310,9 +309,9 @@ export const AdminDashboard = () => {
   };
 
   const stats = [
-    { label: 'Total Users', value: users.length.toString(), icon: Users, color: 'text-green-400' },
+    { label: 'Total Users', value: users.length.toString(), icon: Users, color: 'text-emerald-400' },
     { label: 'Job Openings', value: jobs.length.toString(), icon: Briefcase, color: 'text-emerald-400' },
-    { label: 'Contact Inquiries', value: messages.length.toString(), icon: MessageSquare, color: 'text-teal-400' },
+    { label: 'Contact Inquiries', value: messages.length.toString(), icon: MessageSquare, color: 'text-emerald-400' },
   ];
 
   const renderDashboard = () => (
@@ -331,7 +330,7 @@ export const AdminDashboard = () => {
               <div className={`p-3 rounded-xl bg-white/5 ${stat.color}`}>
                 <stat.icon size={24} />
               </div>
-              <span className="text-xs font-medium text-green-400 bg-green-400/10 px-2 py-1 rounded-full">
+              <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">
                 +12%
               </span>
             </div>
@@ -348,7 +347,7 @@ export const AdminDashboard = () => {
           {messages.slice(0, 3).map((msg) => (
             <div key={msg.id} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center font-bold">
                   {msg.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -358,7 +357,7 @@ export const AdminDashboard = () => {
               </div>
               <button 
                 onClick={() => setActiveTab('messages')}
-                className="text-sm text-blue-400 hover:underline"
+                className="text-sm text-emerald-400 hover:underline"
               >
                 View Details
               </button>
@@ -383,7 +382,7 @@ export const AdminDashboard = () => {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : messages.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -399,7 +398,7 @@ export const AdminDashboard = () => {
               animate={{ opacity: 1, x: 0 }}
               className={`p-6 rounded-2xl border transition-all ${
                 msg.status === 'new' 
-                  ? 'bg-blue-500/5 border-blue-500/20' 
+                  ? 'bg-emerald-500/5 border-emerald-500/20' 
                   : 'bg-white/5 border-white/10'
               }`}
             >
@@ -408,9 +407,9 @@ export const AdminDashboard = () => {
                   <div className="flex items-center gap-3">
                     <span className="font-bold text-lg">{msg.name}</span>
                     <span className={`text-xs px-2 py-1 rounded-full uppercase font-bold ${
-                      msg.status === 'new' ? 'bg-blue-500 text-white' :
+                      msg.status === 'new' ? 'bg-emerald-500 text-white' :
                       msg.status === 'read' ? 'bg-gray-600 text-gray-200' :
-                      'bg-green-600 text-white'
+                      'bg-emerald-600 text-white'
                     }`}>
                       {msg.status}
                     </span>
@@ -419,7 +418,7 @@ export const AdminDashboard = () => {
                     <Mail size={14} />
                     {msg.email}
                   </div>
-                  <div className="text-sm font-medium text-blue-400">Subject: {msg.subject}</div>
+                  <div className="text-sm font-medium text-emerald-400">Subject: {msg.subject}</div>
                   <p className="text-gray-300 mt-4 whitespace-pre-wrap">{msg.message}</p>
                   <div className="text-xs text-gray-500 mt-4">
                     {new Date(msg.createdAt).toLocaleString()}
@@ -440,7 +439,7 @@ export const AdminDashboard = () => {
                   {msg.status !== 'replied' && (
                     <button
                       onClick={() => updateMessageStatus(msg.id, 'replied')}
-                      className="p-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-400 transition-all flex items-center gap-2 text-sm"
+                      className="p-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-all flex items-center gap-2 text-sm"
                       title="Mark as Replied"
                     >
                       <Mail size={16} />
@@ -470,7 +469,7 @@ export const AdminDashboard = () => {
         <h2 className="text-2xl font-bold">Careers Portal</h2>
         <button 
           onClick={() => setShowJobModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-black font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-black font-medium transition-all"
         >
           <Plus size={20} />
           Add New Job
@@ -486,13 +485,13 @@ export const AdminDashboard = () => {
               rows={4}
               value={settings.careerDetails}
               onChange={(e) => setSettings({...settings, careerDetails: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-green-500 outline-none resize-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
               placeholder="Enter career details and culture information..."
             />
           </div>
           <button 
             onClick={handleUpdateSettings}
-            className="px-6 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-black font-bold transition-all"
+            className="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-black font-bold transition-all"
           >
             Update Career Details
           </button>
@@ -503,7 +502,7 @@ export const AdminDashboard = () => {
         <h3 className="text-lg font-semibold">Active Job Openings</h3>
         {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : jobs.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -572,7 +571,7 @@ export const AdminDashboard = () => {
                     type="text"
                     value={jobFormData.title}
                     onChange={(e) => setJobFormData({...jobFormData, title: e.target.value})}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
                     placeholder="Frontend Developer"
                   />
                 </div>
@@ -583,7 +582,7 @@ export const AdminDashboard = () => {
                     type="text"
                     value={jobFormData.location}
                     onChange={(e) => setJobFormData({...jobFormData, location: e.target.value})}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
                     placeholder="Hyderabad / Remote"
                   />
                 </div>
@@ -596,7 +595,7 @@ export const AdminDashboard = () => {
                   type="text"
                   value={jobFormData.experience}
                   onChange={(e) => setJobFormData({...jobFormData, experience: e.target.value})}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
                   placeholder="2-4 Years"
                 />
               </div>
@@ -608,7 +607,7 @@ export const AdminDashboard = () => {
                   type="text"
                   value={jobFormData.skills}
                   onChange={(e) => setJobFormData({...jobFormData, skills: e.target.value})}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
                   placeholder="React, Tailwind, Firebase"
                 />
               </div>
@@ -620,14 +619,14 @@ export const AdminDashboard = () => {
                   rows={4}
                   value={jobFormData.description}
                   onChange={(e) => setJobFormData({...jobFormData, description: e.target.value})}
-                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
                   placeholder="Job responsibilities and requirements..."
                 />
               </div>
 
               <button 
                 type="submit"
-                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all mt-4"
+                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all mt-4"
               >
                 Create Job Opening
               </button>
@@ -647,7 +646,7 @@ export const AdminDashboard = () => {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : users.length === 0 ? (
         <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10">
@@ -664,7 +663,7 @@ export const AdminDashboard = () => {
               className="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-lg">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-purple-500 flex items-center justify-center font-bold text-lg">
                   {user.email.charAt(0).toUpperCase()}
                 </div>
                 <div>
@@ -679,7 +678,7 @@ export const AdminDashboard = () => {
                 <select
                   value={user.role || 'user'}
                   onChange={(e) => updateUserRole(user.id, e.target.value)}
-                  className="bg-white/5 border border-white/10 text-xs rounded-lg px-2 py-1 outline-none focus:border-blue-500"
+                  className="bg-white/5 border border-white/10 text-xs rounded-lg px-2 py-1 outline-none focus:border-emerald-500"
                 >
                   <option value="user" className="bg-gray-900">User</option>
                   <option value="hr" className="bg-gray-900">HR Portal</option>
@@ -687,8 +686,8 @@ export const AdminDashboard = () => {
                 </select>
                 <span className={`text-xs px-2 py-1 rounded-full uppercase font-bold ${
                   user.role === 'admin' ? 'bg-purple-500 text-white' : 
-                  user.role === 'hr' ? 'bg-green-500 text-white' :
-                  'bg-blue-500/20 text-blue-400'
+                  user.role === 'hr' ? 'bg-emerald-500 text-white' :
+                  'bg-emerald-500/20 text-emerald-400'
                 }`}>
                   {user.role}
                 </span>
@@ -711,7 +710,7 @@ export const AdminDashboard = () => {
             rows={6}
             value={settings.aboutText}
             onChange={(e) => setSettings({...settings, aboutText: e.target.value})}
-            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
             placeholder="Enter the main text for the About section..."
           />
         </div>
@@ -723,7 +722,7 @@ export const AdminDashboard = () => {
               type="email"
               value={settings.contactEmail}
               onChange={(e) => setSettings({...settings, contactEmail: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
             />
           </div>
           <div className="space-y-2">
@@ -732,26 +731,15 @@ export const AdminDashboard = () => {
               type="text"
               value={settings.whatsappNumber}
               onChange={(e) => setSettings({...settings, whatsappNumber: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
             />
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm text-gray-400">Company Hours</label>
-          <input 
-            type="text"
-            value={settings.companyHours}
-            onChange={(e) => setSettings({...settings, companyHours: e.target.value})}
-            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
-            placeholder="e.g. Monday to Friday: 9:00 AM - 6:00 PM, Saturday & Sunday: Closed"
-          />
         </div>
 
         <div className="flex flex-wrap gap-4 pt-4">
           <button 
             type="submit"
-            className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all"
+            className="px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all"
           >
             Save Changes
           </button>
@@ -774,7 +762,7 @@ export const AdminDashboard = () => {
         <h2 className="text-2xl font-bold">About Page Editor</h2>
         <button 
           onClick={handleUpdateAbout}
-          className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all flex items-center gap-2"
+          className="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center gap-2"
         >
           <Check size={18} />
           Save All Changes
@@ -783,7 +771,7 @@ export const AdminDashboard = () => {
 
       <div className="max-w-2xl mx-auto space-y-6 bg-white/5 border border-white/10 rounded-2xl p-8">
         <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Edit2 size={18} className="text-blue-400" />
+          <Edit2 size={18} className="text-emerald-400" />
           Content Details
         </h3>
         
@@ -794,7 +782,7 @@ export const AdminDashboard = () => {
               type="text"
               value={about.title}
               onChange={(e) => setAbout({...about, title: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
             />
           </div>
 
@@ -804,7 +792,7 @@ export const AdminDashboard = () => {
               rows={4}
               value={about.description}
               onChange={(e) => setAbout({...about, description: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
             />
           </div>
 
@@ -814,7 +802,7 @@ export const AdminDashboard = () => {
               rows={3}
               value={about.mission}
               onChange={(e) => setAbout({...about, mission: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
             />
           </div>
 
@@ -824,7 +812,7 @@ export const AdminDashboard = () => {
               rows={3}
               value={about.vision}
               onChange={(e) => setAbout({...about, vision: e.target.value})}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none resize-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none resize-none"
             />
           </div>
         </div>
@@ -837,7 +825,7 @@ export const AdminDashboard = () => {
       {/* Mobile Header */}
       <header className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-black sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center font-bold">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold">
             {userRole === 'hr' ? 'HR' : 'AR'}
           </div>
           <span className="font-bold text-lg">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
@@ -857,7 +845,7 @@ export const AdminDashboard = () => {
       `}>
         <div className="flex items-center justify-between md:justify-start gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold">
               {userRole === 'hr' ? 'HR' : 'AR'}
             </div>
             <span className="font-bold text-xl">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>

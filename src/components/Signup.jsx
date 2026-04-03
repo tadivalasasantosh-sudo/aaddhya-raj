@@ -122,7 +122,7 @@ export const Signup = () => {
         )}
         
         {success && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
             <CheckCircle size={16} />
             {success}
           </div>
@@ -135,7 +135,7 @@ export const Signup = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
               required
             />
           </div>
@@ -145,7 +145,7 @@ export const Signup = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
               required
             />
           </div>
@@ -155,14 +155,14 @@ export const Signup = () => {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-blue-500 outline-none"
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white focus:border-emerald-500 outline-none"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? 'Creating Account...' : <><UserPlus size={18} /> Create Account</>}
           </button>
@@ -205,7 +205,7 @@ export const Signup = () => {
 
         <p className="text-center text-gray-400 text-sm">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-400 hover:underline">Sign In</Link>
+          <Link to="/login" className="text-emerald-400 hover:underline">Sign In</Link>
         </p>
       </motion.div>
     </div>

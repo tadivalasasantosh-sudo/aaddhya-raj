@@ -7,8 +7,8 @@ import { motion } from 'motion/react';
 
 export const About = () => {
   const [aboutData, setAboutData] = useState({
-    title: 'About AadhyaRaj Technologies',
-    description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems that help businesses grow and transform digitally.',
+    title: 'About Aditya Raj Technologies',
+    description: 'Aditya Raj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems that help businesses grow and transform digitally.',
     mission: 'To empower businesses through innovative technology solutions that drive growth and efficiency.',
     vision: 'To be the global leader in providing cutting-edge technology solutions that transform industries.'
   });
@@ -27,62 +27,70 @@ export const About = () => {
       title: 'Our Mission',
       description: aboutData.mission || 'To empower businesses through innovative technology solutions that drive growth and efficiency.',
       icon: Target,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10',
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
     },
     {
       title: 'Our Vision',
       description: aboutData.vision || 'To be the global leader in providing cutting-edge technology solutions that transform industries.',
       icon: Eye,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10',
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
     },
     {
       title: 'Quality First',
-      description: 'We maintain the highest standards of code quality and design excellence in every project.',
+      description: 'We maintain the highest standards of code quality and design excellence in every project we undertake.',
       icon: Award,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10',
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
     },
     {
       title: 'Innovation',
-      description: 'Constantly exploring emerging technologies to keep our clients ahead of the curve.',
+      description: 'Constantly exploring emerging technologies to keep our clients ahead of the curve in a rapidly evolving market.',
       icon: Rocket,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10',
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
     },
   ];
 
   return (
-    <section id="about" className="py-24 bg-slate-950 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="about" className="py-32 bg-white relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-emerald-50/50 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-4xl mx-auto text-center mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8 text-center mb-24"
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            <SectionHeader
-              title={aboutData.title}
-              subtitle="We are more than just an IT company. We are your strategic partner in digital transformation."
-              centered={true}
-              className="mb-0"
-            />
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto font-light">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-semibold tracking-wide uppercase">
+              About Our Company
+            </div>
+            
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-gray-900 leading-tight tracking-tight">
+              {aboutData.title}
+            </h2>
+            
+            <p className="text-lg text-gray-600 leading-relaxed font-light">
               {aboutData.description}
             </p>
-            <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <div className="px-6 py-3 rounded-2xl bg-slate-900/50 border border-slate-800 min-w-[140px]">
-                <div className="text-2xl font-bold text-slate-50">10+</div>
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest">Years Experience</div>
+
+            <div className="flex justify-center gap-12 pt-4">
+              <div className="space-y-2">
+                <div className="text-4xl font-bold text-emerald-600">10+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Years of Excellence</div>
               </div>
-              <div className="px-6 py-3 rounded-2xl bg-slate-900/50 border border-slate-800 min-w-[140px]">
-                <div className="text-2xl font-bold text-slate-50">200+</div>
-                <div className="text-[10px] text-slate-500 uppercase tracking-widest">Global Clients</div>
+              <div className="space-y-2">
+                <div className="text-4xl font-bold text-emerald-600">250+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Global Projects</div>
               </div>
             </div>
           </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value, index) => (
@@ -92,13 +100,13 @@ export const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card p-8 group"
+              className="p-8 rounded-3xl bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
             >
-              <div className={`w-14 h-14 rounded-2xl ${value.bg} ${value.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300`}>
+              <div className={`w-14 h-14 rounded-2xl ${value.bg} ${value.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300`}>
                 <value.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-slate-50 mb-4">{value.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed font-light">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">{value.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed font-light">
                 {value.description}
               </p>
             </motion.div>

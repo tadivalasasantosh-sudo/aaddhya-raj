@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionHeader } from '../components/SectionHeader';
-import { Cloud, MonitorSmartphone, BrainCircuit, AppWindow, Smartphone, GitMerge, Wifi, Users } from 'lucide-react';
+import { Cloud, MonitorSmartphone, BrainCircuit, AppWindow, Smartphone, GitMerge, Wifi, Users, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const services = [
@@ -8,7 +8,7 @@ const services = [
     title: 'Cloud Services',
     description: 'End-to-end cloud solutions to help businesses migrate, manage, and scale on cloud platforms like AWS, Azure, and Google Cloud.',
     icon: Cloud,
-    color: 'from-blue-500 to-cyan-500',
+    color: 'from-emerald-500 to-teal-500',
   },
   {
     title: 'Modern Workplace',
@@ -20,13 +20,13 @@ const services = [
     title: 'Cloud Analytics & AI',
     description: 'Leverage data with advanced analytics and AI to gain real-time insights, improve decision-making, and predict future trends.',
     icon: BrainCircuit,
-    color: 'from-green-500 to-emerald-500',
+    color: 'from-emerald-500 to-emerald-700',
   },
   {
     title: 'Business Applications',
     description: 'Build and integrate enterprise-grade applications to streamline operations and enhance overall business performance.',
     icon: AppWindow,
-    color: 'from-indigo-500 to-blue-500',
+    color: 'from-teal-500 to-emerald-500',
   },
   {
     title: 'Mobility Solutions',
@@ -44,7 +44,7 @@ const services = [
     title: 'Internet of Things (IoT)',
     description: 'Design scalable IoT solutions to connect devices, collect data, and improve operational efficiency.',
     icon: Wifi,
-    color: 'from-teal-500 to-emerald-500',
+    color: 'from-emerald-400 to-emerald-600',
   },
   {
     title: 'Talent Services',
@@ -56,7 +56,7 @@ const services = [
 
 export const Services = () => {
   return (
-    <section id="services" className="py-24 bg-slate-950 relative overflow-hidden">
+    <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Our Services"
@@ -71,17 +71,20 @@ export const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card group p-8"
+              className="card-shadow group p-8"
             >
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                 <service.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-slate-50 mb-4 group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
                 {service.title}
               </h3>
-              <p className="text-slate-400 leading-relaxed font-light">
+              <p className="text-gray-600 leading-relaxed font-light mb-6">
                 {service.description}
               </p>
+              <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                Learn More <ChevronRight size={16} />
+              </div>
             </motion.div>
           ))}
         </div>
