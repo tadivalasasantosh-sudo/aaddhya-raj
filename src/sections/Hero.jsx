@@ -17,6 +17,17 @@ export const Hero = () => {
             transition={{ duration: 0.8 }}
             className="space-y-10"
           >
+            {/* Project Overview */}
+            <div className="flex items-center gap-5 p-5 rounded-2xl bg-white/80 border border-emerald-100 shadow-sm backdrop-blur-sm">
+              <img src="/logo.jpg" alt="AadhyaRaj Technologies Logo" className="h-16 w-16 rounded-full object-cover shadow-md" />
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">AadhyaRaj Technologies</h3>
+                <a href="https://hilarious-sunshine-7be30c.netlify.app" target="_blank" rel="noopener noreferrer" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
+                  hilarious-sunshine-7be30c.netlify.app
+                </a>
+              </div>
+            </div>
+
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-semibold tracking-wide uppercase">
               <Sparkles size={16} className="text-emerald-600" />
               Enterprise Technology Partner
