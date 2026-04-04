@@ -18,7 +18,7 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
       )}>
         {!imgError ? (
           <img 
-            src="/logo.png" 
+            src="/logo.jpg" 
             alt="Aditya Raj Technologies Logo" 
             className="h-full w-full object-contain"
             referrerPolicy="no-referrer"
