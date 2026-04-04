@@ -12,7 +12,7 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
   return (
     <div className={cn("flex items-center gap-3 group cursor-pointer", className)}>
       <div className={cn(
-        "relative flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]",
+        "relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]",
         sizes[size].icon,
         !imgError ? "bg-transparent" : "bg-gradient-to-br from-emerald-500 to-emerald-700 p-0.5"
       )}>
