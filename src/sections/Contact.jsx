@@ -7,7 +7,7 @@ import { doc, onSnapshot, collection, addDoc } from 'firebase/firestore';
 
 export const Contact = () => {
   const [settings, setSettings] = useState({
-    contactEmail: 'tag@adityarajtech.com',
+    contactEmail: 'tag@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345'
   });
   const [formData, setFormData] = useState({

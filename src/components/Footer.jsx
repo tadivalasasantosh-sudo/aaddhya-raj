@@ -15,7 +15,7 @@ export const Footer = () => {
           <div className="lg:col-span-2 space-y-8">
             <CompanyLogo size="sm" />
             <p className="text-gray-600 text-lg leading-relaxed font-light max-w-md">
-              Aditya Raj Technologies is a premier technology partner, delivering high-impact digital transformation through advanced software engineering and AI-driven business intelligence.
+              AadhyaRaj Technologies is a premier technology partner, delivering high-impact digital transformation through advanced software engineering and AI-driven business intelligence.
             </p>
             <div className="flex items-center gap-4">
               <a href="https://www.linkedin.com/company/aditya-raj-technologies/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-all duration-300">
@@ -32,6 +32,7 @@ export const Footer = () => {
             <ul className="space-y-4 text-gray-600 font-light">
               <li><button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors">Our Services</button></li>
               <li><button onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors">About Us</button></li>
+              <li><button onClick={() => document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors">Testimonials</button></li>
               <li><button onClick={() => document.getElementById('careers')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors">Careers</button></li>
               <li><button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-emerald-600 transition-colors">Contact</button></li>
             </ul>
@@ -57,7 +58,7 @@ export const Footer = () => {
         </div>
 
         <div className="pt-12 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 text-xs uppercase tracking-widest text-gray-400 font-medium">
-          <p>© {new Date().getFullYear()} Aditya Raj Technologies. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} AadhyaRaj Technologies. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <a href="#" className="hover:text-emerald-600 transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-gray-900 transition-colors">Terms of Service</a>

@@ -6,8 +6,8 @@ import { Hero } from './sections/Hero';
 import { Services } from './sections/Services';
 import { About } from './sections/About';
 import { WhyChooseUs } from './sections/WhyChooseUs';
-import { TechStack } from './sections/TechStack';
 import { Testimonials } from './sections/Testimonials';
+import { TechStack } from './sections/TechStack';
 import { Contact } from './sections/Contact';
 import { Careers } from './sections/Careers';
 import { Login } from './components/Login';
@@ -26,8 +26,8 @@ const HomePage = () => (
       <Services />
       <About />
       <WhyChooseUs />
-      <TechStack />
       <Testimonials />
+      <TechStack />
       <Careers />
       <Contact />
     </main>

@@ -18,8 +18,8 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
       )}>
         {!imgError ? (
           <img 
-            src="/logo.png" 
-            alt="Aditya Raj Technologies Logo" 
+            src="/logo.jpg" 
+            alt="AadhyaRaj Technologies Logo" 
             className="h-full w-full object-contain"
             referrerPolicy="no-referrer"
             onError={() => setImgError(true)}
@@ -36,7 +36,7 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
         )}
       </div>
       <div className="flex flex-col leading-none justify-center">
-        <span className={cn("font-display font-bold tracking-tight text-gray-900", sizes[size].text1)}>Aditya Raj</span>
+        <span className={cn("font-display font-bold tracking-tight text-gray-900", sizes[size].text1)}>AadhyaRaj</span>
         <span className={cn("font-sans font-medium tracking-[0.2em] text-emerald-600 uppercase", sizes[size].text2)}>Technologies</span>
       </div>
     </div>

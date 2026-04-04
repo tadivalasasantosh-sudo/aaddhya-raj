@@ -7,9 +7,9 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@adityarajtech.com',
+    contactEmail: 'tag@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345',
-    careerDetails: 'We are looking for passionate individuals to join our team and build the future of Aditya Raj Technologies together.'
+    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

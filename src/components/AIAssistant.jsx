@@ -36,17 +36,17 @@ export const AIAssistant = () => {
       setMessages([
         {
           role: 'assistant',
-          content: "Hello! I am the Aditya Raj Technologies AI Assistant. I can summarize our [Services](#services), [About Us](#about), [Tech Stack](#tech-stack), and [Careers](#careers) for you. How can I help you today?"
+          content: "Hello! I am the AadhyaRaj Technologies AI Assistant. I can summarize our [Services](#services), [About Us](#about), [Tech Stack](#tech-stack), and [Careers](#careers) for you. How can I help you today?"
         }
       ]);
       
       // Initialize Gemini chat session
       try {
-        const systemInstruction = `You are a helpful, clear, and concise AI assistant for Aditya Raj Technologies. 
+        const systemInstruction = `You are a helpful, clear, and concise AI assistant for AadhyaRaj Technologies. 
 Your goal is to clarify the whole website and process very speedily. 
 
 ### Website Content Summary:
-- **About Us** (#about): Aditya Raj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems. We have 10+ years of experience and 200+ global clients.
+- **About Us** (#about): AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems. We have 10+ years of experience and 200+ global clients.
 - **Services** (#services): 
   - Cloud Services (AWS, Azure, GCP migration & management)
   - Modern Workplace (Digital tools & remote work environments)

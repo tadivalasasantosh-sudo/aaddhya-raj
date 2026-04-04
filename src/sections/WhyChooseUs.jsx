@@ -44,7 +44,7 @@ export const WhyChooseUs = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-              Why Partner With <span className="text-emerald-600">Aditya Raj Technologies?</span>
+              Why Partner With <span className="text-emerald-600">AadhyaRaj Technologies?</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-8 font-light">
               We don't just build software; we build solutions that drive your business forward. Our combination of technical expertise, industry experience, and dedication to client success sets us apart.

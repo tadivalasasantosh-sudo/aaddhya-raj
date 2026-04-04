@@ -166,7 +166,7 @@ export const Careers = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm font-medium"
           >
             <Briefcase size={16} />
-            <span>Careers at Aditya Raj</span>
+            <span>Careers at AadhyaRaj</span>
           </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Join Our Expert Team</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">

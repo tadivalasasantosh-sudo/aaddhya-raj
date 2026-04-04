@@ -7,8 +7,8 @@ import { motion } from 'motion/react';
 
 export const About = () => {
   const [aboutData, setAboutData] = useState({
-    title: 'About Aditya Raj Technologies',
-    description: 'Aditya Raj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems that help businesses grow and transform digitally.',
+    title: 'About AadhyaRaj Technologies',
+    description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions. We specialize in full-stack development, enterprise application development, and AI-driven systems that help businesses grow and transform digitally.',
     mission: 'To empower businesses through innovative technology solutions that drive growth and efficiency.',
     vision: 'To be the global leader in providing cutting-edge technology solutions that transform industries.'
   });

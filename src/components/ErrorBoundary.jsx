@@ -30,18 +30,18 @@ export class ErrorBoundary extends Component {
       }
 
       return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white/5 border border-red-500/20 rounded-2xl p-8 backdrop-blur-xl text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 text-red-500 mb-6">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-white border border-red-100 rounded-2xl p-8 shadow-xl text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 text-red-500 mb-6">
               <AlertCircle size={32} />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-4">Something went wrong</h1>
-            <p className="text-gray-400 mb-8">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Something went wrong</h1>
+            <p className="text-gray-600 mb-8">
               {errorDetails ? `Firebase Error: ${errorDetails.operationType} at ${errorDetails.path}` : this.state.error?.message || 'An unexpected error occurred.'}
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black font-semibold hover:bg-gray-200 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 active:scale-95"
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 

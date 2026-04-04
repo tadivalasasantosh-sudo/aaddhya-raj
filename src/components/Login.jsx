@@ -134,7 +134,7 @@ export const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
               required
-              placeholder="admin@adityarajtech.com"
+              placeholder="admin@aadhyarajtech.com"
             />
           </div>
           <div className="space-y-2">

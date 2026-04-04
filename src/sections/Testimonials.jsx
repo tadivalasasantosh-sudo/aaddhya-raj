@@ -1,75 +1,101 @@
 import React from 'react';
-import { SectionHeader } from '../components/SectionHeader';
-import { Star, Quote, ShieldCheck, Activity, Landmark } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Star, Quote, ShieldCheck, Activity, Building2 } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
 
 const testimonials = [
   {
-    name: 'ISO-certified enterprise',
-    role: 'USA',
-    content: 'Aditya Raj Technologies transformed our legacy systems into a modern, scalable cloud architecture. Their expertise and dedication are unmatched.',
-    rating: 5,
+    quote: "AadhyaRaj Technologies transformed our legacy systems into a modern, scalable cloud architecture. Their expertise and dedication are unmatched.",
+    author: "ISO-certified enterprise",
+    location: "USA",
     icon: ShieldCheck,
-    color: 'bg-blue-50 text-blue-600',
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
   },
   {
-    name: 'Healthcare solutions provider',
-    role: 'North America',
-    content: 'The AI-driven analytics platform they built for us exceeded all expectations. It has completely revolutionized how we understand our data.',
-    rating: 5,
+    quote: "The AI-driven analytics platform they built for us exceeded all expectations. It has completely revolutionized how we understand our data.",
+    author: "Healthcare solutions provider",
+    location: "North America",
     icon: Activity,
-    color: 'bg-emerald-50 text-emerald-600',
+    iconBg: "bg-emerald-50",
+    iconColor: "text-emerald-600",
   },
   {
-    name: 'Globally recognized fintech company',
-    role: 'UK',
-    content: 'Professional, responsive, and incredibly talented. They delivered our enterprise web application on time and perfectly to spec.',
-    rating: 5,
-    icon: Landmark,
-    color: 'bg-amber-50 text-amber-600',
-  },
+    quote: "Professional, responsive, and incredibly talented. They delivered our enterprise web application on time and perfectly to spec.",
+    author: "Globally recognized fintech company",
+    location: "UK",
+    icon: Building2,
+    iconBg: "bg-amber-50",
+    iconColor: "text-amber-600",
+  }
 ];
 
 export const Testimonials = () => {
   return (
-    <section id="testimonials" className="py-24 bg-slate-50 relative overflow-hidden border-t border-gray-100">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-600/5 rounded-full blur-[120px]" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeader
-          title="Client Success Stories"
-          subtitle="Don't just take our word for it. Here's what our partners have to say about working with us."
-        />
+    <section id="testimonials" className="py-24 bg-gray-50/50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-50 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50" />
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4"
+          >
+            Client Success Stories
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-gray-600 max-w-2xl mx-auto mb-6"
+          >
+            Don't just take our word for it. Here's what our partners have to say about working with us.
+          </motion.p>
+          <motion.div 
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="w-24 h-1.5 bg-emerald-500 mx-auto rounded-full origin-center"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 relative group hover:shadow-md transition-shadow"
+              transition={{ delay: index * 0.1 }}
+              className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group relative"
             >
-              <Quote className="absolute top-6 right-6 text-emerald-600/5 w-12 h-12 group-hover:text-emerald-600/10 transition-colors" />
-              
               <div className="flex gap-1 mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={16} className="fill-emerald-600 text-emerald-600" />
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} className="fill-emerald-500 text-emerald-500" />
                 ))}
               </div>
-              
-              <p className="text-gray-600 leading-relaxed mb-8 relative z-10 font-light italic">
-                "{testimonial.content}"
+
+              <Quote className="absolute top-8 right-8 text-gray-100 group-hover:text-emerald-50 transition-colors duration-500" size={64} />
+
+              <p className="text-gray-700 text-lg italic leading-relaxed mb-8 relative z-10">
+                "{item.quote}"
               </p>
-              
-              <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${testimonial.color} border border-current/10`}>
-                  <testimonial.icon size={24} />
+
+              <div className="flex items-center gap-4 mt-auto">
+                <div className={`w-14 h-14 rounded-2xl ${item.iconBg} flex items-center justify-center ${item.iconColor} group-hover:scale-110 transition-transform duration-500`}>
+                  <item.icon size={28} />
                 </div>
                 <div>
-                  <h4 className="text-gray-900 font-semibold leading-tight">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <h4 className="font-bold text-gray-900 leading-tight">{item.author}</h4>
+                  <p className="text-sm text-gray-500 font-medium uppercase tracking-wider">{item.location}</p>
                 </div>
               </div>
             </motion.div>

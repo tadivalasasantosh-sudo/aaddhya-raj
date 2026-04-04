@@ -57,7 +57,7 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/#services' },
-    { name: 'Process', path: '/#process' },
+    { name: 'Testimonials', path: '/#testimonials' },
     { name: 'Tech Stack', path: '/#tech-stack' },
     { 
       name: 'Careers', 

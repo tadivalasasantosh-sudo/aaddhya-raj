@@ -27,7 +27,7 @@ export const Hero = () => {
             </h1>
             
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl font-light">
-              Aditya Raj Technologies delivers high-impact digital transformation through advanced software engineering, cloud architecture, and AI-driven business intelligence.
+              AadhyaRaj Technologies delivers high-impact digital transformation through advanced software engineering, cloud architecture, and AI-driven business intelligence.
             </p>
             
             <div className="flex flex-wrap gap-5 pt-2">
@@ -77,9 +77,9 @@ export const Hero = () => {
             <div className="relative z-10 animate-float">
               <div className="absolute -inset-4 bg-emerald-600/5 rounded-[40px] blur-2xl" />
               <img 
-                src="https://picsum.photos/seed/enterprise-tech/1000/800" 
-                alt="Aditya Raj Technologies Enterprise Solutions" 
-                className="relative rounded-[32px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-gray-100 object-cover w-full h-[600px]"
+                src="/logo.jpg" 
+                alt="AadhyaRaj Technologies Logo" 
+                className="relative rounded-[32px] shadow-[0_32px_64px_-16px_rgba(16,185,129,0.2)] border border-emerald-100 object-contain w-full h-[600px] p-12 bg-white"
                 referrerPolicy="no-referrer"
               />
               

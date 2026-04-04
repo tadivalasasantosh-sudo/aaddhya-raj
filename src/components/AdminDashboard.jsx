@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2, Image as ImageIcon, Menu as MenuIcon } from 'lucide-react';
+import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2, Image as ImageIcon, Menu as MenuIcon, AlertTriangle } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addDoc, setDoc, getDoc } from 'firebase/firestore';
 import { Plus, X as CloseIcon } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../firebase';
+import { ConfirmModal } from './ConfirmModal';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -17,19 +18,26 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@adityarajtech.com',
+    contactEmail: 'tag@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345',
-    careerDetails: 'We are looking for passionate individuals to join our team and build the future of Aditya Raj Technologies together.'
+    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
   });
   const [about, setAbout] = useState({
-    title: 'About Aditya Raj Technologies',
-    description: 'Aditya Raj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
+    title: 'About AadhyaRaj Technologies',
+    description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
     mission: '',
     vision: ''
   });
   const [loading, setLoading] = useState(true);
   const [showJobModal, setShowJobModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [confirmConfig, setConfirmConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    type: 'danger'
+  });
   const [jobFormData, setJobFormData] = useState({
     title: '',
     location: '',
@@ -134,13 +142,19 @@ export const AdminDashboard = () => {
   };
 
   const deleteMessage = async (id) => {
-    if (window.confirm("Are you sure you want to delete this message?")) {
-      try {
-        await deleteDoc(doc(db, 'messages', id));
-      } catch (error) {
-        handleFirestoreError(error, OperationType.DELETE, `messages/${id}`);
+    setConfirmConfig({
+      isOpen: true,
+      title: 'Delete Message',
+      message: 'Are you sure you want to delete this message? This action cannot be undone.',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'messages', id));
+        } catch (error) {
+          handleFirestoreError(error, OperationType.DELETE, `messages/${id}`);
+        }
       }
-    }
+    });
   };
 
   const handleAddJob = async (e) => {
@@ -160,14 +174,20 @@ export const AdminDashboard = () => {
   };
 
     const deleteJob = async (id) => {
-      if (window.confirm("Are you sure you want to delete this job opening?")) {
-        try {
-          await deleteDoc(doc(db, 'jobs', id));
-        } catch (error) {
-          console.error("Delete Job Error:", error);
-          alert("Failed to delete job. Please check permissions.");
+      setConfirmConfig({
+        isOpen: true,
+        title: 'Delete Job Opening',
+        message: 'Are you sure you want to delete this job opening? This will remove it from the careers page.',
+        type: 'danger',
+        onConfirm: async () => {
+          try {
+            await deleteDoc(doc(db, 'jobs', id));
+          } catch (error) {
+            console.error("Delete Job Error:", error);
+            alert("Failed to delete job. Please check permissions.");
+          }
         }
-      }
+      });
     };
 
     const updateUserRole = async (userId, newRole) => {
@@ -191,9 +211,14 @@ export const AdminDashboard = () => {
     };
 
   const seedInitialJobs = async () => {
-    if (window.confirm("This will add 5 sample job openings to your database. Continue?")) {
-      try {
-        const initialJobs = [
+    setConfirmConfig({
+      isOpen: true,
+      title: 'Seed Sample Jobs',
+      message: 'This will add 5 sample job openings to your database. Continue?',
+      type: 'info',
+      onConfirm: async () => {
+        try {
+          const initialJobs = [
           {
             title: 'Senior Java Full Stack Developer (React)',
             experience: '8–10 years',
@@ -299,6 +324,7 @@ export const AdminDashboard = () => {
         handleFirestoreError(error, OperationType.CREATE, 'jobs');
       }
     }
+    });
   };
 
   const handleUpdateAbout = async (e) => {
@@ -824,18 +850,18 @@ export const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
+    <div className="min-h-screen bg-slate-50 text-gray-900 flex flex-col md:flex-row">
       {/* Mobile Header */}
-      <header className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-black sticky top-0 z-40">
+      <header className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold text-white">
             {userRole === 'hr' ? 'HR' : 'AR'}
           </div>
-          <span className="font-bold text-lg">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+          <span className="font-bold text-lg text-gray-900">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
         </div>
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 text-gray-400 hover:text-white"
+          className="p-2 text-gray-500 hover:text-gray-900"
         >
           {isMobileMenuOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
         </button>
@@ -843,19 +869,19 @@ export const AdminDashboard = () => {
 
       {/* Sidebar (Desktop & Mobile) */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-black border-r border-white/10 p-6 flex flex-col gap-8 transition-transform duration-300 md:relative md:translate-x-0
+        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 p-6 flex flex-col gap-8 transition-transform duration-300 md:relative md:translate-x-0
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex items-center justify-between md:justify-start gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center font-bold text-white">
               {userRole === 'hr' ? 'HR' : 'AR'}
             </div>
-            <span className="font-bold text-xl">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
+            <span className="font-bold text-xl text-gray-900">{userRole === 'hr' ? 'HR Portal' : 'Admin Panel'}</span>
           </div>
           <button 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="md:hidden p-2 text-gray-400 hover:text-white"
+            className="md:hidden p-2 text-gray-500 hover:text-gray-900"
           >
             <CloseIcon size={24} />
           </button>
@@ -866,7 +892,7 @@ export const AdminDashboard = () => {
             <button 
               onClick={() => { setActiveTab('dashboard'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'dashboard' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                activeTab === 'dashboard' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <LayoutDashboard size={20} />
@@ -877,7 +903,7 @@ export const AdminDashboard = () => {
             <button 
               onClick={() => { setActiveTab('users'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'users' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                activeTab === 'users' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <Users size={20} />
@@ -887,7 +913,7 @@ export const AdminDashboard = () => {
           <button 
             onClick={() => { setActiveTab('jobs'); setIsMobileMenuOpen(false); }}
             className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-              activeTab === 'jobs' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+              activeTab === 'jobs' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
             }`}
           >
             <Briefcase size={20} />
@@ -897,7 +923,7 @@ export const AdminDashboard = () => {
             <button 
               onClick={() => { setActiveTab('messages'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'messages' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                activeTab === 'messages' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <MessageSquare size={20} />
@@ -908,7 +934,7 @@ export const AdminDashboard = () => {
             <button 
               onClick={() => { setActiveTab('settings'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'settings' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                activeTab === 'settings' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <Settings size={20} />
@@ -919,7 +945,7 @@ export const AdminDashboard = () => {
             <button 
               onClick={() => { setActiveTab('about'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                activeTab === 'about' ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                activeTab === 'about' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <ImageIcon size={20} />
@@ -930,7 +956,7 @@ export const AdminDashboard = () => {
 
         <button 
           onClick={handleLogout}
-          className="flex items-center gap-3 p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all mt-auto"
+          className="flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 transition-all mt-auto font-medium"
         >
           <LogOut size={20} />
           Logout
@@ -940,7 +966,7 @@ export const AdminDashboard = () => {
       {/* Overlay for Mobile Sidebar */}
       {isMobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -949,18 +975,18 @@ export const AdminDashboard = () => {
       <main className="flex-1 p-4 md:p-12 overflow-y-auto">
         <header className="flex justify-between items-center mb-12">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="text-3xl font-bold mb-2 text-gray-900">
               {activeTab === 'dashboard' ? 'Welcome back, Admin' : 
                activeTab === 'jobs' ? 'Careers Portal' :
                activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
             </h1>
-            <p className="text-gray-400">
+            <p className="text-gray-500">
               {activeTab === 'dashboard' ? "Here's what's happening with your business today." : 
                activeTab === 'jobs' ? 'Manage your job openings and career details here.' :
                `Manage your ${activeTab} here.`}
             </p>
           </div>
-          <Link to="/" className="px-6 py-2 rounded-full border border-white/10 hover:bg-white/5 transition-all text-sm font-medium">
+          <Link to="/" className="px-6 py-2 rounded-full border border-gray-200 hover:bg-white hover:shadow-sm transition-all text-sm font-semibold text-gray-700">
             View Website
           </Link>
         </header>
@@ -972,11 +998,20 @@ export const AdminDashboard = () => {
         {activeTab === 'settings' && renderSettings()}
         {activeTab === 'about' && renderAboutEditor()}
         {activeTab !== 'dashboard' && activeTab !== 'messages' && activeTab !== 'jobs' && activeTab !== 'users' && activeTab !== 'settings' && activeTab !== 'about' && (
-          <div className="text-center py-24 text-gray-500 italic">
+          <div className="text-center py-24 text-gray-400 italic">
             {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} management coming soon...
           </div>
         )}
       </main>
+
+      <ConfirmModal 
+        isOpen={confirmConfig.isOpen}
+        onClose={() => setConfirmConfig({ ...confirmConfig, isOpen: false })}
+        onConfirm={confirmConfig.onConfirm}
+        title={confirmConfig.title}
+        message={confirmConfig.message}
+        type={confirmConfig.type}
+      />
     </div>
   );
 };
