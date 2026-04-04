@@ -8,7 +8,6 @@ import { About } from './sections/About';
 import { WhyChooseUs } from './sections/WhyChooseUs';
 import { TechStack } from './sections/TechStack';
 import { Testimonials } from './sections/Testimonials';
-import { SuccessStories } from './sections/SuccessStories';
 import { Contact } from './sections/Contact';
 import { Careers } from './sections/Careers';
 import { Login } from './components/Login';
@@ -29,7 +28,6 @@ const HomePage = () => (
       <WhyChooseUs />
       <TechStack />
       <Testimonials />
-      <SuccessStories />
       <Careers />
       <Contact />
     </main>

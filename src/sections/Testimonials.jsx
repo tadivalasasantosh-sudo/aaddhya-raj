@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionHeader } from '../components/SectionHeader';
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, ShieldCheck, Activity, Landmark } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const testimonials = [
@@ -9,21 +9,24 @@ const testimonials = [
     role: 'USA',
     content: 'Aditya Raj Technologies transformed our legacy systems into a modern, scalable cloud architecture. Their expertise and dedication are unmatched.',
     rating: 5,
-    image: 'https://picsum.photos/seed/usa/100/100',
+    icon: ShieldCheck,
+    color: 'bg-blue-50 text-blue-600',
   },
   {
     name: 'Healthcare solutions provider',
     role: 'North America',
     content: 'The AI-driven analytics platform they built for us exceeded all expectations. It has completely revolutionized how we understand our data.',
     rating: 5,
-    image: 'https://picsum.photos/seed/healthcare/100/100',
+    icon: Activity,
+    color: 'bg-emerald-50 text-emerald-600',
   },
   {
     name: 'Globally recognized fintech company',
     role: 'UK',
     content: 'Professional, responsive, and incredibly talented. They delivered our enterprise web application on time and perfectly to spec.',
     rating: 5,
-    image: 'https://picsum.photos/seed/fintech/100/100',
+    icon: Landmark,
+    color: 'bg-amber-50 text-amber-600',
   },
 ];
 
@@ -46,7 +49,7 @@ export const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card-shadow p-8 relative group"
+              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 relative group hover:shadow-md transition-shadow"
             >
               <Quote className="absolute top-6 right-6 text-emerald-600/5 w-12 h-12 group-hover:text-emerald-600/10 transition-colors" />
               
@@ -61,14 +64,11 @@ export const Testimonials = () => {
               </p>
               
               <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover border border-gray-100"
-                  referrerPolicy="no-referrer"
-                />
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${testimonial.color} border border-current/10`}>
+                  <testimonial.icon size={24} />
+                </div>
                 <div>
-                  <h4 className="text-gray-900 font-semibold">{testimonial.name}</h4>
+                  <h4 className="text-gray-900 font-semibold leading-tight">{testimonial.name}</h4>
                   <p className="text-sm text-gray-500">{testimonial.role}</p>
                 </div>
               </div>

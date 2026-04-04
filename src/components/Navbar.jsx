@@ -59,7 +59,6 @@ export const Navbar = () => {
     { name: 'Services', path: '/#services' },
     { name: 'Process', path: '/#process' },
     { name: 'Tech Stack', path: '/#tech-stack' },
-    { name: 'Success Stories', path: '/#success-stories' },
     { 
       name: 'Careers', 
       path: '/#careers',

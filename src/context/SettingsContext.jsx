@@ -22,7 +22,10 @@ export const SettingsProvider = ({ children }) => {
       setLoading(false);
       setError(null);
     }, (err) => {
-      handleFirestoreError(err, OperationType.GET, 'settings/global');
+      console.error('Settings Error:', err);
+      setLoading(false);
+      // Don't throw here to avoid crashing the whole app
+      setError(err.message);
     });
 
     return () => unsubscribe();

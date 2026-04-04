@@ -159,33 +159,36 @@ export const AdminDashboard = () => {
     }
   };
 
-  const deleteJob = async (id) => {
-    if (window.confirm("Are you sure you want to delete this job opening?")) {
-      try {
-        await deleteDoc(doc(db, 'jobs', id));
-      } catch (error) {
-        handleFirestoreError(error, OperationType.DELETE, `jobs/${id}`);
+    const deleteJob = async (id) => {
+      if (window.confirm("Are you sure you want to delete this job opening?")) {
+        try {
+          await deleteDoc(doc(db, 'jobs', id));
+        } catch (error) {
+          console.error("Delete Job Error:", error);
+          alert("Failed to delete job. Please check permissions.");
+        }
       }
-    }
-  };
+    };
 
-  const updateUserRole = async (userId, newRole) => {
-    try {
-      await updateDoc(doc(db, 'users', userId), { role: newRole });
-    } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `users/${userId}`);
-    }
-  };
+    const updateUserRole = async (userId, newRole) => {
+      try {
+        await updateDoc(doc(db, 'users', userId), { role: newRole });
+      } catch (error) {
+        console.error("Update User Role Error:", error);
+        alert("Failed to update user role.");
+      }
+    };
 
-  const handleUpdateSettings = async (e) => {
-    e.preventDefault();
-    try {
-      await setDoc(doc(db, 'settings', 'global'), settings);
-      alert("Settings updated successfully!");
-    } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, 'settings/global');
-    }
-  };
+    const handleUpdateSettings = async (e) => {
+      e.preventDefault();
+      try {
+        await setDoc(doc(db, 'settings', 'global'), settings);
+        alert("Settings updated successfully!");
+      } catch (error) {
+        console.error("Update Settings Error:", error);
+        alert("Failed to update settings.");
+      }
+    };
 
   const seedInitialJobs = async () => {
     if (window.confirm("This will add 5 sample job openings to your database. Continue?")) {

@@ -18,7 +18,10 @@ export const About = () => {
       if (snapshot.exists()) {
         setAboutData(snapshot.data());
       }
-    }, (error) => handleFirestoreError(error, OperationType.GET, 'about/content'));
+    }, (error) => {
+      console.error('About Content Error:', error);
+      // Don't throw here to avoid crashing the whole app
+    });
     return () => unsubscribe();
   }, []);
 

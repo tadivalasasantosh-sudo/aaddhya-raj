@@ -24,7 +24,8 @@ export const Contact = () => {
         setSettings(snapshot.data());
       }
     }, (err) => {
-      handleFirestoreError(err, OperationType.GET, 'settings/global');
+      console.error('Contact Settings Error:', err);
+      // Don't throw here to avoid crashing the whole app
     });
     return () => unsubscribe();
   }, []);
