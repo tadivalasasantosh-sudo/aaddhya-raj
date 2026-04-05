@@ -31,14 +31,14 @@ const technologies = [
 
 export const TechStack = () => {
   return (
-    <section id="tech-stack" className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-emerald-900/20 rounded-full blur-[120px] -translate-y-1/2" />
+    <section id="tech-stack" className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-sky-50 rounded-full blur-[120px] -translate-y-1/2" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Our Technology Stack"
           subtitle="We leverage the latest and most robust technologies to build scalable, secure, and future-proof solutions."
-          dark={true}
+          dark={false}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -49,10 +49,10 @@ export const TechStack = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white/5 border border-white/10 p-8 group rounded-3xl hover:bg-white/10 transition-all duration-300"
+              className="bg-gray-50 border border-gray-100 p-8 group rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-300"
             >
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]" />
                 {tech.category}
               </h3>
               
@@ -60,7 +60,7 @@ export const TechStack = () => {
                 {tech.skills.map((skill, skillIndex) => (
                   <span
                     key={skillIndex}
-                    className="px-3 py-1.5 text-sm rounded-lg bg-white/5 text-gray-400 border border-white/10 group-hover:border-emerald-500/30 transition-colors"
+                    className="px-3 py-1.5 text-sm rounded-lg bg-white text-gray-600 border border-gray-200 group-hover:border-sky-500/30 transition-colors"
                   >
                     {skill}
                   </span>

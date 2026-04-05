@@ -16,7 +16,7 @@ export const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, confi
         >
           <div className="p-6">
             <div className="flex justify-between items-start mb-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${type === 'danger' ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'}`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${type === 'danger' ? 'bg-red-50 text-red-600' : 'bg-sky-50 text-sky-600'}`}>
                 <AlertTriangle size={24} />
               </div>
               <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
@@ -42,7 +42,7 @@ export const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, confi
                 className={`flex-1 px-4 py-2.5 rounded-xl text-white font-semibold transition-all active:scale-95 shadow-lg ${
                   type === 'danger' 
                     ? 'bg-red-600 hover:bg-red-700 shadow-red-600/20' 
-                    : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'
+                    : 'bg-sky-600 hover:bg-sky-700 shadow-sky-600/20'
                 }`}
               >
                 {confirmText}

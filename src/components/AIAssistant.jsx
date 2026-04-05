@@ -118,7 +118,7 @@ Your goal is to clarify the whole website and process very speedily.
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={"fixed bottom-6 right-6 p-4 rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 hover:shadow-emerald-600/25 transition-all z-40 " + (isOpen ? 'scale-0' : 'scale-100')}
+        className={"fixed bottom-6 right-6 p-4 rounded-full bg-sky-600 text-white shadow-lg hover:bg-sky-700 hover:shadow-sky-600/25 transition-all z-40 " + (isOpen ? 'scale-0' : 'scale-100')}
       >
         <MessageSquare size={24} />
       </button>
@@ -136,13 +136,13 @@ Your goal is to clarify the whole website and process very speedily.
             {/* Header */}
             <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <div className="w-8 h-8 rounded-full bg-sky-50 flex items-center justify-center text-sky-600">
                   <Bot size={18} />
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900 text-sm">AI Assistant</h3>
-                  <p className="text-xs text-emerald-600 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  <p className="text-xs text-sky-600 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-600"></span>
                     Online
                   </p>
                 </div>
@@ -162,17 +162,17 @@ Your goal is to clarify the whole website and process very speedily.
                   key={idx} 
                   className={"flex gap-3 " + (msg.role === 'user' ? 'flex-row-reverse' : '')}
                 >
-                  <div className={"w-8 h-8 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-emerald-50 text-emerald-600' : 'bg-emerald-50 text-emerald-600')}>
+                  <div className={"w-8 h-8 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-sky-50 text-sky-600' : 'bg-sky-50 text-sky-600')}>
                     {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                   </div>
-                  <div className={"px-4 py-2 rounded-2xl max-w-[75%] text-sm " + (msg.role === 'user' ? 'bg-emerald-600 text-white rounded-tr-sm' : 'bg-gray-100 text-gray-700 rounded-tl-sm whitespace-pre-wrap')}>
+                  <div className={"px-4 py-2 rounded-2xl max-w-[75%] text-sm " + (msg.role === 'user' ? 'bg-sky-600 text-white rounded-tr-sm' : 'bg-gray-100 text-gray-700 rounded-tl-sm whitespace-pre-wrap')}>
                     {msg.content}
                   </div>
                 </div>
               ))}
               {isLoading && (
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-sky-50 text-sky-600 shrink-0">
                     <Bot size={16} />
                   </div>
                   <div className="px-4 py-3 rounded-2xl bg-gray-100 text-gray-700 rounded-tl-sm flex items-center gap-1">
@@ -193,13 +193,13 @@ Your goal is to clarify the whole website and process very speedily.
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me anything..."
-                  className="w-full bg-white border border-gray-200 rounded-xl pl-4 pr-12 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
+                  className="w-full bg-white border border-gray-200 rounded-xl pl-4 pr-12 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-sky-600 transition-colors"
                   disabled={isLoading}
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-emerald-600 hover:text-emerald-700 disabled:opacity-50 disabled:hover:text-emerald-600 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-sky-600 hover:text-sky-700 disabled:opacity-50 disabled:hover:text-sky-600 transition-colors"
                 >
                   <Send size={18} />
                 </button>

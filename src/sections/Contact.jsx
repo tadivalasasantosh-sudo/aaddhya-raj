@@ -54,12 +54,12 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#0f172a] relative overflow-hidden">
+    <section id="contact" className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Get in Touch"
           subtitle="Ready to start your next project? Contact us today for a free consultation."
-          dark={true}
+          dark={false}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -71,26 +71,26 @@ export const Contact = () => {
             className="space-y-12"
           >
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-white">Contact Information</h3>
-              <p className="text-gray-400 max-w-md font-light">
+              <h3 className="text-3xl font-bold text-gray-900">Contact Information</h3>
+              <p className="text-gray-600 max-w-md font-light">
                 Have a question or need a custom solution? Our expert team is ready to help you navigate your digital transformation.
               </p>
             </div>
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-emerald-400', href: `mailto:${settings.contactEmail}` },
-                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-emerald-400', href: `tel:${settings.whatsappNumber}` },
-                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-green-400', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
-                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-emerald-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
+                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-sky-600', href: `mailto:${settings.contactEmail}` },
+                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-sky-600', href: `tel:${settings.whatsappNumber}` },
+                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-green-600', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
+                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-sky-600', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
               ].map((item, i) => (
                 <a key={i} href={item.href} target={item.icon === MapPin ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-start gap-6 group cursor-pointer">
-                  <div className={`w-12 h-12 flex items-center justify-center ${item.color} group-hover:scale-110 group-hover:text-emerald-400 transition-all duration-300`}>
+                  <div className={`w-12 h-12 flex items-center justify-center ${item.color} group-hover:scale-110 group-hover:text-sky-600 transition-all duration-300`}>
                     <item.icon size={24} />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-500 uppercase tracking-widest mb-1">{item.label}</div>
-                    <div className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">{item.value}</div>
+                    <div className="text-sm font-medium text-gray-400 uppercase tracking-widest mb-1">{item.label}</div>
+                    <div className="text-lg font-semibold text-gray-900 group-hover:text-sky-600 transition-colors">{item.value}</div>
                   </div>
                 </a>
               ))}
@@ -102,58 +102,58 @@ export const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-8 md:p-12"
+            className="p-8 md:p-12 bg-gray-50 rounded-3xl border border-gray-100 shadow-sm"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300 ml-1">Your Name</label>
+                  <label className="text-sm font-medium text-gray-600 ml-1">Your Name</label>
                   <input
                     required
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-transparent border-b border-white/10 text-white focus:border-emerald-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300 ml-1">Email Address</label>
+                  <label className="text-sm font-medium text-gray-600 ml-1">Email Address</label>
                   <input
                     required
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-transparent border-b border-white/10 text-white focus:border-emerald-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300 ml-1">Subject</label>
+                <label className="text-sm font-medium text-gray-600 ml-1">Subject</label>
                 <input
                   required
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-transparent border-b border-white/10 text-white focus:border-emerald-500 outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                   placeholder="How can we help?"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300 ml-1">Message</label>
+                <label className="text-sm font-medium text-gray-600 ml-1">Message</label>
                 <textarea
                   required
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 bg-transparent border-b border-white/10 text-white focus:border-emerald-500 outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors resize-none"
                   placeholder="Tell us about your project..."
                 />
               </div>
@@ -161,7 +161,7 @@ export const Contact = () => {
               <button
                 disabled={status === 'sending'}
                 type="submit"
-                className="w-full py-4 rounded-xl bg-emerald-600 text-white font-bold text-lg hover:bg-emerald-500 hover:shadow-lg transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 rounded-xl bg-sky-600 text-white font-bold text-lg hover:bg-sky-500 hover:shadow-lg transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'sending' ? (
                   <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -174,14 +174,14 @@ export const Contact = () => {
               </button>
 
               <div className="relative flex items-center py-2">
-                <div className="flex-grow border-t border-white/10"></div>
-                <span className="flex-shrink-0 mx-4 text-gray-500 text-sm">or</span>
-                <div className="flex-grow border-t border-white/10"></div>
+                <div className="flex-grow border-t border-gray-200"></div>
+                <span className="flex-shrink-0 mx-4 text-gray-400 text-sm">or</span>
+                <div className="flex-grow border-t border-gray-200"></div>
               </div>
 
               <a 
                 href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
-                className="w-full py-4 text-gray-300 font-bold text-lg transition-all flex items-center justify-center gap-3"
+                className="w-full py-4 text-gray-600 font-bold text-lg transition-all flex items-center justify-center gap-3 hover:text-sky-600"
               >
                 <Mail size={20} />
                 Send Directly via Email
@@ -193,7 +193,7 @@ export const Contact = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                    className="flex items-center gap-3 p-4 rounded-xl bg-sky-50 border border-sky-100 text-sky-600"
                   >
                     <CheckCircle size={20} />
                     <span>Message sent successfully! We'll get back to you soon.</span>
@@ -204,7 +204,7 @@ export const Contact = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
+                    className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-red-600"
                   >
                     <AlertCircle size={20} />
                     <span>Failed to send message. Please try again later.</span>

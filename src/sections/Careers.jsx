@@ -154,8 +154,8 @@ export const Careers = () => {
   };
 
   return (
-    <section id="careers" className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+    <section id="careers" className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-sky-500/20 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center space-y-4 mb-16">
@@ -163,13 +163,13 @@ export const Careers = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-sm font-medium"
           >
             <Briefcase size={16} />
             <span>Careers at AadhyaRaj</span>
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white">Join Our Expert Team</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Join Our Expert Team</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
             {settings.careerDetails}
           </p>
         </div>
@@ -183,29 +183,29 @@ export const Careers = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all group shadow-sm"
+              className="p-6 rounded-2xl bg-gray-50 border border-gray-100 text-center hover:bg-sky-50 hover:border-sky-200 transition-all group shadow-sm"
             >
               <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{benefit.icon}</div>
-              <h4 className="text-sm font-bold text-white mb-1">{benefit.title}</h4>
-              <p className="text-[10px] text-gray-400 leading-tight">{benefit.desc}</p>
+              <h4 className="text-sm font-bold text-gray-900 mb-1">{benefit.title}</h4>
+              <p className="text-[10px] text-gray-500 leading-tight">{benefit.desc}</p>
             </motion.div>
           ))}
         </div>
 
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-            <div className="w-8 h-px bg-emerald-500" />
+          <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <div className="w-8 h-px bg-sky-500" />
             Current Openings
           </h3>
           
           {loading && jobs.length === 0 ? (
             <div className="flex justify-center py-12">
-              <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-12 bg-white/5 rounded-2xl border border-white/10 shadow-sm">
-              <Briefcase size={48} className="mx-auto mb-4 text-gray-700" />
-              <p className="text-gray-400">No current job openings. Please check back later!</p>
+            <div className="text-center py-12 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm">
+              <Briefcase size={48} className="mx-auto mb-4 text-gray-300" />
+              <p className="text-gray-500">No current job openings. Please check back later!</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
@@ -216,34 +216,34 @@ export const Careers = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 border border-white/10 p-6 md:p-8 group cursor-pointer rounded-3xl hover:bg-white/10 transition-all duration-300"
+                  className="bg-gray-50 border border-gray-100 p-6 md:p-8 group cursor-pointer rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-300"
                   onClick={() => setSelectedJob(job)}
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-4">
                       <div className="flex flex-wrap gap-3">
-                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span className="px-3 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-medium border border-sky-100">
                           {job.experience}
                         </span>
-                        <span className="px-3 py-1 rounded-full bg-white/5 text-gray-400 text-xs font-medium border border-white/10">
+                        <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium border border-gray-200">
                           {job.location}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-sky-600 transition-colors">
                         {job.title}
                       </h3>
-                      <div className="flex flex-wrap items-center gap-6 text-sm text-gray-400">
+                      <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
                         <div className="flex items-center gap-2">
-                          <MapPin size={16} className="text-emerald-500" />
+                          <MapPin size={16} className="text-sky-500" />
                           {job.location}
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock size={16} className="text-emerald-500" />
+                          <Clock size={16} className="text-sky-500" />
                           Posted recently
                         </div>
                       </div>
                     </div>
-                    <button className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-emerald-500/30 text-emerald-400 font-bold hover:bg-emerald-500 hover:text-white transition-all">
+                    <button className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-sky-500/30 text-sky-600 font-bold hover:bg-sky-500 hover:text-white transition-all">
                       View Details
                       <ChevronRight className="ml-2" size={18} />
                     </button>
@@ -282,7 +282,7 @@ export const Careers = () => {
               <div className="space-y-8">
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-3">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                    <span className="px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-medium border border-sky-500/20">
                       {selectedJob.experience} Exp
                     </span>
                     <span className="px-3 py-1 rounded-full bg-white/5 text-gray-400 text-xs font-medium border border-white/10">
@@ -296,7 +296,7 @@ export const Careers = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                   <div className="space-y-6">
                     <h4 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                      <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
+                      <div className="w-1.5 h-6 bg-sky-500 rounded-full" />
                       Key Responsibilities
                     </h4>
                     <ul className="space-y-3">
@@ -304,7 +304,7 @@ export const Careers = () => {
                         Array.isArray(selectedJob.responsibilities) ? (
                           selectedJob.responsibilities.map((resp, i) => (
                             <li key={i} className="flex items-start gap-3 text-gray-400 text-sm md:text-base">
-                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500/50 shrink-0" />
+                              <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-sky-500/50 shrink-0" />
                               {resp}
                             </li>
                           ))
@@ -319,7 +319,7 @@ export const Careers = () => {
 
                   <div className="space-y-6">
                     <h4 className="text-lg md:text-xl font-bold text-white flex items-center gap-2">
-                      <div className="w-1.5 h-6 bg-emerald-500 rounded-full" />
+                      <div className="w-1.5 h-6 bg-sky-500 rounded-full" />
                       Technical Skills
                     </h4>
                     <div className="space-y-4">
@@ -335,7 +335,7 @@ export const Careers = () => {
                         ) : typeof selectedJob.skills === 'object' ? (
                           Object.entries(selectedJob.skills).map(([category, list]) => (
                             <div key={category}>
-                              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-2">{category}</p>
+                              <p className="text-[10px] font-bold uppercase tracking-wider text-sky-400 mb-2">{category}</p>
                               <div className="flex flex-wrap gap-2">
                                 {Array.isArray(list) ? list.map((skill, i) => (
                                   <span key={i} className="px-2 py-1 rounded bg-white/5 text-gray-300 text-[10px] md:text-xs border border-white/10">
@@ -358,7 +358,7 @@ export const Careers = () => {
                 <div className="pt-8 border-t border-white/10 flex justify-end">
                   <button
                     onClick={() => setIsApplying(true)}
-                    className="w-full md:w-auto px-8 py-4 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-500 transition-all"
+                    className="w-full md:w-auto px-8 py-4 rounded-xl bg-sky-600 text-white font-bold hover:bg-sky-500 transition-all"
                   >
                     Apply for this Position
                   </button>
@@ -395,7 +395,7 @@ export const Careers = () => {
 
               {formStatus === 'success' ? (
                 <div className="text-center py-12 space-y-6">
-                  <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto text-emerald-400">
+                  <div className="w-20 h-20 bg-sky-500/10 rounded-full flex items-center justify-center mx-auto text-sky-400">
                     <CheckCircle size={48} />
                   </div>
                   <div className="space-y-2">
@@ -417,7 +417,7 @@ export const Careers = () => {
                         <input
                           required
                           type="text"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors text-sm"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-sky-500 outline-none transition-colors text-sm"
                           placeholder="John Doe"
                         />
                       </div>
@@ -426,7 +426,7 @@ export const Careers = () => {
                         <input
                           required
                           type="email"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors text-sm"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-sky-500 outline-none transition-colors text-sm"
                           placeholder="john@example.com"
                         />
                       </div>
@@ -436,7 +436,7 @@ export const Careers = () => {
                       <input
                         required
                         type="number"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors text-sm"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-sky-500 outline-none transition-colors text-sm"
                         placeholder="e.g. 5"
                       />
                     </div>
@@ -445,14 +445,14 @@ export const Careers = () => {
                       <input
                         required
                         type="url"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors text-sm"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-sky-500 outline-none transition-colors text-sm"
                         placeholder="https://..."
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs md:text-sm font-medium text-gray-300">Message (Optional)</label>
                       <textarea
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-emerald-500 outline-none transition-colors min-h-[80px] text-sm"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-sky-500 outline-none transition-colors min-h-[80px] text-sm"
                         placeholder="Tell us why you're a great fit..."
                       />
                     </div>
@@ -460,7 +460,7 @@ export const Careers = () => {
                     <button
                       type="submit"
                       disabled={formStatus === 'sending'}
-                      className="w-full py-4 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-4 rounded-xl bg-sky-600 text-white font-bold hover:bg-sky-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       {formStatus === 'sending' ? (
                         'Sending...'

@@ -8,7 +8,7 @@ const services = [
     title: 'Cloud Services',
     description: 'End-to-end cloud solutions to help businesses migrate, manage, and scale on cloud platforms like AWS, Azure, and Google Cloud.',
     icon: Cloud,
-    color: 'from-emerald-500 to-teal-500',
+    color: 'from-sky-500 to-teal-500',
   },
   {
     title: 'Modern Workplace',
@@ -20,13 +20,13 @@ const services = [
     title: 'Cloud Analytics & AI',
     description: 'Leverage data with advanced analytics and AI to gain real-time insights, improve decision-making, and predict future trends.',
     icon: BrainCircuit,
-    color: 'from-emerald-500 to-emerald-700',
+    color: 'from-sky-500 to-sky-700',
   },
   {
     title: 'Business Applications',
     description: 'Build and integrate enterprise-grade applications to streamline operations and enhance overall business performance.',
     icon: AppWindow,
-    color: 'from-teal-500 to-emerald-500',
+    color: 'from-teal-500 to-sky-500',
   },
   {
     title: 'Mobility Solutions',
@@ -44,7 +44,7 @@ const services = [
     title: 'Internet of Things (IoT)',
     description: 'Design scalable IoT solutions to connect devices, collect data, and improve operational efficiency.',
     icon: Wifi,
-    color: 'from-emerald-400 to-emerald-600',
+    color: 'from-sky-400 to-sky-600',
   },
   {
     title: 'Talent Services',
@@ -56,12 +56,12 @@ const services = [
 
 export const Services = () => {
   return (
-    <section id="services" className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
+    <section id="services" className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Our Services"
           subtitle="Comprehensive technology solutions to drive your business forward in the digital age."
-          dark={true}
+          dark={false}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -72,18 +72,18 @@ export const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300"
+              className="bg-gray-50 border border-gray-100 rounded-2xl p-8 hover:bg-white hover:shadow-xl transition-all duration-300"
             >
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 mb-6 group-hover:scale-110 transition-all duration-300">
                 <service.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
                 {service.title}
               </h3>
-              <p className="text-gray-400 leading-relaxed font-light mb-6">
+              <p className="text-gray-600 leading-relaxed font-light mb-6">
                 {service.description}
               </p>
-              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm hover:gap-3 transition-all cursor-pointer">
+              <div className="flex items-center gap-2 text-sky-600 font-semibold text-sm hover:gap-3 transition-all cursor-pointer">
                 Learn More <ChevronRight size={16} />
               </div>
             </motion.div>

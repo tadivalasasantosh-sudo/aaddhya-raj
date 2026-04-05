@@ -33,7 +33,7 @@ const reasons = [
 export const WhyChooseUs = () => {
   return (
     <section id="why-choose-us" className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-emerald-900/20 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-sky-900/20 rounded-full blur-[120px] -translate-y-1/2" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -44,7 +44,7 @@ export const WhyChooseUs = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Why Partner With <span className="text-emerald-400">AadhyaRaj Technologies?</span>
+              Why Partner With <span className="text-sky-400">AadhyaRaj Technologies?</span>
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-8 font-light">
               We don't just build software; we build solutions that drive your business forward. Our combination of technical expertise, industry experience, and dedication to client success sets us apart.
@@ -53,14 +53,14 @@ export const WhyChooseUs = () => {
             <div className="space-y-6">
               {reasons.slice(0, 3).map((reason, index) => (
                 <div key={index} className="flex gap-4">
-                  <div className="mt-1 text-emerald-400 shrink-0">
+                  <div className="mt-1 text-sky-400 shrink-0">
                     <CheckCircle2 size={24} />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-lg mb-2">
                       {reason.title.includes('White Team') ? (
                         <>
-                          Expert <span className="text-emerald-400 font-bold">White Team</span>
+                          Expert <span className="text-sky-400 font-bold">White Team</span>
                         </>
                       ) : (
                         reason.title
@@ -80,19 +80,19 @@ export const WhyChooseUs = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-white/5 border border-white/10 p-8 md:p-12 relative rounded-3xl"
           >
-            <div className="absolute -top-6 -right-6 w-32 h-32 bg-emerald-500/10 rounded-full blur-[40px]" />
+            <div className="absolute -top-6 -right-6 w-32 h-32 bg-sky-500/10 rounded-full blur-[40px]" />
             
             <div className="space-y-8 relative z-10">
               {reasons.slice(3).map((reason, index) => (
                 <div key={index} className="flex gap-4">
-                  <div className="mt-1 text-emerald-400 shrink-0">
+                  <div className="mt-1 text-sky-400 shrink-0">
                     <CheckCircle2 size={24} />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-lg mb-2">
                       {reason.title.includes('White Team') ? (
                         <>
-                          Expert <span className="text-emerald-400 font-bold">White Team</span>
+                          Expert <span className="text-sky-400 font-bold">White Team</span>
                         </>
                       ) : (
                         reason.title
