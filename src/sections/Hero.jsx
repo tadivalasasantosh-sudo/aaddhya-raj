@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, ChevronRight, Sparkles, CheckCircle, Globe, MousePointer2 } from 'lucide-react';
+import { ArrowRight, ChevronRight, Sparkles, CheckCircle, MousePointer2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export const Hero = () => {
@@ -16,21 +16,15 @@ export const Hero = () => {
           transition={{ duration: 0.8 }}
           className="space-y-8 flex flex-col items-center"
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium tracking-wide">
-            <Globe size={16} className="text-emerald-500" />
-            Global IT Solutions Partner
-          </div>
-          
           {/* Main Title */}
           <h1 className="text-4xl md:text-7xl font-display font-bold leading-[1.15] text-white tracking-tight max-w-3xl">
-            Innovative IT Solutions & <br />
-            <span className="text-[#00d1ff]">Recruitment Excellence</span>
+            Empowering Your <br />
+            <span className="text-[#00d1ff]">Digital Future</span>
           </h1>
-          
+
           {/* Description */}
           <p className="text-lg md:text-xl text-gray-400 leading-relaxed max-w-2xl font-light">
-            Empowering businesses with end-to-end IT staffing, software development, and digital transformation services across 6 global offices.
+            AadhyaRaj Technologies delivers high-impact digital transformation through advanced software engineering, cloud architecture, and AI-driven business intelligence.
           </p>
           
           {/* Buttons */}
