@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2, Image as ImageIcon, Menu as MenuIcon, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Users, Briefcase, MessageSquare, Settings, LogOut, Check, Mail, Trash2, Edit2, Image as ImageIcon, Menu as MenuIcon, AlertTriangle, Sparkles, Loader2 } from 'lucide-react';
 import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addD
 import { Plus, X as CloseIcon } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../firebase';
 import { ConfirmModal } from './ConfirmModal';
+import { generateAIContent } from '../lib/gemini';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export const AdminDashboard = () => {
     description: '',
     skills: ''
   });
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
   useEffect(() => {
     let unsubscribeMessages;
@@ -123,6 +125,67 @@ export const AdminDashboard = () => {
   }, [navigate]);
 
   // Remove the activeTab based useEffect since we fetch everything now
+
+  const handleGenerateJobDescription = async () => {
+    if (!jobFormData.title) {
+      alert("Please enter a job title first.");
+      return;
+    }
+    setIsGeneratingAI(true);
+    try {
+      const prompt = `Write a professional job description for the role of "${jobFormData.title}" at AadhyaRaj Technologies. 
+      Include key responsibilities, requirements, and why someone should join our team. 
+      Keep it concise and engaging.`;
+      const content = await generateAIContent(prompt);
+      setJobFormData(prev => ({ ...prev, description: content }));
+    } catch (error) {
+      console.error("AI Generation Error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown AI error";
+      if (errorMessage.includes('tokens')) {
+        alert("The generated content was too long. Please try a more specific title.");
+      } else if (errorMessage.includes('API key')) {
+        alert("Gemini API key is not configured correctly. Please check your environment variables.");
+      } else {
+        alert(`AI Error: ${errorMessage}`);
+      }
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
+
+  const handleGenerateAboutText = async (field) => {
+    setIsGeneratingAI(true);
+    try {
+      let prompt = "";
+      if (field === 'aboutText') {
+        prompt = "Write a compelling 'About Us' section for AadhyaRaj Technologies. Focus on our 10+ years of experience, 200+ global clients, and our expertise in Cloud, AI, and Enterprise solutions.";
+      } else if (field === 'careerDetails') {
+        prompt = "Write an inspiring 'Careers' introduction for AadhyaRaj Technologies. Highlight our culture of innovation, growth opportunities, and why talented people should join us.";
+      } else if (field === 'mission') {
+        prompt = "Write a concise and powerful mission statement for AadhyaRaj Technologies.";
+      } else if (field === 'vision') {
+        prompt = "Write a visionary and forward-looking vision statement for AadhyaRaj Technologies.";
+      }
+
+      const content = await generateAIContent(prompt);
+      
+      if (field === 'aboutText' || field === 'careerDetails') {
+        setSettings(prev => ({ ...prev, [field]: content }));
+      } else {
+        setAbout(prev => ({ ...prev, [field]: content }));
+      }
+    } catch (error) {
+      console.error("AI Generation Error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown AI error";
+      if (errorMessage.includes('tokens')) {
+        alert("The generated content was too long. Please try again.");
+      } else {
+        alert(`AI Error: ${errorMessage}`);
+      }
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -509,7 +572,18 @@ export const AdminDashboard = () => {
         <h3 className="text-lg font-semibold mb-4">Career Optimization & Details</h3>
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Career Introduction / Details</label>
+            <div className="flex justify-between items-center">
+              <label className="text-sm text-gray-400">Career Introduction / Details</label>
+              <button
+                onClick={() => handleGenerateAboutText('careerDetails')}
+                disabled={isGeneratingAI}
+                className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors disabled:opacity-50"
+                title="Generate with Gemini AI"
+              >
+                {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Generate with AI
+              </button>
+            </div>
             <textarea 
               rows={4}
               value={settings.careerDetails}
@@ -642,7 +716,19 @@ export const AdminDashboard = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm text-gray-400">Description</label>
+                <div className="flex justify-between items-center">
+                  <label className="text-sm text-gray-400">Description</label>
+                  <button
+                    type="button"
+                    onClick={handleGenerateJobDescription}
+                    disabled={isGeneratingAI}
+                    className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors disabled:opacity-50"
+                    title="Generate with Gemini AI"
+                  >
+                    {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                    Generate with AI
+                  </button>
+                </div>
                 <textarea 
                   required
                   rows={4}
@@ -734,7 +820,19 @@ export const AdminDashboard = () => {
       
       <form onSubmit={handleUpdateSettings} className="max-w-2xl space-y-6 bg-white/5 border border-white/10 rounded-2xl p-8">
         <div className="space-y-2">
-          <label className="text-sm text-gray-400">About Us Text</label>
+          <div className="flex justify-between items-center">
+            <label className="text-sm text-gray-400">About Us Text</label>
+            <button
+              type="button"
+              onClick={() => handleGenerateAboutText('aboutText')}
+              disabled={isGeneratingAI}
+              className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors disabled:opacity-50"
+              title="Generate with Gemini AI"
+            >
+              {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+              Generate with AI
+            </button>
+          </div>
           <textarea 
             rows={6}
             value={settings.aboutText}
@@ -785,6 +883,22 @@ export const AdminDashboard = () => {
     </div>
   );
 
+  const renderGeminiChat = () => (
+    <div className="h-[calc(100vh-200px)] flex flex-col bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+      <div className="p-4 border-b border-white/10 flex items-center gap-2">
+        <Sparkles className="text-emerald-400" size={20} />
+        <h2 className="text-xl font-bold">AadhyaRaj AI Assistant</h2>
+      </div>
+      <div className="flex-1 p-4 overflow-hidden">
+        <iframe 
+          src="/ai-chat-embedded" 
+          className="w-full h-full border-none rounded-xl bg-white"
+          title="Gemini AI Chat"
+        />
+      </div>
+    </div>
+  );
+
   const renderAboutEditor = () => (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -816,7 +930,19 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Main Description</label>
+            <div className="flex justify-between items-center">
+              <label className="text-sm text-gray-400">Main Description</label>
+              <button
+                type="button"
+                onClick={() => handleGenerateAboutText('description')}
+                disabled={isGeneratingAI}
+                className="flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 transition-colors disabled:opacity-50"
+                title="Generate with Gemini AI"
+              >
+                {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Generate with AI
+              </button>
+            </div>
             <textarea 
               rows={4}
               value={about.description}
@@ -826,7 +952,19 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Mission Statement</label>
+            <div className="flex justify-between items-center">
+              <label className="text-sm text-gray-400">Mission Statement</label>
+              <button
+                type="button"
+                onClick={() => handleGenerateAboutText('mission')}
+                disabled={isGeneratingAI}
+                className="flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 transition-colors disabled:opacity-50"
+                title="Generate with Gemini AI"
+              >
+                {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Generate with AI
+              </button>
+            </div>
             <textarea 
               rows={3}
               value={about.mission}
@@ -836,7 +974,19 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Vision Statement</label>
+            <div className="flex justify-between items-center">
+              <label className="text-sm text-gray-400">Vision Statement</label>
+              <button
+                type="button"
+                onClick={() => handleGenerateAboutText('vision')}
+                disabled={isGeneratingAI}
+                className="flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 transition-colors disabled:opacity-50"
+                title="Generate with Gemini AI"
+              >
+                {isGeneratingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Generate with AI
+              </button>
+            </div>
             <textarea 
               rows={3}
               value={about.vision}
@@ -943,6 +1093,17 @@ export const AdminDashboard = () => {
           )}
           {userRole === 'admin' && (
             <button 
+              onClick={() => { setActiveTab('ai'); setIsMobileMenuOpen(false); }}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                activeTab === 'ai' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Sparkles size={20} />
+              AI Assistant
+            </button>
+          )}
+          {userRole === 'admin' && (
+            <button 
               onClick={() => { setActiveTab('about'); setIsMobileMenuOpen(false); }}
               className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                 activeTab === 'about' ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
@@ -997,7 +1158,8 @@ export const AdminDashboard = () => {
         {activeTab === 'users' && renderUsers()}
         {activeTab === 'settings' && renderSettings()}
         {activeTab === 'about' && renderAboutEditor()}
-        {activeTab !== 'dashboard' && activeTab !== 'messages' && activeTab !== 'jobs' && activeTab !== 'users' && activeTab !== 'settings' && activeTab !== 'about' && (
+        {activeTab === 'ai' && renderGeminiChat()}
+        {activeTab !== 'dashboard' && activeTab !== 'messages' && activeTab !== 'jobs' && activeTab !== 'users' && activeTab !== 'settings' && activeTab !== 'about' && activeTab !== 'ai' && (
           <div className="text-center py-24 text-gray-400 italic">
             {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} management coming soon...
           </div>

@@ -15,11 +15,12 @@ import { Signup } from './components/Signup';
 import { AdminDashboard } from './components/AdminDashboard';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AIAssistant } from './components/AIAssistant';
+import { AIChatEmbedded } from './components/AIChatEmbedded';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { SettingsProvider } from './context/SettingsContext';
 
 const HomePage = () => (
-  <div className="bg-white text-gray-900 selection:bg-emerald-100">
+  <div className="bg-[#0f172a] text-white selection:bg-emerald-500/30">
     <Navbar />
     <main>
       <Hero />
@@ -32,7 +33,6 @@ const HomePage = () => (
       <Contact />
     </main>
     <Footer />
-    <AIAssistant />
     <WhatsAppButton />
   </div>
 );
@@ -47,6 +47,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/ai-chat-embedded" element={<AIChatEmbedded />} />
           </Routes>
         </Router>
       </SettingsProvider>

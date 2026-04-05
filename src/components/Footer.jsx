@@ -7,7 +7,7 @@ export const Footer = () => {
   const { settings } = useSettings();
 
   return (
-    <footer className="bg-white border-t border-gray-100 pt-24 pb-12 relative overflow-hidden">
+    <footer className="bg-white pt-24 pb-12 relative overflow-hidden">
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -18,10 +18,10 @@ export const Footer = () => {
               AadhyaRaj Technologies is a premier technology partner, delivering high-impact digital transformation through advanced software engineering and AI-driven business intelligence.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://www.linkedin.com/company/aditya-raj-technologies/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-all duration-300">
+              <a href="https://www.linkedin.com/company/aadhyaraj-technologies/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-all duration-300">
                 <Linkedin size={22} />
               </a>
-              <a href={`mailto:${settings.contactEmail}`} className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-all duration-300">
+              <a href={`mailto:${settings.contactEmail}`} className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-all duration-300">
                 <Mail size={22} />
               </a>
             </div>
@@ -57,7 +57,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 text-xs uppercase tracking-widest text-gray-400 font-medium">
+        <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-xs uppercase tracking-widest text-gray-400 font-medium">
           <p>© {new Date().getFullYear()} AadhyaRaj Technologies. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <a href="#" className="hover:text-emerald-600 transition-colors">Privacy Policy</a>

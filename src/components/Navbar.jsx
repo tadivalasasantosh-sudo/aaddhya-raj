@@ -76,8 +76,8 @@ export const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-      scrolled ? "bg-white/90 backdrop-blur-md border-gray-100 py-3 shadow-sm" : "bg-transparent py-5"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white",
+      scrolled ? "py-3" : "py-5"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -99,7 +99,7 @@ export const Navbar = () => {
                       <ChevronDown size={14} className={cn("transition-transform duration-200", isCareersOpen && "rotate-180")} />
                     </button>
                     <div className={cn(
-                      "absolute top-full left-0 mt-2 w-48 py-2 bg-white border border-gray-100 rounded-xl shadow-xl transition-all duration-200 origin-top",
+                      "absolute top-full left-0 mt-2 w-48 py-2 bg-white rounded-xl transition-all duration-200 origin-top",
                       isCareersOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                     )}>
                       {link.submenu.map((sub) => (
@@ -155,7 +155,7 @@ export const Navbar = () => {
           <div className="flex items-center gap-4">
             <a 
               href="#contact"
-              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 hover:shadow-lg transition-all duration-300 active:scale-95"
+              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition-all duration-300 active:scale-95"
             >
               Get Started
             </a>
@@ -180,8 +180,8 @@ export const Navbar = () => {
       </div>
 
       <div className={cn(
-        "md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 transition-all duration-300 overflow-hidden",
-        isOpen ? "max-h-[500px] opacity-100 shadow-lg" : "max-h-0 opacity-0"
+        "md:hidden absolute top-full left-0 right-0 bg-white transition-all duration-300 overflow-hidden",
+        isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
       )}>
         <div className="px-4 pt-2 pb-6 space-y-1">
           {navLinks.map((link) => (

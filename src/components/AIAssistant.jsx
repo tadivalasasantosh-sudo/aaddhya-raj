@@ -75,7 +75,8 @@ Your goal is to clarify the whole website and process very speedily.
         const session = ai.chats.create({
           model: "gemini-3-flash-preview",
           config: {
-            systemInstruction: systemInstruction
+            systemInstruction: systemInstruction,
+            maxOutputTokens: 1024,
           }
         });
         setChatSession(session);

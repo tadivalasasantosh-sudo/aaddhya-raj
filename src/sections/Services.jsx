@@ -48,7 +48,7 @@ const services = [
   },
   {
     title: 'Talent Services',
-    description: 'Provide skilled professionals, staffing solutions, and resource-as-a-service to support business growth.',
+    description: 'Provide skilled white team members, staffing solutions, and resource-as-a-service to support business growth.',
     icon: Users,
     color: 'from-pink-500 to-rose-500',
   },
@@ -56,11 +56,12 @@ const services = [
 
 export const Services = () => {
   return (
-    <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
+    <section id="services" className="py-24 bg-[#0f172a] relative overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Our Services"
           subtitle="Comprehensive technology solutions to drive your business forward in the digital age."
+          dark={true}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -71,18 +72,18 @@ export const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card-shadow group p-8"
+              className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300"
             >
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-all duration-300">
                 <service.icon size={28} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+              <h3 className="text-xl font-bold text-white mb-4">
                 {service.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed font-light mb-6">
+              <p className="text-gray-400 leading-relaxed font-light mb-6">
                 {service.description}
               </p>
-              <div className="flex items-center gap-2 text-emerald-600 font-semibold text-sm group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm hover:gap-3 transition-all cursor-pointer">
                 Learn More <ChevronRight size={16} />
               </div>
             </motion.div>

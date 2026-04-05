@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component {
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Something went wrong</h1>
             <p className="text-gray-600 mb-8">
-              {errorDetails ? `Firebase Error: ${errorDetails.operationType} at ${errorDetails.path}` : this.state.error?.message || 'An unexpected error occurred.'}
+              {this.state.error?.message || 'An unexpected error occurred.'}
             </p>
             <button
               onClick={() => window.location.reload()}

@@ -5,23 +5,24 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Poppins", sans-serif;
   
-  --color-primary: #065F46;
-  --color-secondary: #10B981;
-  --color-slate-950: #0f172a;
+  --color-primary: #2563eb;
+  --color-secondary: #3b82f6;
+  --color-accent: #0ea5e9;
+  --color-dark: #020617;
 }
 
 @layer base {
   body {
-    @apply bg-white text-gray-900 antialiased font-sans;
+    @apply bg-white text-slate-900 antialiased font-sans;
     scroll-behavior: smooth;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-gray-900;
+    @apply font-display tracking-tight text-slate-900 font-bold;
   }
 
   ::selection {
-    @apply bg-emerald-500/30 text-emerald-900;
+    @apply bg-blue-500/30 text-blue-900;
   }
 }
 
@@ -31,30 +32,30 @@
   }
 
   .card-shadow {
-    @apply bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+    @apply bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center px-8 py-3.5 font-semibold text-white transition-all duration-300 bg-emerald-600 rounded-full hover:bg-emerald-700 hover:shadow-lg active:scale-95;
+    @apply relative inline-flex items-center justify-center px-8 py-3.5 font-semibold text-white transition-all duration-300 bg-blue-600 rounded-xl hover:bg-blue-700 hover:shadow-lg active:scale-95;
   }
 
   .btn-secondary {
-    @apply relative inline-flex items-center justify-center px-8 py-3.5 font-semibold text-emerald-600 transition-all duration-300 bg-emerald-50 border border-emerald-100 rounded-full hover:bg-emerald-100 active:scale-95;
+    @apply relative inline-flex items-center justify-center px-8 py-3.5 font-semibold text-blue-600 transition-all duration-300 bg-blue-50 border border-blue-100 rounded-xl hover:bg-blue-100 active:scale-95;
   }
 
   .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-emerald-900 to-emerald-600;
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-500;
   }
 }
 
 .hero-gradient {
-  background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.05), transparent 70%),
-              radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.03), transparent 50%);
+  background: radial-gradient(circle at 50% -20%, rgba(37, 99, 235, 0.1), transparent 70%),
+              radial-gradient(circle at 0% 100%, rgba(37, 99, 235, 0.05), transparent 50%);
 }
 
 .bg-grid-pattern {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 .animate-float {
