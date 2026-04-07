@@ -19,15 +19,17 @@ export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@aadhyarajtech.com',
+    contactEmail: 'Info@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345',
-    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
+    careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.',
+    aboutImageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80'
   });
   const [about, setAbout] = useState({
     title: 'About AadhyaRaj Technologies',
     description: 'AadhyaRaj Technologies is a modern technology company focused on building scalable, secure, and high-performance digital solutions.',
     mission: '',
-    vision: ''
+    vision: '',
+    images: []
   });
   const [loading, setLoading] = useState(true);
   const [showJobModal, setShowJobModal] = useState(false);
@@ -61,9 +63,13 @@ export const AdminDashboard = () => {
         if (user.email === 'tadivalasasantosh@gmail.com') {
           role = 'admin';
         } else {
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            role = userDoc.data().role;
+          try {
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            if (userDoc.exists()) {
+              role = userDoc.data().role;
+            }
+          } catch (error) {
+            handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
           }
         }
         setUserRole(role);
@@ -82,31 +88,31 @@ export const AdminDashboard = () => {
         const qJobs = query(collection(db, 'jobs'), orderBy('createdAt', 'desc'));
         unsubscribeJobs = onSnapshot(qJobs, (snapshot) => {
           setJobs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        }, (error) => console.error("Jobs Error:", error));
+        }, (error) => handleFirestoreError(error, OperationType.LIST, 'jobs'));
 
         // Admin only data
         if (role === 'admin') {
           const qMessages = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
           unsubscribeMessages = onSnapshot(qMessages, (snapshot) => {
             setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-          }, (error) => console.error("Messages Error:", error));
+          }, (error) => handleFirestoreError(error, OperationType.LIST, 'messages'));
 
           const qUsers = query(collection(db, 'users'), orderBy('createdAt', 'desc'));
           unsubscribeUsers = onSnapshot(qUsers, (snapshot) => {
             setUsers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-          }, (error) => console.error("Users Error:", error));
+          }, (error) => handleFirestoreError(error, OperationType.LIST, 'users'));
 
           unsubscribeSettings = onSnapshot(doc(db, 'settings', 'global'), (snapshot) => {
             if (snapshot.exists()) {
               setSettings(snapshot.data());
             }
-          }, (error) => console.error("Settings Error:", error));
+          }, (error) => handleFirestoreError(error, OperationType.GET, 'settings/global'));
 
           const unsubscribeAbout = onSnapshot(doc(db, 'about', 'content'), (snapshot) => {
             if (snapshot.exists()) {
               setAbout(snapshot.data());
             }
-          }, (error) => console.error("About Error:", error));
+          }, (error) => handleFirestoreError(error, OperationType.GET, 'about/content'));
         }
         
         setLoading(false);

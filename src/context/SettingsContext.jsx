@@ -7,7 +7,7 @@ const SettingsContext = createContext();
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState({
     aboutText: '',
-    contactEmail: 'tag@aadhyarajtech.com',
+    contactEmail: 'Info@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345',
     careerDetails: 'We are looking for passionate individuals to join our team and build the future of AadhyaRaj Technologies together.'
   });

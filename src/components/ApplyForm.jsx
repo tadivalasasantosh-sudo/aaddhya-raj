@@ -89,7 +89,7 @@ export default function ApplyForm({ preSelectedRole = "" }) {
       </div>
 
       <a 
-        href={`mailto:tag@aadhyarajtech.com?subject=Job Application: ${form.role || 'General'}&body=Name: ${form.name || ''}%0D%0AEmail: ${form.email || ''}%0D%0APhone: ${form.phone || ''}%0D%0ALinkedIn: ${form.linkedin || ''}%0D%0A%0D%0APlease attach your resume to this email.`}
+        href={`mailto:Info@aadhyarajtech.com?subject=Job Application: ${form.role || 'General'}&body=Name: ${form.name || ''}%0D%0AEmail: ${form.email || ''}%0D%0APhone: ${form.phone || ''}%0D%0ALinkedIn: ${form.linkedin || ''}%0D%0A%0D%0APlease attach your resume to this email.`}
         className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center border border-white/10"
       >
         Send Details Directly to Email

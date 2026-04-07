@@ -12,7 +12,7 @@ service cloud.firestore {
     
     function isAdmin() {
       return isAuthenticated() && 
-        (request.auth.token.email == "tadivalasasantosh@gmail.com" || 
+        (request.auth.token.email == "tadivalasasantosh@gmail.com" && request.auth.token.email_verified == true || 
          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
     }
@@ -21,6 +21,14 @@ service cloud.firestore {
       return isAuthenticated() && 
         ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'hr') || isAdmin());
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'uid', 'role', 'createdAt']) &&
+             data.email is string && data.email.size() > 0 &&
+             data.uid is string && data.uid == request.auth.uid &&
+             data.role in ['admin', 'hr', 'user'] &&
+             data.createdAt is string;
     }
     
     function isValidMessage(data) {
@@ -40,6 +48,15 @@ service cloud.firestore {
              data.description is string &&
              data.skills is list &&
              data.createdAt is string;
+    }
+
+    function isValidSettings(data) {
+      return data.keys().hasAll(['aboutText', 'contactEmail', 'whatsappNumber', 'careerDetails', 'aboutImageUrl']) &&
+             data.aboutText is string &&
+             data.contactEmail is string && data.contactEmail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.whatsappNumber is string &&
+             data.careerDetails is string &&
+             data.aboutImageUrl is string;
     }
 
     function isValidAbout(data) {
@@ -72,14 +89,16 @@ service cloud.firestore {
     
     // User profiles
     match /users/{userId} {
-      allow read, write: if isAuthenticated() && request.auth.uid == userId;
-      allow read, write: if isAdmin();
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuthenticated() && request.auth.uid == userId && isValidUser(request.resource.data) && (request.resource.data.role == 'user' || isAdmin());
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) && isValidUser(request.resource.data) && (request.resource.data.role == resource.data.role || isAdmin());
+      allow delete: if isAdmin();
     }
     
     // Settings collection
     match /settings/{settingId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isAdmin() && isValidSettings(request.resource.data);
     }
 
     // About collection

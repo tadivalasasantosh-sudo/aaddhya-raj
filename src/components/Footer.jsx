@@ -5,7 +5,7 @@ import { Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 
 export const Footer = () => {
   const { settings } = useSettings();
-  const contactEmail = settings.contactEmail || 'tag@aadhyarajtech.com';
+  const contactEmail = settings.contactEmail || 'Info@aadhyarajtech.com';
   const whatsappNumber = settings.whatsappNumber || '+91 9127912345';
 
   return (

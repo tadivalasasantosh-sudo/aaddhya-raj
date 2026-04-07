@@ -77,7 +77,7 @@ export const Navbar = () => {
       path: '/#contact',
       submenu: [
         { name: 'Contact Us', path: '/#contact' },
-        { name: 'Email: tag@aadhyarajtech.com', path: 'mailto:tag@aadhyarajtech.com' },
+        { name: 'Email: Info@aadhyarajtech.com', path: 'mailto:Info@aadhyarajtech.com' },
         { name: 'Phone: +91 9127912345', path: 'tel:+919127912345' },
         { name: 'AadhyaRaj Technologies', path: '/#contact' }
       ]

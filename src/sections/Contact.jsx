@@ -8,7 +8,7 @@ import { doc, onSnapshot, collection, addDoc } from 'firebase/firestore';
 
 export const Contact = () => {
   const [settings, setSettings] = useState({
-    contactEmail: 'tag@aadhyarajtech.com',
+    contactEmail: 'Info@aadhyarajtech.com',
     whatsappNumber: '+91 9127912345'
   });
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ export const Contact = () => {
     return () => unsubscribe();
   }, []);
 
-  const contactEmail = settings.contactEmail || 'tag@aadhyarajtech.com';
+  const contactEmail = settings.contactEmail || 'Info@aadhyarajtech.com';
   const whatsappNumber = settings.whatsappNumber || '+91 9127912345';
 
   const handleSubmit = async (e) => {
