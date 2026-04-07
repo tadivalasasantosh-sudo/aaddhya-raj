@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Bot, User, Loader2 } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
-
-// Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+import { ai } from '../context/gemini';
 
 export const AIChatEmbedded = () => {
   const [messages, setMessages] = useState([
@@ -80,14 +77,11 @@ export const AIChatEmbedded = () => {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {messages.map((msg, idx) => (
-          <div 
-            key={idx} 
-            className={"flex gap-4 " + (msg.role === 'user' ? 'flex-row-reverse' : '')}
-          >
-            <div className={"w-10 h-10 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-100 text-gray-600')}>
+            <div key={idx} className={"flex gap-4 " + (msg.role === 'user' ? 'flex-row-reverse' : '')}>
+            <div className={"w-10 h-10 rounded-full flex items-center justify-center shrink-0 " + (msg.role === 'user' ? 'bg-sky-100 text-sky-600' : 'bg-gray-100 text-gray-600')}>
               {msg.role === 'user' ? <User size={20} /> : <Bot size={20} />}
             </div>
-            <div className={"px-5 py-3 rounded-2xl max-w-[85%] text-sm leading-relaxed " + (msg.role === 'user' ? 'bg-emerald-600 text-white rounded-tr-sm' : 'bg-gray-100 text-gray-800 rounded-tl-sm whitespace-pre-wrap')}>
+            <div className={"px-5 py-3 rounded-2xl max-w-[85%] text-sm leading-relaxed " + (msg.role === 'user' ? 'bg-sky-600 text-white rounded-tr-sm' : 'bg-gray-100 text-gray-800 rounded-tl-sm whitespace-pre-wrap')}>
               {msg.content}
             </div>
           </div>
@@ -109,18 +103,18 @@ export const AIChatEmbedded = () => {
       {/* Input */}
       <form onSubmit={handleSendMessage} className="p-6 bg-gray-50 border-t border-gray-100">
         <div className="relative max-w-4xl mx-auto">
-          <input
+            <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message here..."
-            className="w-full bg-white border border-gray-200 rounded-2xl pl-6 pr-14 py-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-600/5 transition-all shadow-sm"
+            className="w-full bg-white border border-gray-200 rounded-2xl pl-6 pr-14 py-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-sky-600 focus:ring-4 focus:ring-sky-600/5 transition-all shadow-sm"
             disabled={isLoading}
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:opacity-50 disabled:hover:bg-emerald-600 transition-all shadow-md shadow-emerald-600/20"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-sky-600 text-white rounded-xl hover:bg-sky-700 disabled:opacity-50 disabled:hover:bg-sky-600 transition-all shadow-md shadow-sky-600/20"
           >
             <Send size={20} />
           </button>

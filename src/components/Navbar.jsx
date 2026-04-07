@@ -14,6 +14,7 @@ export const Navbar = () => {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [isCareersOpen, setIsCareersOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -71,7 +72,16 @@ export const Navbar = () => {
       ]
     },
     { name: 'About', path: '/#about' },
-    { name: 'Contact', path: '/#contact' },
+    { 
+      name: 'Contact', 
+      path: '/#contact',
+      submenu: [
+        { name: 'Contact Us', path: '/#contact' },
+        { name: 'Email: tag@aadhyarajtech.com', path: 'mailto:tag@aadhyarajtech.com' },
+        { name: 'Phone: +91 9127912345', path: 'tel:+919127912345' },
+        { name: 'AadhyaRaj Technologies', path: '/#contact' }
+      ]
+    },
   ];
 
   return (
@@ -91,23 +101,31 @@ export const Navbar = () => {
                   <div 
                     key={link.name}
                     className="relative group"
-                    onMouseEnter={() => setIsCareersOpen(true)}
-                    onMouseLeave={() => setIsCareersOpen(false)}
+                    onMouseEnter={() => link.name === 'Careers' ? setIsCareersOpen(true) : setIsContactOpen(true)}
+                    onMouseLeave={() => link.name === 'Careers' ? setIsCareersOpen(false) : setIsContactOpen(false)}
                   >
-                    <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">
+                    <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-sky-600 transition-colors">
                       {link.name}
-                      <ChevronDown size={14} className={cn("transition-transform duration-200", isCareersOpen && "rotate-180")} />
+                      <ChevronDown size={14} className={cn("transition-transform duration-200", (link.name === 'Careers' ? isCareersOpen : isContactOpen) && "rotate-180")} />
                     </button>
                     <div className={cn(
-                      "absolute top-full left-0 mt-2 w-48 py-2 bg-white rounded-xl transition-all duration-200 origin-top",
-                      isCareersOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                      "absolute top-full left-0 mt-2 w-64 py-2 bg-white rounded-xl shadow-xl border border-gray-100 transition-all duration-200 origin-top",
+                      (link.name === 'Careers' ? isCareersOpen : isContactOpen) ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                     )}>
                       {link.submenu.map((sub) => (
                         sub.path.startsWith('/#') ? (
                           <a
                             key={sub.name}
                             href={sub.path}
-                            className="block px-4 py-2 text-sm text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-sky-600 hover:bg-sky-50 transition-colors"
+                          >
+                            {sub.name}
+                          </a>
+                        ) : sub.path.startsWith('mailto:') || sub.path.startsWith('tel:') ? (
+                          <a
+                            key={sub.name}
+                            href={sub.path}
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-sky-600 hover:bg-sky-50 transition-colors"
                           >
                             {sub.name}
                           </a>
@@ -115,7 +133,7 @@ export const Navbar = () => {
                           <Link
                             key={sub.name}
                             to={sub.path}
-                            className="block px-4 py-2 text-sm text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                            className="block px-4 py-2 text-sm text-gray-600 hover:text-sky-600 hover:bg-sky-50 transition-colors"
                           >
                             {sub.name}
                           </Link>
@@ -128,7 +146,7 @@ export const Navbar = () => {
                     <a
                       key={link.name}
                       href={link.path}
-                      className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
+                      className="text-sm font-medium text-gray-600 hover:text-sky-600 transition-colors"
                     >
                       {link.name}
                     </a>
@@ -136,7 +154,7 @@ export const Navbar = () => {
                     <Link
                       key={link.name}
                       to={link.path}
-                      className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
+                      className="text-sm font-medium text-gray-600 hover:text-sky-600 transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -145,7 +163,7 @@ export const Navbar = () => {
               ))}
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-ai-assistant'))}
-                className="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors"
+                className="text-sm font-medium text-gray-600 hover:text-sky-600 transition-colors"
               >
                 AI Assistant
               </button>
@@ -155,7 +173,7 @@ export const Navbar = () => {
           <div className="flex items-center gap-4">
             <a 
               href="#contact"
-              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition-all duration-300 active:scale-95"
+              className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-sky-600 rounded-full hover:bg-sky-700 transition-all duration-300 active:scale-95"
             >
               Get Started
             </a>
@@ -171,7 +189,7 @@ export const Navbar = () => {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-emerald-600 focus:outline-none"
+              className="md:hidden p-2 text-gray-600 hover:text-sky-600 focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -181,7 +199,7 @@ export const Navbar = () => {
 
       <div className={cn(
         "md:hidden absolute top-full left-0 right-0 bg-white transition-all duration-300 overflow-hidden",
-        isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
       )}>
         <div className="px-4 pt-2 pb-6 space-y-1">
           {navLinks.map((link) => (
@@ -196,7 +214,16 @@ export const Navbar = () => {
                       key={sub.name}
                       href={sub.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all"
+                    >
+                      {sub.name}
+                    </a>
+                  ) : sub.path.startsWith('mailto:') || sub.path.startsWith('tel:') ? (
+                    <a
+                      key={sub.name}
+                      href={sub.path}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all"
                     >
                       {sub.name}
                     </a>
@@ -205,7 +232,7 @@ export const Navbar = () => {
                       key={sub.name}
                       to={sub.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                      className="block px-6 py-3 text-base font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all"
                     >
                       {sub.name}
                     </Link>
@@ -218,7 +245,7 @@ export const Navbar = () => {
                   key={link.name}
                   href={link.path}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all"
                 >
                   {link.name}
                 </a>
@@ -227,7 +254,7 @@ export const Navbar = () => {
                   key={link.name}
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                  className="block px-3 py-4 text-base font-medium text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-all"
                 >
                   {link.name}
                 </Link>
@@ -239,7 +266,7 @@ export const Navbar = () => {
               setIsOpen(false);
               window.dispatchEvent(new CustomEvent('open-ai-assistant'));
             }}
-            className="block w-full text-left px-3 py-4 text-base font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-all"
+            className="block w-full text-left px-3 py-4 text-base font-medium text-sky-600 hover:text-sky-700 hover:bg-sky-50 rounded-lg transition-all"
           >
             AI Assistant
           </button>

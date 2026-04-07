@@ -98,7 +98,7 @@ export const Signup = () => {
     <div className="min-h-screen bg-white flex items-center justify-center p-4 relative pt-20 md:pt-4">
       <Link 
         to="/" 
-        className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-gray-500 hover:text-emerald-600 transition-colors z-10"
+        className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 text-gray-500 hover:text-sky-600 transition-colors z-10"
       >
         <ArrowLeft size={20} />
         <span className="text-sm md:text-base font-medium">Back to Home</span>
@@ -110,7 +110,7 @@ export const Signup = () => {
         className="max-w-md w-full bg-white p-8 rounded-3xl border border-gray-100 shadow-2xl space-y-8"
       >
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 mb-2">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-50 text-sky-600 mb-2">
             <UserPlus size={32} />
           </div>
           <h2 className="text-3xl font-display font-bold text-gray-900">Request Access</h2>
@@ -125,7 +125,7 @@ export const Signup = () => {
         )}
         
         {success && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 text-sm">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-sky-50 border border-sky-100 text-sky-600 text-sm">
             <CheckCircle size={18} className="shrink-0" />
             {success}
           </div>
@@ -138,7 +138,7 @@ export const Signup = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
+              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 outline-none transition-all"
               required
               placeholder="your@email.com"
             />
@@ -149,7 +149,7 @@ export const Signup = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
+              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 outline-none transition-all"
               required
             />
           </div>
@@ -159,14 +159,14 @@ export const Signup = () => {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
+              className="w-full px-5 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 outline-none transition-all"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-xl bg-sky-600 text-white font-bold hover:bg-sky-700 shadow-lg shadow-sky-600/20 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? 'Creating Account...' : <><UserPlus size={20} /> Create Account</>}
           </button>
@@ -209,7 +209,7 @@ export const Signup = () => {
 
         <p className="text-center text-gray-500 text-sm font-medium">
           Already have an account?{' '}
-          <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-bold hover:underline">Sign In</Link>
+          <Link to="/login" className="text-sky-600 hover:text-sky-700 font-bold hover:underline">Sign In</Link>
         </p>
       </motion.div>
     </div>

@@ -8,7 +8,7 @@ import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, addD
 import { Plus, X as CloseIcon } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../firebase';
 import { ConfirmModal } from './ConfirmModal';
-import { generateAIContent } from '../lib/gemini';
+import { generateAIContent } from '../context/gemini';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();

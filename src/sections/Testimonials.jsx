@@ -1,9 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Star, Quote, ShieldCheck, Activity, Building2 } from 'lucide-react';
+import { Star, Quote, ShieldCheck, Activity, Building2, Smartphone, Cloud } from 'lucide-react';
 import { SectionHeader } from '../components/SectionHeader';
 
 const testimonials = [
+  {
+    quote: "Professional team with strong domain knowledge in enterprise software development. Delivery was on time and as promised.",
+    author: "Enterprise IT Solutions Company",
+    location: "India",
+    icon: Building2,
+    iconBg: "bg-sky-50",
+    iconColor: "text-sky-600",
+  },
   {
     quote: "AadhyaRaj Technologies transformed our legacy systems into a modern, scalable cloud architecture. Their expertise and dedication are unmatched.",
     author: "ISO-certified enterprise",
@@ -21,12 +29,20 @@ const testimonials = [
     iconColor: "text-sky-600",
   },
   {
-    quote: "Professional, responsive, and incredibly talented. They delivered our enterprise web application on time and perfectly to spec.",
-    author: "Globally recognized fintech company",
-    location: "UK",
-    icon: Building2,
+    quote: "Their mobility solutions have significantly improved our field operations and customer engagement. A truly innovative partner.",
+    author: "Leading Logistics Provider",
+    location: "Australia",
+    icon: Smartphone,
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
+  },
+  {
+    quote: "Exceptional cloud migration strategy. They helped us transition our entire infrastructure to Azure with zero downtime.",
+    author: "Retail Giant",
+    location: "Australia",
+    icon: Cloud,
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
   }
 ];
 
@@ -67,7 +83,7 @@ export const Testimonials = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((item, index) => (
             <motion.div
               key={index}

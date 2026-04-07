@@ -27,7 +27,7 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <span className={cn(
-              "font-display font-bold tracking-tighter text-emerald-400",
+              "font-display font-bold tracking-tighter text-sky-400",
               size === 'sm' ? 'text-xl' : size === 'md' ? 'text-2xl' : 'text-3xl'
             )}>
               AR
@@ -37,7 +37,7 @@ export const CompanyLogo = ({ className, size = 'md' }) => {
       </div>
       <div className="flex flex-col leading-none justify-center">
         <span className={cn("font-display font-bold tracking-tight text-gray-900", sizes[size].text1)}>AadhyaRaj</span>
-        <span className={cn("font-sans font-medium tracking-[0.2em] text-emerald-600 uppercase", sizes[size].text2)}>Technologies</span>
+        <span className={cn("font-sans font-medium tracking-[0.2em] text-sky-600 uppercase", sizes[size].text2)}>Technologies</span>
       </div>
     </div>
   );

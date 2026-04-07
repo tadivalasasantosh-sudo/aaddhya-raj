@@ -8,7 +8,7 @@ const services = [
     title: 'Cloud Services',
     description: 'End-to-end cloud solutions to help businesses migrate, manage, and scale on cloud platforms like AWS, Azure, and Google Cloud.',
     icon: Cloud,
-    color: 'from-sky-500 to-teal-500',
+    color: 'from-sky-500 to-blue-500',
   },
   {
     title: 'Modern Workplace',
@@ -17,16 +17,10 @@ const services = [
     color: 'from-purple-500 to-pink-500',
   },
   {
-    title: 'Cloud Analytics & AI',
-    description: 'Leverage data with advanced analytics and AI to gain real-time insights, improve decision-making, and predict future trends.',
-    icon: BrainCircuit,
-    color: 'from-sky-500 to-sky-700',
-  },
-  {
     title: 'Business Applications',
     description: 'Build and integrate enterprise-grade applications to streamline operations and enhance overall business performance.',
     icon: AppWindow,
-    color: 'from-teal-500 to-sky-500',
+    color: 'from-blue-500 to-sky-500',
   },
   {
     title: 'Mobility Solutions',
@@ -41,14 +35,8 @@ const services = [
     color: 'from-red-500 to-orange-500',
   },
   {
-    title: 'Internet of Things (IoT)',
-    description: 'Design scalable IoT solutions to connect devices, collect data, and improve operational efficiency.',
-    icon: Wifi,
-    color: 'from-sky-400 to-sky-600',
-  },
-  {
     title: 'Talent Services',
-    description: 'Provide skilled white team members, staffing solutions, and resource-as-a-service to support business growth.',
+    description: 'Provide skilled tech team members, staffing solutions, and resource-as-a-service to support business growth.',
     icon: Users,
     color: 'from-pink-500 to-rose-500',
   },

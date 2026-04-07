@@ -82,14 +82,22 @@ export const About = () => {
               {aboutData.description}
             </p>
 
-            <div className="flex justify-center gap-12 pt-4">
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12 pt-4">
               <div className="space-y-2">
-                <div className="text-4xl font-bold text-sky-600">10+</div>
+                <div className="text-4xl font-bold text-sky-600">5+</div>
                 <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Years of Excellence</div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-bold text-sky-600">250+</div>
+                <div className="text-4xl font-bold text-sky-600">50+</div>
                 <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Global Projects</div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-4xl font-bold text-sky-600">200+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Happy Employees</div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-4xl font-bold text-sky-600">30+</div>
+                <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Happy Clients</div>
               </div>
             </div>
           </motion.div>
@@ -105,7 +113,7 @@ export const About = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="p-8 rounded-3xl bg-gray-50 border border-gray-100 shadow-sm hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
             >
-              <div className={`w-14 h-14 rounded-2xl ${value.bg.replace('emerald', 'sky')} ${value.color.replace('emerald', 'sky')} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300`}>
+              <div className={`w-14 h-14 rounded-2xl ${value.bg} ${value.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300`}>
                 <value.icon size={28} />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-sky-600 transition-colors">{value.title}</h3>

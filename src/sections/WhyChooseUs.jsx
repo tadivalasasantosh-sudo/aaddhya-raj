@@ -9,8 +9,8 @@ const reasons = [
     description: 'With over 500+ successful projects delivered, we have the experience to handle complex challenges and deliver results.',
   },
   {
-    title: 'Expert White Team',
-    description: 'Our white team consists of highly skilled white team members specializing in Java, React, Node.js, and Cloud technologies.',
+    title: 'Expert Tech Team',
+    description: 'Our tech team consists of highly skilled tech team members specializing in Java, React, Node.js, and Cloud technologies.',
   },
   {
     title: 'Client-Centric Approach',
@@ -58,9 +58,9 @@ export const WhyChooseUs = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-lg mb-2">
-                      {reason.title.includes('White Team') ? (
+                      {reason.title.includes('Tech Team') ? (
                         <>
-                          Expert <span className="text-sky-400 font-bold">White Team</span>
+                          Expert <span className="text-white font-bold">Tech Team</span>
                         </>
                       ) : (
                         reason.title
@@ -90,9 +90,9 @@ export const WhyChooseUs = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-semibold text-lg mb-2">
-                      {reason.title.includes('White Team') ? (
+                      {reason.title.includes('Tech Team') ? (
                         <>
-                          Expert <span className="text-sky-400 font-bold">White Team</span>
+                          Expert <span className="text-white font-bold">Tech Team</span>
                         </>
                       ) : (
                         reason.title

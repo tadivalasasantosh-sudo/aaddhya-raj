@@ -20,7 +20,7 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { SettingsProvider } from './context/SettingsContext';
 
 const HomePage = () => (
-  <div className="bg-[#0f172a] text-white selection:bg-emerald-500/30">
+  <div className="bg-[#0f172a] text-white selection:bg-sky-500/30">
     <Navbar />
     <main>
       <Hero />

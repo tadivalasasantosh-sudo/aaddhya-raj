@@ -3,10 +3,7 @@ import { MessageSquare, X, Send, Bot, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { GoogleGenAI } from '@google/genai';
-
-// Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || 'dummy-key' });
+import { ai } from '../context/gemini';
 
 export const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);

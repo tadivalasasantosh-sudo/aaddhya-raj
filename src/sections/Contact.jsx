@@ -31,6 +31,9 @@ export const Contact = () => {
     return () => unsubscribe();
   }, []);
 
+  const contactEmail = settings.contactEmail || 'tag@aadhyarajtech.com';
+  const whatsappNumber = settings.whatsappNumber || '+91 9127912345';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
@@ -54,12 +57,12 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-white relative overflow-hidden border-t border-gray-100">
+    <section id="contact" className="py-24 bg-[#0f172a] text-white relative overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           title="Get in Touch"
           subtitle="Ready to start your next project? Contact us today for a free consultation."
-          dark={false}
+          dark={true}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -71,26 +74,26 @@ export const Contact = () => {
             className="space-y-12"
           >
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-gray-900">Contact Information</h3>
-              <p className="text-gray-600 max-w-md font-light">
+              <h3 className="text-3xl font-bold text-white">Contact Information</h3>
+              <p className="text-gray-400 max-w-md font-light">
                 Have a question or need a custom solution? Our expert team is ready to help you navigate your digital transformation.
               </p>
             </div>
 
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Email', value: settings.contactEmail, color: 'text-sky-600', href: `mailto:${settings.contactEmail}` },
-                { icon: Phone, label: 'Phone', value: settings.whatsappNumber, color: 'text-sky-600', href: `tel:${settings.whatsappNumber}` },
-                { icon: MessageCircle, label: 'WhatsApp', value: settings.whatsappNumber, color: 'text-green-600', href: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}` },
-                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-sky-600', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
+                { icon: Mail, label: 'Email', value: contactEmail, color: 'text-sky-400', href: `mailto:${contactEmail}` },
+                { icon: Phone, label: 'Phone', value: whatsappNumber, color: 'text-sky-400', href: `tel:${whatsappNumber}` },
+                { icon: MessageCircle, label: 'WhatsApp', value: whatsappNumber, color: 'text-sky-400', href: `https://wa.me/${whatsappNumber.replace(/\D/g, '')}` },
+                { icon: MapPin, label: 'Office', value: 'Hyderabad, Telangana, India', color: 'text-sky-400', href: 'https://maps.google.com/?q=Hyderabad,Telangana,India' },
               ].map((item, i) => (
                 <a key={i} href={item.href} target={item.icon === MapPin ? "_blank" : "_self"} rel="noopener noreferrer" className="flex items-start gap-6 group cursor-pointer">
-                  <div className={`w-12 h-12 flex items-center justify-center ${item.color} group-hover:scale-110 group-hover:text-sky-600 transition-all duration-300`}>
+                  <div className={`w-12 h-12 flex items-center justify-center ${item.color} group-hover:scale-110 group-hover:text-sky-400 transition-all duration-300`}>
                     <item.icon size={24} />
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-400 uppercase tracking-widest mb-1">{item.label}</div>
-                    <div className="text-lg font-semibold text-gray-900 group-hover:text-sky-600 transition-colors">{item.value}</div>
+                    <div className="text-sm font-medium text-gray-500 uppercase tracking-widest mb-1">{item.label}</div>
+                    <div className="text-lg font-semibold text-white group-hover:text-sky-400 transition-colors">{item.value}</div>
                   </div>
                 </a>
               ))}
@@ -102,7 +105,7 @@ export const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-8 md:p-12 bg-gray-50 rounded-3xl border border-gray-100 shadow-sm"
+            className="p-8 md:p-12 bg-white rounded-3xl border border-gray-100 shadow-xl"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -114,7 +117,7 @@ export const Contact = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
@@ -126,7 +129,7 @@ export const Contact = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -140,7 +143,7 @@ export const Contact = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors"
                   placeholder="How can we help?"
                 />
               </div>
@@ -153,7 +156,7 @@ export const Contact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:border-sky-500 outline-none transition-colors resize-none"
                   placeholder="Tell us about your project..."
                 />
               </div>
@@ -180,7 +183,7 @@ export const Contact = () => {
               </div>
 
               <a 
-                href={`mailto:${settings.contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
+                href={`mailto:${contactEmail}?subject=${encodeURIComponent(formData.subject || 'Contact Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
                 className="w-full py-4 text-gray-600 font-bold text-lg transition-all flex items-center justify-center gap-3 hover:text-sky-600"
               >
                 <Mail size={20} />
